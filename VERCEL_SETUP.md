@@ -2,6 +2,8 @@
 
 O projeto usa **static export** (`output: 'export'`). O build gera a pasta `out/`.
 
+**Se ainda der 404 após o deploy:** Settings → Build and Deployment → **Output Directory** = `out`
+
 Se o site retorna **404**, ajuste no painel do Vercel:
 
 ## 0. Deployment Protection (causa comum de 404)
