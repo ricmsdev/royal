@@ -25,10 +25,10 @@
             --jewel-deep: #1a1625;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
-        /* Fallback: em preview/iframe o cursor customizado pode não funcionar — mostra cursor padrão */
-        body.preview-mode * { cursor: auto; }
-        body.preview-mode .cursor, body.preview-mode .cursor-ring { display: none !important; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        /* Cursor padrão visível por padrão; só esconde quando custom funciona */
+        body.custom-cursor * { cursor: none; }
+        body:not(.custom-cursor) .cursor, body:not(.custom-cursor) .cursor-ring { display: none !important; }
         
         body {
             background-color: var(--black);
@@ -2096,23 +2096,21 @@
             immediateRender: false
         });
 
-        // Cursor — em preview/iframe ou quando mousemove não funciona, usa cursor padrão
+        // Cursor — padrão visível sempre; custom só ativa quando mousemove funciona
         const cursor = document.querySelector('.cursor');
         const ring = document.querySelector('.cursor-ring');
-        const usePreviewMode = () => document.body.classList.add('preview-mode');
         const isIframe = window.self !== window.top;
-        const isPreviewService = /htmlpreview|raw\.github/.test((document.referrer || '') + (location.href || ''));
-        if (isIframe || isPreviewService) { usePreviewMode(); }
-        else {
-            let moved = false;
-            const moveCursor = (e) => {
-                moved = true;
-                gsap.set(cursor, { x: e.clientX, y: e.clientY, xPercent: -50, yPercent: -50 });
-                gsap.to(ring, { x: e.clientX, y: e.clientY, xPercent: -50, yPercent: -50, duration: 0.15 });
-            };
+        const url = (document.referrer || '') + (location.href || '');
+        const isGitPreview = /github\.com|htmlpreview|raw\.githubusercontent/.test(url);
+        let moved = false;
+        const moveCursor = (e) => {
+            if (!moved) { moved = true; document.body.classList.add('custom-cursor'); }
+            gsap.set(cursor, { x: e.clientX, y: e.clientY, xPercent: -50, yPercent: -50 });
+            gsap.to(ring, { x: e.clientX, y: e.clientY, xPercent: -50, yPercent: -50, duration: 0.15 });
+        };
+        if (!isIframe && !isGitPreview) {
             document.addEventListener('mousemove', moveCursor);
             document.addEventListener('mouseenter', moveCursor);
-            setTimeout(() => { if (!moved) usePreviewMode(); }, 600);
         }
 
         const zones = document.querySelectorAll('.interactive-zone, .card');
