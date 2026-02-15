@@ -2,7 +2,24 @@
 
 O projeto usa **static export** (`output: 'export'`). O build gera a pasta `out/`.
 
-**Se ainda der 404 após o deploy:** Settings → Build and Deployment → **Output Directory** = `out`
+Configuração via **vercel.json** (não precisa do dashboard):
+- `buildCommand`: `npm run build`
+- `outputDirectory`: `out`
+- `framework`: `nextjs`
+
+## Deploy via CLI
+
+```bash
+# 1. Login (uma vez)
+npx vercel login
+
+# 2. Link ao projeto (uma vez, na pasta do projeto)
+npx vercel link
+
+# 3. Deploy
+npm run deploy          # produção
+npm run deploy:preview  # preview
+```
 
 Se o site retorna **404**, ajuste no painel do Vercel:
 
