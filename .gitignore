@@ -20,3 +20,9 @@ npm-debug.log*
 # Projeto — não versionar
 Juridico/
 .cursor/
+
+# Next.js
+node_modules/
+.next/
+out/
+.vercel
