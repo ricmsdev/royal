@@ -1740,12 +1740,13 @@ body.fullscreen .progress-dots {
   letter-spacing: 0.08em;
 }
 
-/* BROADCAST — Boiler Room vibe, depth-of-field sutil */
+/* BROADCAST — video bg Boiler Room */
 #broadcast .slide-bg {
-  filter: blur(8px) contrast(1.1) saturate(1.08);
-  transform: scale(1.08);
-  opacity: 0.55;
-  background-position: center center;
+  transform: scale(1.05);
+}
+#broadcast .slide-bg-video .slide-video {
+  filter: brightness(0.7);
+  object-position: center center;
 }
 
 /* EVENTOS CORPORATIVOS — Venue premium, foco no conteúdo */

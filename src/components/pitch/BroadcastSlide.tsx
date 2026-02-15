@@ -12,7 +12,7 @@ export function BroadcastSlide() {
   return (
     <Slide
       id="broadcast"
-      bg="/AVENUE/conceito-bar-dance.jpeg"
+      videoBg="/AVENUE/broadcast-boiler.mp4"
       cinematic={false}
       overlayStyle={{
         background: `linear-gradient(105deg, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.7) 35%, rgba(0,0,0,0.55) 100%)`,
