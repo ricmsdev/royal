@@ -2096,18 +2096,23 @@
             immediateRender: false
         });
 
-        // Cursor — em preview (iframe) usa cursor padrão; senão custom
-        const isPreview = window.self !== window.top;
-        if (isPreview) document.body.classList.add('preview-mode');
+        // Cursor — em preview/iframe ou quando mousemove não funciona, usa cursor padrão
         const cursor = document.querySelector('.cursor');
         const ring = document.querySelector('.cursor-ring');
-        if (!isPreview) {
+        const usePreviewMode = () => document.body.classList.add('preview-mode');
+        const isIframe = window.self !== window.top;
+        const isPreviewService = /htmlpreview|raw\.github/.test((document.referrer || '') + (location.href || ''));
+        if (isIframe || isPreviewService) { usePreviewMode(); }
+        else {
+            let moved = false;
             const moveCursor = (e) => {
+                moved = true;
                 gsap.set(cursor, { x: e.clientX, y: e.clientY, xPercent: -50, yPercent: -50 });
                 gsap.to(ring, { x: e.clientX, y: e.clientY, xPercent: -50, yPercent: -50, duration: 0.15 });
             };
             document.addEventListener('mousemove', moveCursor);
             document.addEventListener('mouseenter', moveCursor);
+            setTimeout(() => { if (!moved) usePreviewMode(); }, 600);
         }
 
         const zones = document.querySelectorAll('.interactive-zone, .card');
