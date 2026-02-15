@@ -1745,7 +1745,7 @@ body.fullscreen .progress-dots {
   transform: scale(1.05);
 }
 #broadcast .slide-bg-video .slide-video {
-  filter: brightness(0.7);
+  filter: brightness(0.75);
   object-position: center center;
 }
 

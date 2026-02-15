@@ -15,7 +15,7 @@ export function BroadcastSlide() {
       videoBg="/AVENUE/broadcast-boiler.mp4"
       cinematic={false}
       overlayStyle={{
-        background: `linear-gradient(105deg, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.7) 35%, rgba(0,0,0,0.55) 100%)`,
+        background: `linear-gradient(105deg, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.62) 35%, rgba(0,0,0,0.48) 100%)`,
       }}
       contentStyle={{
         textAlign: "left",
