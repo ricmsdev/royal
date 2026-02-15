@@ -1,0 +1,2225 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROYAL 3.0 | Mudança de Era</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Manrope:wght@200;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <style>
+        :root {
+            --gold: #d4af37;
+            --gold-glow: rgba(212, 175, 55, 0.4);
+            --black: #050505;
+            --surface: #0f0f0f;
+            --text-grey: #a0a0a0;
+            /* Miami × London — tendências 2024-25 */
+            --emerald: #0d4a3d;
+            --emerald-velvet: rgba(13, 74, 61, 0.4);
+            --scarlet: #8b2635;
+            --volcanic: #5c4033;
+            --teak: #8b6914;
+            --jewel-deep: #1a1625;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+        
+        body {
+            background-color: var(--black);
+            color: #fff;
+            font-family: 'Manrope', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* CUSTOM CURSOR */
+        .cursor {
+            width: 12px; height: 12px;
+            background: var(--gold);
+            border-radius: 50%;
+            position: fixed; top: 0; left: 0;
+            z-index: 9999;
+            pointer-events: none;
+            mix-blend-mode: difference;
+        }
+        .cursor-ring {
+            width: 40px; height: 40px;
+            border: 1px solid var(--gold);
+            border-radius: 50%;
+            position: fixed; top: 0; left: 0;
+            z-index: 9998;
+            pointer-events: none;
+            transition: width 0.3s, height 0.3s;
+            transform: translate(-50%, -50%);
+        }
+
+        /* SCROLL CONTAINER - SLIDE FLOW */
+        .pitch-container {
+            overflow-y: scroll;
+            height: 100vh;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .pitch-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .slide {
+            min-height: 100vh;
+            width: 100%;
+            scroll-snap-align: start;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: 60px 40px;
+        }
+        .slide.scrollable {
+            overflow-y: auto;
+            align-items: flex-start;
+            padding-top: 40px;
+            padding-bottom: 60px;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .slide.scrollable::-webkit-scrollbar {
+            display: none;
+        }
+
+        .slide-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0.4;
+            z-index: 0;
+            filter: contrast(1.15) saturate(1.1);
+            transition: opacity 0.6s, filter 0.6s;
+        }
+        .slide-bg.dark { opacity: 0.12; filter: none; }
+
+        /* CINEMATIC FLASH - Efeito de luz de cinema */
+        .cinematic-flash {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0.3;
+            background: radial-gradient(ellipse 90% 70% at 50% 35%, rgba(212, 175, 55, 0.2) 0%, rgba(212, 175, 55, 0.05) 40%, transparent 70%);
+            animation: cinematicBreath 8s ease-in-out infinite;
+        }
+        @keyframes cinematicBreath {
+            0%, 100% { opacity: 0.9; }
+            50% { opacity: 1; }
+        }
+        .cinematic-vignette {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0.4;
+            background: radial-gradient(ellipse 100% 100% at 50% 50%, transparent 35%, rgba(0,0,0,0.5) 100%);
+        }
+        .cinematic-light-leak {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0.35;
+            background: 
+                linear-gradient(135deg, rgba(212, 175, 55, 0.12) 0%, transparent 45%),
+                linear-gradient(-45deg, rgba(212, 175, 55, 0.1) 0%, transparent 40%);
+        }
+        .cinematic-grain {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0.45;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+        /* Wrapper para efeitos cinematográficos */
+        .cinematic-layer {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0.3;
+        }
+        .cinematic-layer > div {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+        }
+
+        /* KINETIC LIGHTS - Instagrammable / Cenografia Cinética */
+        .kinetic-lights {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0.5;
+            overflow: hidden;
+        }
+        .light-beam {
+            position: absolute;
+            width: 1px;
+            height: 150%;
+            background: linear-gradient(180deg, transparent 0%, rgba(212, 175, 55, 0.15) 30%, rgba(212, 175, 55, 0.4) 50%, rgba(212, 175, 55, 0.15) 70%, transparent 100%);
+            transform-origin: center bottom;
+            animation: beamPulse 4s ease-in-out infinite;
+        }
+        .light-beam:nth-child(1) { left: 15%; transform: rotate(-25deg); animation-delay: 0s; }
+        .light-beam:nth-child(2) { left: 35%; transform: rotate(-15deg); animation-delay: 0.5s; }
+        .light-beam:nth-child(3) { left: 50%; transform: rotate(0deg); animation-delay: 1s; }
+        .light-beam:nth-child(4) { left: 65%; transform: rotate(15deg); animation-delay: 1.5s; }
+        .light-beam:nth-child(5) { left: 85%; transform: rotate(25deg); animation-delay: 2s; }
+        @keyframes beamPulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+        .light-beam:nth-child(1) { animation: beamPulse1 4s ease-in-out infinite; }
+        .light-beam:nth-child(2) { animation: beamPulse2 4s ease-in-out infinite 0.5s; }
+        .light-beam:nth-child(3) { animation: beamPulse3 4s ease-in-out infinite 1s; }
+        .light-beam:nth-child(4) { animation: beamPulse4 4s ease-in-out infinite 1.5s; }
+        .light-beam:nth-child(5) { animation: beamPulse5 4s ease-in-out infinite 2s; }
+        @keyframes beamPulse1 { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.9; } }
+        @keyframes beamPulse2 { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+        @keyframes beamPulse3 { 0%, 100% { opacity: 0.4; } 50% { opacity: 0.95; } }
+        @keyframes beamPulse4 { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+        @keyframes beamPulse5 { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.9; } }
+
+        .glow-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            animation: orbFloat 8s ease-in-out infinite;
+        }
+        .glow-orb.gold {
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.25) 0%, transparent 70%);
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            animation: orbFloat 6s ease-in-out infinite;
+        }
+        .glow-orb.side {
+            width: 300px; height: 300px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
+        }
+        .glow-orb.side-1 { top: 20%; left: 10%; animation-delay: 0s; }
+        .glow-orb.side-2 { bottom: 20%; right: 10%; animation-delay: 3s; }
+
+        /* DRINK GLOW — Brilho e flares no coquetel (Ato 2) */
+        #ato2-intro .drink-glow {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1.2;
+            mix-blend-mode: screen;
+        }
+        #ato2-intro .drink-glow::before {
+            content: '';
+            position: absolute;
+            width: 100%; height: 100%;
+            background: radial-gradient(
+                ellipse 50% 35% at 50% 78%,
+                rgba(255, 235, 200, 0.5) 0%,
+                rgba(212, 175, 55, 0.25) 25%,
+                rgba(212, 175, 55, 0.08) 50%,
+                transparent 70%
+            );
+            animation: drinkGlowPulse 6s ease-in-out infinite;
+        }
+        #ato2-intro .drink-glow::after {
+            content: '';
+            position: absolute;
+            width: 120px; height: 120px;
+            top: 62%; left: 42%;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(
+                circle,
+                rgba(255, 255, 255, 0.6) 0%,
+                rgba(255, 230, 180, 0.2) 40%,
+                transparent 70%
+            );
+            border-radius: 50%;
+            filter: blur(8px);
+            animation: drinkFlareSubtle 5s ease-in-out infinite;
+        }
+        @keyframes drinkGlowPulse {
+            0%, 100% { opacity: 0.85; }
+            50% { opacity: 1; }
+        }
+        @keyframes drinkFlareSubtle {
+            0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.15); }
+        }
+        #ato2-intro .drink-flare {
+            position: absolute;
+            width: 60px; height: 60px;
+            top: 68%; left: 58%;
+            background: radial-gradient(
+                circle,
+                rgba(255, 255, 255, 0.5) 0%,
+                rgba(212, 175, 55, 0.15) 50%,
+                transparent 70%
+            );
+            border-radius: 50%;
+            filter: blur(6px);
+            animation: drinkFlareSubtle 4s ease-in-out infinite 1s;
+        }
+        @keyframes orbFloat {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.7; }
+            50% { transform: translate(-50%, -48%) scale(1.1); opacity: 1; }
+        }
+        .glow-orb.side { animation: orbFloatSide 7s ease-in-out infinite; }
+        @keyframes orbFloatSide {
+            0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.5; }
+            50% { transform: translate(20px, -20px) scale(1.2); opacity: 0.9; }
+        }
+
+        .kinetic-grid {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(rgba(212, 175, 55, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(212, 175, 55, 0.04) 1px, transparent 1px);
+            background-size: 80px 80px;
+            animation: gridMove 25s linear infinite;
+            opacity: 0.5;
+            transform: perspective(400px) rotateX(55deg);
+            transform-origin: center top;
+        }
+        @keyframes gridMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 80px; }
+        }
+
+        .slide-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.9) 100%);
+            z-index: 1;
+        }
+        .slide:not(.enemy):not(.map-section):not(.cta) .slide-overlay {
+            background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.88) 100%);
+        }
+        .slide-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 900px;
+        }
+        .gastro-slide-content {
+            max-width: 1100px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 24px 20px;
+            box-sizing: border-box;
+        }
+        .gastro-slide-content .gastro-flip { text-align: left; }
+
+        .act-tag {
+            display: inline-block;
+            font-size: 0.65rem;
+            letter-spacing: 0.3em;
+            color: var(--gold);
+            margin-bottom: 20px;
+            opacity: 0.8;
+        }
+
+        h1, h2 {
+            font-family: 'Cinzel', serif;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            line-height: 1.2;
+        }
+        h1 { font-size: clamp(2.5rem, 6vw, 5rem); color: var(--gold); }
+        h2 { font-size: clamp(1.8rem, 4vw, 3rem); color: #fff; margin-bottom: 24px; }
+        .slide p {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: var(--text-grey);
+            margin-top: 16px;
+        }
+        .slide p.highlight { color: var(--gold); font-size: 1.1rem; }
+
+        /* ACT 1 - O INIMIGO */
+        .slide.enemy .slide-content { text-align: left; }
+        .slide.enemy h2 { color: #fff; font-size: clamp(1.5rem, 3.5vw, 2.5rem); }
+        .ato1-title {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(2.8rem, 7vw, 5rem);
+            font-weight: 700;
+            line-height: 1.05;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #fff;
+            margin-bottom: 35px;
+            text-shadow: 0 0 60px rgba(212, 175, 55, 0.2);
+        }
+        .ato1-title .punch {
+            color: var(--gold);
+            letter-spacing: 0.15em;
+            font-weight: 700;
+        }
+        .impact-title {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        .lettering-hero {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(2.5rem, 6vw, 4.2rem);
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #fff;
+            line-height: 1.1;
+            text-shadow: 0 0 80px rgba(212, 175, 55, 0.15);
+        }
+        .lettering-hero .accent { color: var(--gold); letter-spacing: 0.2em; }
+        .lettering-sub {
+            font-size: 0.75rem;
+            letter-spacing: 0.35em;
+            color: var(--gold);
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+        .ato1-title .word {
+            display: inline-block;
+            overflow: hidden;
+            vertical-align: bottom;
+        }
+        .ato1-title .word span {
+            display: inline-block;
+        }
+        .ato1-title .punch { color: var(--gold); }
+        .slide.enemy .bullet {
+            margin: 20px 0;
+            padding-left: 24px;
+            border-left: 2px solid #333;
+            color: #999;
+            font-size: 0.95rem;
+        }
+        .slide.enemy .bullet strong { color: #fff; }
+
+        /* ACT 2 - PILLARS */
+        .pillar-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 50px;
+            text-align: center;
+        }
+        @media (max-width: 900px) {
+            .pillar-grid { grid-template-columns: 1fr; }
+        }
+        .pillar {
+            padding: 30px 20px;
+            border: 1px solid #222;
+            transition: all 0.4s;
+        }
+        .pillar:hover { border-color: var(--gold); }
+        .pillar-num {
+            font-family: 'Cinzel', serif;
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 12px;
+        }
+        .pillar h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+            color: #fff;
+        }
+        .pillar p { font-size: 0.9rem; margin-top: 0; }
+
+        /* DINING CLUB CARDS (Pillar 1 expanded) */
+        .concept-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            width: 100%;
+            max-width: 1200px;
+            gap: 40px;
+            margin-top: 40px;
+        }
+        @media (max-width: 768px) { .concept-container { grid-template-columns: 1fr; } }
+        .card {
+            position: relative;
+            min-height: 350px;
+            border: 1px solid #333;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 40px;
+            transition: all 0.5s;
+        }
+        .card:hover { border-color: var(--gold); }
+        .card-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover;
+            background-position: center;
+            filter: grayscale(80%) brightness(0.55) contrast(1.1);
+            transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            z-index: 0;
+        }
+        .card:hover .card-bg {
+            filter: grayscale(0%) brightness(0.9) contrast(1.15) saturate(1.1);
+            transform: scale(1.08);
+        }
+        .card::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(ellipse 80% 80% at 50% 50%, transparent 50%, rgba(0,0,0,0.4) 100%);
+            pointer-events: none;
+            z-index: 0.5;
+            opacity: 0.8;
+        }
+        .card:hover::after { opacity: 0.5; }
+        .card-content { position: relative; z-index: 1; }
+        .card .time-tag {
+            position: absolute;
+            top: 24px; left: 24px;
+            border: 1px solid rgba(255,255,255,0.5);
+            padding: 6px 14px;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            z-index: 1;
+        }
+        .card h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 2rem;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+        .card p { font-size: 0.9rem; margin-top: 0; max-width: 280px; }
+
+        /* DINING DETAILS - Coquetelaria & Plano */
+        .dining-details {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 40px;
+            align-items: center;
+            margin-top: 40px;
+            padding: 30px;
+            border: 1px solid #222;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        @media (max-width: 768px) {
+            .dining-details { grid-template-columns: 1fr; }
+        }
+        .dining-details-img {
+            width: 100%;
+            aspect-ratio: 4/3;
+            object-fit: cover;
+            border: 1px solid rgba(255,255,255,0.08);
+            filter: contrast(1.05);
+            box-shadow: 0 0 30px rgba(0,0,0,0.4);
+        }
+        .dining-details-list {
+            list-style: none;
+        }
+        .dining-details-list li {
+            padding: 12px 0;
+            padding-left: 24px;
+            position: relative;
+            color: var(--text-grey);
+            font-size: 0.95rem;
+            line-height: 1.55;
+        }
+        .dining-details-list li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0.65em;
+            display: block;
+            width: 8px;
+            height: 8px;
+            background: var(--gold);
+            border-radius: 50%;
+            box-sizing: border-box;
+        }
+        .dining-details-list li strong { color: #fff; }
+
+        /* GASTRO CLUB - Scroll transition drinks ↔ comida */
+        #gastro-club.slide { padding-left: 24px; padding-right: 24px; }
+        .gastro-flip {
+            position: relative;
+            width: 100%;
+            max-width: 1100px;
+            min-height: 420px;
+            height: 420px;
+            perspective: 1200px;
+            margin: 0 auto;
+        }
+        .gastro-panel {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: grid;
+            grid-template-columns: minmax(220px, 280px) 1fr;
+            gap: 40px;
+            align-items: center;
+            padding: 36px clamp(24px, 4vw, 48px);
+            background: rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            overflow: visible;
+        }
+        .gastro-panel > div {
+            min-width: 0;
+            overflow: visible;
+        }
+        @media (max-width: 768px) {
+            .gastro-flip { height: auto; min-height: 520px; }
+            .gastro-panel { grid-template-columns: 1fr; padding: 28px 24px; gap: 24px; align-items: start; }
+            .gastro-panel-img { max-height: 260px; object-fit: cover; }
+            .gastro-scroll-hint { margin-top: 40px; }
+        }
+        .gastro-panel.food {
+            transform: rotateY(180deg);
+        }
+        .gastro-flip.flipped .gastro-panel.drinks {
+            transform: rotateY(-180deg);
+        }
+        .gastro-flip.flipped .gastro-panel.food {
+            transform: rotateY(0deg);
+        }
+        .gastro-panel-img {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .gastro-scroll-hint {
+            display: block;
+            margin-top: 32px;
+            margin-bottom: 0;
+            padding-bottom: 24px;
+            text-align: center;
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            color: rgba(212, 175, 55, 0.7);
+            animation: scrollHintPulse 2s ease-in-out infinite;
+        }
+        @keyframes scrollHintPulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        /* EVENTOS CORPORATIVOS - Gastro Bar + Construção Inteligente */
+        .ambientes-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 36px;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        @media (max-width: 900px) {
+            .ambientes-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 600px) {
+            .ambientes-grid { grid-template-columns: 1fr; }
+        }
+        .ambiente-card {
+            background: rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.08);
+            padding: 24px;
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), border-color 0.3s, background 0.3s, box-shadow 0.4s;
+        }
+        .ambiente-card:hover {
+            border-color: var(--gold);
+            background: linear-gradient(180deg, rgba(13, 74, 61, 0.15) 0%, rgba(0,0,0,0.8) 100%);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(212, 175, 55, 0.15);
+        }
+        .ambiente-card .ambiente-icon {
+            font-size: 1.5rem;
+            color: var(--gold);
+            margin-bottom: 12px;
+        }
+        .ambiente-card h4 {
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            color: #fff;
+            margin-bottom: 8px;
+            letter-spacing: 0.05em;
+        }
+        .ambiente-card p {
+            font-size: 0.85rem;
+            margin-top: 0;
+            color: var(--text-grey);
+            line-height: 1.5;
+        }
+        .construcao-inteligente {
+            margin-top: 40px;
+            padding: 32px;
+            background: linear-gradient(135deg, rgba(13, 74, 61, 0.08) 0%, rgba(212, 175, 55, 0.06) 100%);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 8px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .construcao-inteligente h3 {
+            font-family: 'Cinzel', serif;
+            color: var(--gold);
+            font-size: 1.1rem;
+            margin-bottom: 16px;
+            letter-spacing: 0.1em;
+        }
+        .construcao-inteligente ul {
+            list-style: none;
+        }
+        .construcao-inteligente li {
+            padding: 8px 0;
+            padding-left: 24px;
+            position: relative;
+            color: var(--text-grey);
+            font-size: 0.95rem;
+        }
+        .construcao-inteligente li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0.65em;
+            width: 6px;
+            height: 6px;
+            background: var(--gold);
+            border-radius: 50%;
+        }
+        .area-badge {
+            display: inline-block;
+            background: rgba(212, 175, 55, 0.15);
+            color: var(--gold);
+            padding: 10px 20px;
+            font-size: 0.85rem;
+            letter-spacing: 0.2em;
+            margin-bottom: 24px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            animation: areaBadgeGlow 3s ease-in-out infinite;
+        }
+        @keyframes areaBadgeGlow {
+            0%, 100% { box-shadow: 0 0 0 rgba(212, 175, 55, 0); }
+            50% { box-shadow: 0 0 20px rgba(212, 175, 55, 0.2); }
+        }
+        .roi-line {
+            font-size: 0.9rem;
+            color: var(--text-grey);
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+        .roi-line strong { color: var(--gold); }
+
+        /* PROGRAMAÇÃO SEGUNDA A DOMINGO */
+        .programacao-semana {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 12px;
+            margin-top: 32px;
+            max-width: 1100px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        @media (max-width: 900px) {
+            .programacao-semana { grid-template-columns: repeat(4, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .programacao-semana { grid-template-columns: 1fr 1fr; }
+        }
+        .dia-card {
+            background: rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.06);
+            padding: 20px 16px;
+            transition: all 0.35s;
+        }
+        .dia-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(212, 175, 55, 0.1);
+        }
+        .dia-card .dia-num { font-size: 0.65rem; color: var(--gold); letter-spacing: 0.2em; margin-bottom: 8px; }
+        .dia-card .dia-nome { font-family: 'Cinzel', serif; font-size: 0.9rem; color: #fff; margin-bottom: 10px; }
+        .dia-card .dia-evento { font-size: 0.8rem; color: var(--text-grey); line-height: 1.4; margin-bottom: 8px; }
+        .dia-card .dia-ambientes { font-size: 0.7rem; color: rgba(212, 175, 55, 0.8); letter-spacing: 0.05em; }
+
+        /* MAP SECTION - ACT 3 */
+        .map-section {
+            flex-direction: column;
+            padding: 80px 40px;
+        }
+        .map-header { margin-bottom: 40px; }
+        .map-header h2 { font-size: clamp(1.5rem, 3vw, 2.5rem); }
+        .map-subtitle {
+            font-size: 1rem;
+            color: var(--gold);
+            margin-top: 12px;
+            letter-spacing: 2px;
+        }
+        .svg-container {
+            width: 95%;
+            max-width: 1100px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 0 60px rgba(0,0,0,0.6);
+        }
+        .area-path {
+            fill: #151515;
+            stroke: #444;
+            stroke-width: 1;
+            transition: all 0.3s;
+        }
+        .interactive-zone:hover .area-path {
+            fill: var(--gold);
+            stroke: #fff;
+            filter: drop-shadow(0 0 10px var(--gold));
+        }
+        .interactive-zone:hover text { fill: #000; font-weight: bold; }
+        .area-text {
+            fill: #666;
+            font-size: 9px;
+            font-family: 'Manrope', sans-serif;
+            pointer-events: none;
+            text-anchor: middle;
+        }
+        #tooltip {
+            position: fixed;
+            background: rgba(0,0,0,0.95);
+            border: 1px solid var(--gold);
+            padding: 16px 20px;
+            pointer-events: none;
+            opacity: 0;
+            z-index: 1000;
+            transform: translate(-50%, -100%);
+            transition: opacity 0.2s;
+        }
+        #tooltip h4 { color: var(--gold); font-family: 'Cinzel', serif; margin-bottom: 6px; font-size: 0.9rem; }
+        #tooltip span { color: #fff; font-size: 0.8rem; display: block; }
+        .map-cta {
+            margin-top: 30px;
+        }
+        .map-cta a {
+            color: var(--gold);
+            text-decoration: none;
+            border: 1px solid var(--gold);
+            padding: 14px 28px;
+            font-size: 0.85rem;
+            letter-spacing: 3px;
+            transition: all 0.3s;
+        }
+        .map-cta a:hover { background: rgba(212, 175, 55, 0.15); }
+
+        /* EQUITY MESSAGE */
+        .equity-block {
+            margin-top: 50px;
+            padding: 40px;
+            border: 1px solid #222;
+            text-align: left;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .equity-block p { margin-top: 12px; }
+        .equity-block .cta-line {
+            font-family: 'Cinzel', serif;
+            color: var(--gold);
+            font-size: 1.3rem;
+            margin-top: 24px;
+        }
+
+        /* CTA SLIDE */
+        .slide.cta h1 { font-size: clamp(2rem, 5vw, 4rem); }
+        .slide.cta .cta-buttons {
+            margin-top: 40px;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .slide.cta a {
+            color: var(--gold);
+            text-decoration: none;
+            border: 1px solid var(--gold);
+            padding: 16px 32px;
+            font-size: 0.9rem;
+            letter-spacing: 3px;
+            transition: all 0.3s;
+        }
+        .slide.cta a:hover { background: rgba(212, 175, 55, 0.2); }
+        .slide.cta a.primary {
+            background: var(--gold);
+            color: #000;
+            border-color: var(--gold);
+        }
+        .slide.cta a.primary:hover { background: #e5c04a; }
+
+        /* PROGRESS DOTS */
+        .progress-dots {
+            position: fixed;
+            right: 24px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .progress-dots .dot {
+            width: 6px;
+            height: 6px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+        .progress-dots .dot.active {
+            background: var(--gold);
+            transform: scale(1.4);
+            box-shadow: 0 0 12px var(--gold);
+        }
+
+        /* FOOTER */
+        .footer {
+            padding: 60px 40px;
+            border-top: 1px solid #1a1a1a;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+            min-height: 100vh;
+            flex-shrink: 0;
+        }
+        .address h3 { font-family: 'Cinzel'; color: var(--gold); margin-bottom: 8px; font-size: 1rem; }
+        .address p { color: #555; font-size: 0.85rem; line-height: 1.5; }
+        .address a {
+            color: var(--gold);
+            text-decoration: none;
+            font-size: 0.85rem;
+            margin-top: 6px;
+            display: inline-block;
+        }
+        .branding { font-size: 0.7rem; color: #444; text-align: right; }
+        .footer-presented { font-size: 0.75rem; color: var(--gold); letter-spacing: 0.15em; margin-bottom: 8px; }
+
+        /* SCROLL CTA - Animação foda */
+        .scroll-cta {
+            margin-top: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        .scroll-text {
+            font-size: 0.8rem;
+            letter-spacing: 0.2em;
+            opacity: 0.7;
+            animation: scrollTextPulse 2.5s ease-in-out infinite;
+        }
+        @keyframes scrollTextPulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+        .scroll-indicator {
+            position: relative;
+            width: 50px;
+            height: 70px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .scroll-dot {
+            width: 10px;
+            height: 10px;
+            background: var(--gold);
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: scrollDotPulse 1.5s ease-in-out infinite;
+            box-shadow: 0 0 20px var(--gold-glow);
+        }
+        .scroll-ring {
+            width: 36px;
+            height: 36px;
+            border: 1px solid var(--gold);
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: scrollRingExpand 2s ease-in-out infinite;
+            opacity: 0.6;
+        }
+        .scroll-ring::before {
+            content: "";
+            position: absolute;
+            inset: -4px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 50%;
+            animation: scrollRingExpand 2s ease-in-out infinite 0.5s;
+        }
+        @keyframes scrollDotPulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.8; }
+        }
+        @keyframes scrollRingExpand {
+            0%, 100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.8; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.3; }
+        }
+        .scroll-arrow {
+            font-size: 1.2rem;
+            color: var(--gold);
+            margin-top: 42px;
+            animation: scrollBounce 1.2s ease-in-out infinite;
+        }
+        @keyframes scrollBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(8px); }
+        }
+        .scroll-indicator:hover .scroll-dot { animation-duration: 0.8s; }
+        .scroll-indicator:hover .scroll-ring { animation-duration: 1s; }
+
+        /* FULLSCREEN BUTTON */
+        .btn-fullscreen {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid rgba(212, 175, 55, 0.5);
+            color: var(--gold);
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Manrope', sans-serif;
+        }
+        .btn-fullscreen:hover {
+            background: rgba(212, 175, 55, 0.2);
+            border-color: var(--gold);
+            box-shadow: 0 0 20px var(--gold-glow);
+        }
+        .btn-fullscreen svg { width: 16px; height: 16px; }
+        .btn-fullscreen.hidden { opacity: 0; pointer-events: none; visibility: hidden; }
+        body.fullscreen .progress-dots { opacity: 0; pointer-events: none; visibility: hidden; transition: opacity 0.3s; }
+
+        /* CONCEITO VISUAL — Miami × London */
+        .conceito-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-top: 36px;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        @media (max-width: 900px) { .conceito-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 500px) { .conceito-grid { grid-template-columns: 1fr; } }
+        .conceito-chip {
+            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(0,0,0,0.4);
+            transition: all 0.4s;
+        }
+        .conceito-chip:hover {
+            border-color: var(--gold);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(212, 175, 55, 0.12);
+        }
+        .conceito-chip.emerald { border-left: 3px solid var(--emerald); }
+        .conceito-chip.scarlet { border-left: 3px solid var(--scarlet); }
+        .conceito-chip.volcanic { border-left: 3px solid var(--volcanic); }
+        .conceito-chip.teak { border-left: 3px solid var(--teak); }
+        .conceito-chip .chip-label { font-size: 0.65rem; color: var(--gold); letter-spacing: 0.25em; margin-bottom: 8px; }
+        .conceito-chip .chip-title { font-family: 'Cinzel', serif; font-size: 1rem; color: #fff; margin-bottom: 6px; }
+        .conceito-chip .chip-desc { font-size: 0.8rem; color: var(--text-grey); line-height: 1.45; }
+        .conceito-tagline {
+            font-size: 0.9rem;
+            color: var(--text-grey);
+            margin-top: 28px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.7;
+        }
+        .conceito-tagline strong { color: var(--gold); }
+        .referencias-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 24px;
+        }
+        .ref-tag {
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            color: rgba(212, 175, 55, 0.7);
+            padding: 6px 12px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        /* REFERÊNCIAS — Mood Board */
+        .ref-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-top: 36px;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .ref-grid-expanded {
+            grid-template-columns: repeat(5, 1fr);
+            max-width: 1200px;
+        }
+        @media (max-width: 1100px) { .ref-grid-expanded { grid-template-columns: repeat(4, 1fr); } }
+        @media (max-width: 800px) {
+            .ref-grid { grid-template-columns: 1fr 1fr; }
+            .ref-grid-expanded { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 500px) {
+            .ref-grid { grid-template-columns: 1fr; }
+            .ref-grid-expanded { grid-template-columns: 1fr; }
+        }
+        .ref-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
+            padding: 22px;
+            transition: all 0.35s;
+        }
+        .ref-card:hover {
+            border-color: var(--gold);
+            background: rgba(212, 175, 55, 0.04);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.08);
+        }
+        .ref-card .ref-icon { font-size: 1rem; color: var(--gold); margin-bottom: 10px; display: block; }
+        .ref-card h4 {
+            font-family: 'Cinzel', serif;
+            font-size: 0.95rem;
+            color: #fff;
+            margin-bottom: 8px;
+            letter-spacing: 0.08em;
+        }
+        .ref-card p { font-size: 0.8rem; color: var(--text-grey); line-height: 1.5; margin: 0; }
+
+        /* DATA STATS — Ativação visual números de mercado */
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 36px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        @media (max-width: 700px) { .data-grid { grid-template-columns: 1fr 1fr; } }
+        .data-stat {
+            background: rgba(0,0,0,0.6);
+            border: 1px solid rgba(255,255,255,0.08);
+            padding: 24px;
+            text-align: center;
+            transition: all 0.4s;
+        }
+        .data-stat:hover {
+            border-color: var(--gold);
+            transform: scale(1.02);
+            box-shadow: 0 8px 32px rgba(212, 175, 55, 0.1);
+        }
+        .data-stat-value {
+            display: block;
+            font-family: 'Cinzel', serif;
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 8px;
+            letter-spacing: 0.05em;
+        }
+        .data-stat-label {
+            font-size: 0.8rem;
+            color: var(--text-grey);
+            letter-spacing: 0.08em;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cursor"></div>
+    <div class="cursor-ring"></div>
+
+    <div class="progress-dots">
+        <div class="dot active"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+
+    <div class="pitch-container">
+
+        <!-- SLIDE 0: HERO -->
+        <section class="slide" id="hero">
+            <div class="slide-bg" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/c/c6/Sao_Paulo_at_Night.jpg');"></div>
+            <div class="cinematic-layer">
+                <div class="cinematic-flash"></div>
+                <div class="cinematic-vignette"></div>
+                <div class="cinematic-light-leak"></div>
+                <div class="cinematic-grain"></div>
+            </div>
+            <div class="slide-overlay"></div>
+            <div class="slide-content">
+                <p class="act-tag">CASA SARMENTO apresenta</p>
+                <p class="hero-quase" style="font-size: 0.9rem; letter-spacing: 0.25em; color: var(--gold); margin-bottom: 8px;">QUASE LÁ — JÁ EXISTIRAM 2</p>
+                <h1>ROYAL 3.0</h1>
+                <p style="margin-top: 24px; letter-spacing: 0.3em; font-size: 1rem;">SÃO PAULO | PINHEIROS</p>
+                <div class="scroll-cta">
+                    <p class="scroll-text">ROLE PARA INICIAR A VIAGEM</p>
+                    <div class="scroll-indicator">
+                        <div class="scroll-dot"></div>
+                        <div class="scroll-ring"></div>
+                        <div class="scroll-arrow">↓</div>
+                    </div>
+                </div>
+                <button class="btn-fullscreen" id="btnFullscreen" title="Pressione F11 para melhor experiência">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+                    <span>F11 — TELA CHEIA</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- ATO 1: O INIMIGO -->
+        <section class="slide enemy" id="ato1">
+            <div class="slide-bg dark" style="background: #0a0a0a;"></div>
+            <div class="slide-overlay" style="background: rgba(0,0,0,0.7);"></div>
+            <div class="slide-content">
+                <p class="act-tag">ATO 1 — O INIMIGO</p>
+                <h2 class="ato1-title">
+                    <span class="word"><span>O modelo de Casa Noturna</span></span><br>
+                    <span class="word punch"><span>morreu.</span></span>
+                </h2>
+                <div class="bullet">
+                    <strong>O que as baladas que quebraram tinham em comum?</strong> Vendiam apenas música e bebida. Modelo frágil. DJ ruim = casa vazia. Chuva = casa vazia.
+                </div>
+                <div class="bullet">
+                    O cliente de 2026 está entediado. Não quer mais pagar R$ 500 para ficar em pé numa pista escura, apertada e barulhenta.
+                </div>
+                <div class="bullet">
+                    <strong>O dinheiro velho (HNW) e o dinheiro novo (Tech/Crypto)</strong> querem a mesma coisa: Protocolo e Protagonismo. Jantar bem. Ser vistos. Gastar R$ 10k no camarote. Ir embora com conforto.
+                </div>
+                <p class="highlight" style="margin-top: 32px;">
+                    A Royal tem o ponto. Tem o nome. Mas operando como "balada", tem teto.<br>
+                    <strong>Não viemos reformar. Viemos transformar num ativo imobiliário de entretenimento.</strong>
+                </p>
+            </div>
+        </section>
+
+        <!-- ATO 2: A REVELAÇÃO - INTRO -->
+        <section class="slide" id="ato2-intro">
+            <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=2940');"></div>
+            <div class="cinematic-layer">
+                <div class="cinematic-flash"></div>
+                <div class="cinematic-vignette"></div>
+                <div class="cinematic-light-leak"></div>
+                <div class="cinematic-grain"></div>
+            </div>
+            <div class="kinetic-lights">
+                <div class="glow-orb gold"></div>
+                <div class="glow-orb side side-1"></div>
+                <div class="glow-orb side side-2"></div>
+            </div>
+            <div class="drink-glow">
+                <div class="drink-flare"></div>
+            </div>
+            <div class="slide-overlay"></div>
+            <div class="slide-content">
+                <p class="lettering-sub">ATO 2 — A REVELAÇÃO</p>
+                <h2 class="lettering-hero">O Dining Club <span class="accent">Phigital</span></h2>
+                <p style="margin-top: 28px; max-width: 640px; margin-left: auto; margin-right: auto;">A solução não é inventar a roda. É olhar para onde o dinheiro está indo: <strong>Londres, Miami, Dubai.</strong></p>
+                <p class="highlight" style="margin-top: 24px; font-size: 1.1rem;">Desenhamos a Royal 3.0 em 3 pilares que blindam o caixa.</p>
+            </div>
+        </section>
+
+        <!-- LOCALIZAÇÃO — Por que Pinheiros + Números de Mercado -->
+        <section class="slide" id="localizacao">
+            <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=2940');"></div>
+            <div class="cinematic-layer">
+                <div class="cinematic-flash"></div>
+                <div class="cinematic-vignette"></div>
+                <div class="cinematic-light-leak"></div>
+            </div>
+            <div class="slide-overlay"></div>
+            <div class="slide-content" style="max-width: 1100px;">
+                <p class="act-tag">LOCALIZAÇÃO ESTRATÉGICA</p>
+                <h2 class="impact-title">Por que Pinheiros</h2>
+                <p><strong>Rua Cardeal Arcoverde, 1393.</strong> 1.444 m². O bairro que concentra o dinheiro novo de SP.</p>
+                <div class="data-grid">
+                    <div class="data-stat">
+                        <span class="data-stat-value">33%</span>
+                        <span class="data-stat-label">SP = 1/3 do mercado nacional de bares</span>
+                    </div>
+                    <div class="data-stat">
+                        <span class="data-stat-value">R$ 12k</span>
+                        <span class="data-stat-label">Preço/m² em Pinheiros</span>
+                    </div>
+                    <div class="data-stat">
+                        <span class="data-stat-value">6,74%</span>
+                        <span class="data-stat-label">Rental yield — maior de SP</span>
+                    </div>
+                    <div class="data-stat">
+                        <span class="data-stat-value">R$ 217B</span>
+                        <span class="data-stat-label">Mercado foodservice Brasil 2023</span>
+                    </div>
+                    <div class="data-stat">
+                        <span class="data-stat-value">+5,5%</span>
+                        <span class="data-stat-label">Crescimento real bares/restaurantes</span>
+                    </div>
+                    <div class="data-stat">
+                        <span class="data-stat-value">R$ 99B</span>
+                        <span class="data-stat-label">Mercado global bares/casas 2025</span>
+                    </div>
+                </div>
+                <p class="highlight" style="margin-top: 32px;">
+                    O ponto é o ativo. Pinheiros não é escolha — é <strong>estratégia de valuation.</strong>
+                </p>
+            </div>
+        </section>
+
+        <!-- CONCEITO VISUAL — Miami × London -->
+        <section class="slide" id="conceito-visual">
+            <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1566737236500-c8ac43014a67?q=80&w=2940');"></div>
+            <div class="cinematic-layer">
+                <div class="cinematic-flash"></div>
+                <div class="cinematic-vignette"></div>
+                <div class="cinematic-light-leak"></div>
+            </div>
+            <div class="kinetic-lights">
+                <div class="light-beam"></div>
+                <div class="light-beam"></div>
+                <div class="light-beam"></div>
+                <div class="glow-orb gold"></div>
+            </div>
+            <div class="slide-overlay"></div>
+            <div class="slide-content" style="max-width: 1000px;">
+                <p class="act-tag">CONCEITO VISUAL</p>
+                <h2 class="impact-title">Miami × London</h2>
+                <p><strong>Tendências 2024-25.</strong> Selva, LIV, Mark's Club, Nexus. A Royal é a fusão.</p>
+                <div class="conceito-grid">
+                    <div class="conceito-chip emerald interactive-zone">
+                        <div class="chip-label">MIAMI — SELVA</div>
+                        <div class="chip-title">Velvet Esmeralda</div>
+                        <div class="chip-desc">Banquettes em veludo verde profundo. Luz cinética que reage ao beat. Pedra vulcânica.</div>
+                    </div>
+                    <div class="conceito-chip scarlet interactive-zone">
+                        <div class="chip-label">LONDON — MARK'S</div>
+                        <div class="chip-title">Heritage Scarlet</div>
+                        <div class="chip-desc">Paredes em vermelho ousado. Molduras douradas. Sofisticação country-house.</div>
+                    </div>
+                    <div class="conceito-chip volcanic interactive-zone">
+                        <div class="chip-label">MATERIAIS</div>
+                        <div class="chip-title">Pedra & Madeira</div>
+                        <div class="chip-desc">Pedra vulcânica, teak tropical, latão escovado. Texturas que pedem toque.</div>
+                    </div>
+                    <div class="conceito-chip teak interactive-zone">
+                        <div class="chip-label">LIGHTING</div>
+                        <div class="chip-title">Cinético & Íntimo</div>
+                        <div class="chip-desc">LED que pulsa com o DJ. Cantos em âmbar. Cada zona com alma própria.</div>
+                    </div>
+                </div>
+                <p class="conceito-tagline"><strong>Instagramável por design.</strong> Espelhos estratégicos, árvore LED no piso, alcovas com veludo. O cliente não escolhe tirar foto — o espaço exige.</p>
+                <div class="referencias-row">
+                    <span class="ref-tag">Selva Miami</span>
+                    <span class="ref-tag">LIV</span>
+                    <span class="ref-tag">Mark's Club</span>
+                    <span class="ref-tag">Nexus London</span>
+                    <span class="ref-tag">Amazónico</span>
+                    <span class="ref-tag">Annabel's</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- REFERÊNCIAS — Mood Board Expandido -->
+        <section class="slide scrollable" id="referencias">
+            <div class="slide-bg dark" style="background: #080808;"></div>
+            <div class="slide-overlay" style="background: transparent;"></div>
+            <div class="slide-content" style="max-width: 1100px;">
+                <p class="act-tag">REFERÊNCIAS</p>
+                <h2 class="impact-title">Dinner Club × Supper Club × Night</h2>
+                <p><strong>Mood board global.</strong> Neon, script, velvet, neon. O que inspira a Royal.</p>
+                <div class="ref-grid ref-grid-expanded">
+                    <div class="ref-card">
+                        <span class="ref-icon">◇</span>
+                        <h4>THE DINNER CLUB</h4>
+                        <p>Script elegante, martini line-art. Clássico que não envelhece.</p>
+                    </div>
+                    <div class="ref-card">
+                        <span class="ref-icon">◇</span>
+                        <h4>SUPPER CLUB</h4>
+                        <p>Minimalista, talheres estilizados. Exclusividade discreta.</p>
+                    </div>
+                    <div class="ref-card">
+                        <span class="ref-icon">◇</span>
+                        <h4>NEON NIGHT</h4>
+                        <p>#morethanaclub. Luz que fala. DANCE ON TABLES.</p>
+                    </div>
+                    <div class="ref-card">
+                        <span class="ref-icon">◇</span>
+                        <h4>SECRET DINING</h4>
+                        <p>Midnight escapades. Memórias após a meia-noite.</p>
+                    </div>
+                    <div class="ref-card">
+                        <span class="ref-icon">◇</span>
+                        <h4>MAKE IT ICONIC</h4>
+                        <p>Every night iconic. Cada noite é um evento.</p>
+                    </div>
+                    <div class="ref-card">
+                        <span class="ref-icon">◇</span>
+                        <h4>NIGHT DINNER</h4>
+                        <p>Jantar + festa. Lua, estrelas, talheres em neon.</p>
+                    </div>
+                    <div class="ref-card">
+                        <span class="ref-icon">◇</span>
+                        <h4>OTTURA</h4>
+                        <p>Neon forte, selva urbana, bar iluminado. Miami vibes.</p>
+                    </div>
+                    <div class="ref-card">
+                        <span class="ref-icon">◇</span>
+                        <h4>THE MEATING PLACE</h4>
+                        <p>Interior escuro, signage minimal. Steakhouse exclusivo.</p>
+                    </div>
+                    <div class="ref-card">
+                        <span class="ref-icon">◇</span>
+                        <h4>SABABA SUPPER CLUB</h4>
+                        <p>Lagos. Line art, mesa e cadeiras. Apply now — membership.</p>
+                    </div>
+                    <div class="ref-card">
+                        <span class="ref-icon">◇</span>
+                        <h4>THE LAST DINNER PARTY</h4>
+                        <p>Querubins, serif estilizado. Arte e festa unidos.</p>
+                    </div>
+                    <div class="ref-card">
+                        <span class="ref-icon">◇</span>
+                        <h4>TALK LESS ACT MORE</h4>
+                        <p>Neon vermelho. Sofisticação sem exagero.</p>
+                    </div>
+                    <div class="ref-card">
+                        <span class="ref-icon">◇</span>
+                        <h4>SMILE EAT DRINK TALK</h4>
+                        <p>Neon rosa e verde. Experiência multisensorial.</p>
+                    </div>
+                    <div class="ref-card">
+                        <span class="ref-icon">◇</span>
+                        <h4>DINNER IS LOVE LANGUAGE</h4>
+                        <p>A Dinner Club. Every Saturday. Comunidade gastronômica.</p>
+                    </div>
+                    <div class="ref-card">
+                        <span class="ref-icon">◇</span>
+                        <h4>ROOFTOP & LOUNGE</h4>
+                        <p>Disco balls, geometria de luz. Ambiente premium.</p>
+                    </div>
+                    <div class="ref-card">
+                        <span class="ref-icon">◇</span>
+                        <h4>STOP THINKING START DRINKING</h4>
+                        <p>Neon em tijolo. Indulgência sem culpa.</p>
+                    </div>
+                </div>
+                <p class="conceito-tagline" style="margin-top: 28px;"><strong>OTTURA, SABABA, THE MEATING PLACE.</strong> Onde o dinheiro janta e dança.</p>
+                <div class="referencias-row" style="margin-top: 20px;">
+                    <span class="ref-tag">LIV Miami</span>
+                    <span class="ref-tag">Annabel's</span>
+                    <span class="ref-tag">Amazónico</span>
+                    <span class="ref-tag">Mark's Club</span>
+                    <span class="ref-tag">Nexus London</span>
+                    <span class="ref-tag">Selva</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- PILLAR 1: REVOLUÇÃO DO HORÁRIO -->
+        <section class="slide" id="pillar1">
+            <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=2874');"></div>
+            <div class="cinematic-layer">
+                <div class="cinematic-flash"></div>
+                <div class="cinematic-vignette"></div>
+                <div class="cinematic-light-leak"></div>
+                <div class="cinematic-grain"></div>
+            </div>
+            <div class="slide-overlay"></div>
+            <div class="slide-content">
+                <p class="act-tag">PILAR 1</p>
+                <h2 class="impact-title">A Revolução do Horário</h2>
+                <p><strong>Revenue Share Duplo.</strong> Hoje a casa fatura das 00h às 05h. Nós vamos faturar das 20h às 05h.</p>
+                <div class="concept-container">
+                    <div class="card">
+                        <div class="time-tag">20:00 — 23:30</div>
+                        <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=2874');"></div>
+                        <div class="card-content">
+                            <h3>GASTRO CLUB</h3>
+                            <p>Alta gastronomia compartilhada. Cocktails autorais. Volume perfeito para negócios e sedução.</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="time-tag">23:30 — 05:00</div>
+                        <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1566737236500-c8ac43014a67?q=80&w=2940');"></div>
+                        <div class="card-content">
+                            <h3>HIGH ENERGY</h3>
+                            <p>O restaurante se transforma. Luzes descem. Música sobe. Euforia e serviço de garrafa.</p>
+                        </div>
+                    </div>
+                </div>
+                <p class="highlight" style="margin-top: 30px;">O cliente chega sóbrio para comer (ticket alto) e fica para o camarote (ticket altíssimo). Retenção 100%.</p>
+            </div>
+        </section>
+
+        <!-- SLIDE: PLANO GASTRO CLUB -->
+        <section class="slide" id="gastro-club">
+            <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=2874');"></div>
+            <div class="cinematic-layer">
+                <div class="cinematic-flash"></div>
+                <div class="cinematic-vignette"></div>
+                <div class="cinematic-light-leak"></div>
+            </div>
+            <div class="slide-overlay"></div>
+            <div class="slide-content gastro-slide-content">
+                <p class="act-tag">PLANO ESTRATÉGICO</p>
+                <h2 class="impact-title">Gastro Club</h2>
+                <p style="margin-bottom: 30px;">Role para explorar — Drinks → Comida</p>
+                <div class="gastro-flip" id="gastroFlip">
+                    <!-- Painel 1: Drinks -->
+                    <div class="gastro-panel drinks">
+                        <img src="https://images.unsplash.com/photo-1575023782549-62ca0d244b39?q=80&w=600" alt="Coquetelaria" class="gastro-panel-img">
+                        <div>
+                            <p style="color: var(--gold); font-size: 0.75rem; letter-spacing: 0.2em; margin-bottom: 16px;">COQUETELARIA</p>
+                            <ul class="dining-details-list">
+                                <li><strong>Cocktails autorais</strong> — Mixologista exclusivo, drinks assinados Royal</li>
+                                <li><strong>Carta de vinhos selecionada</strong> — Nacional e importados premium</li>
+                                <li><strong>Volume ambiente 20h–23h</strong> — Música ao vivo ou DJ set suave</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Painel 2: Comida -->
+                    <div class="gastro-panel food">
+                        <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=600" alt="Gastronomia" class="gastro-panel-img">
+                        <div>
+                            <p style="color: var(--gold); font-size: 0.75rem; letter-spacing: 0.2em; margin-bottom: 16px;">GASTRONOMIA</p>
+                            <ul class="dining-details-list">
+                                <li><strong>Alta gastronomia compartilhada</strong> — Menu degustação e pratos para dividir</li>
+                                <li><strong>Transição orgânica</strong> — O jantar evolui para a festa sem o cliente sair</li>
+                                <li><strong>Ticket alto</strong> — Chega sóbrio, fica para o camarote. Retenção 100%.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <p class="gastro-scroll-hint" id="gastroHint">↓ Role para ver a gastronomia</p>
+            </div>
+        </section>
+
+        <!-- SLIDE: ROYAL CASA ARTÍSTICA -->
+        <section class="slide" id="casa-artistica">
+            <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1566737236500-c8ac43014a67?q=80&w=2940');"></div>
+            <div class="cinematic-layer">
+                <div class="cinematic-flash"></div>
+                <div class="cinematic-vignette"></div>
+                <div class="cinematic-light-leak"></div>
+            </div>
+            <div class="kinetic-lights">
+                <div class="light-beam"></div>
+                <div class="light-beam"></div>
+                <div class="glow-orb gold"></div>
+            </div>
+            <div class="slide-overlay"></div>
+            <div class="slide-content">
+                <p class="act-tag">PLANO ESTRATÉGICO</p>
+                <h2 class="impact-title">Royal Casa Artística</h2>
+                <p><strong>Cenografia. Curadoria. Experiência.</strong></p>
+                <p>A Royal não é só um endereço. É um palco para a noite de São Paulo. Curadoria de DJs, residências artísticas, colaborações exclusivas com marcas e artistas. Cada noite é um evento. Cada evento é uma história.</p>
+                <ul class="dining-details-list" style="margin-top: 30px; max-width: 600px; margin-left: auto; margin-right: auto;">
+                    <li><strong>Cenografia Cinética</strong> — Teto e luzes que respiram</li>
+                    <li><strong>Curadoria de programação</strong> — DJs e artistas exclusivos</li>
+                    <li><strong>Colaborações</strong> — Marcas e artistas em residência</li>
+                    <li><strong>Experiência imersiva</strong> — Cada noite é única</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- SLIDE: EVENTOS CORPORATIVOS - Gastro Bar -->
+        <section class="slide" id="eventos-corporativos">
+            <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2940');"></div>
+            <div class="cinematic-layer">
+                <div class="cinematic-flash"></div>
+                <div class="cinematic-vignette"></div>
+                <div class="cinematic-light-leak"></div>
+            </div>
+            <div class="kinetic-lights">
+                <div class="light-beam"></div>
+                <div class="light-beam"></div>
+                <div class="glow-orb gold"></div>
+            </div>
+            <div class="slide-overlay"></div>
+            <div class="slide-content" style="max-width: 1000px;">
+                <p class="act-tag">PROGRAMAÇÃO — MÁQUINA DE RECEITA</p>
+                <h2 class="impact-title">Eventos Corporativos</h2>
+                <p><strong>Gastro Bar modular.</strong> Cada metro quadrado gera. De 50 pax (jantar fechado) a 800+ (festa total). Construção inteligente.</p>
+                <span class="area-badge">1.444 m² — Área total</span>
+                <div class="ambientes-grid">
+                    <div class="ambiente-card interactive-zone">
+                        <div class="ambiente-icon">◆</div>
+                        <h4>LOUNGE</h4>
+                        <p>Recepção, networking, coquetel. Ambiente íntimo para 50–80 pax.</p>
+                    </div>
+                    <div class="ambiente-card interactive-zone">
+                        <div class="ambiente-icon">◆</div>
+                        <h4>RESTAURANTE</h4>
+                        <p>Jantar executivo ou degustação. 40–120 pax. Menu sob medida.</p>
+                    </div>
+                    <div class="ambiente-card interactive-zone">
+                        <div class="ambiente-icon">◆</div>
+                        <h4>PISTA + PALCO</h4>
+                        <p>Após o jantar, a festa começa. DJ, banda ou apresentação.</p>
+                    </div>
+                    <div class="ambiente-card interactive-zone">
+                        <div class="ambiente-icon">◆</div>
+                        <h4>CAMAROTES</h4>
+                        <p>L1–L7, M1–M5. Privacidade para VPs e decisores.</p>
+                    </div>
+                    <div class="ambiente-card interactive-zone">
+                        <div class="ambiente-icon">◆</div>
+                        <h4>FRONT STAGE</h4>
+                        <p>Áreas premium junto ao palco. Para patrocinadores e convidados especiais.</p>
+                    </div>
+                    <div class="ambiente-card interactive-zone">
+                        <div class="ambiente-icon">◆</div>
+                        <h4>ÁREAS EXTERNAS</h4>
+                        <p>Varanda, deck. Smoking e respiro. Integração com o entorno.</p>
+                    </div>
+                </div>
+                <div class="construcao-inteligente">
+                    <h3>Construção Inteligente</h3>
+                    <ul>
+                        <li><strong>Divisórias modulares</strong> — Ambientes se abrem ou fecham conforme o evento</li>
+                        <li><strong>Som e iluminação zonados</strong> — Cada área com controle independente</li>
+                        <li><strong>Capacidade flexível</strong> — De 50 (jantar fechado) a 800+ (festa total)</li>
+                        <li><strong>Operação dia/noite</strong> — Corporativo de dia, casa noturna à noite</li>
+                    </ul>
+                </div>
+                <p class="roi-line"><strong>ROI:</strong> Evento corporativo médio R$ 80k–150k. 2 por mês = colchão de R$ 160k–300k antes da festa começar.</p>
+            </div>
+        </section>
+
+        <!-- SLIDE: PROGRAMAÇÃO SEGUNDA A DOMINGO -->
+        <section class="slide" id="programacao-semana">
+            <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=2940');"></div>
+            <div class="cinematic-layer">
+                <div class="cinematic-flash"></div>
+                <div class="cinematic-vignette"></div>
+                <div class="cinematic-light-leak"></div>
+            </div>
+            <div class="slide-overlay"></div>
+            <div class="slide-content" style="max-width: 1100px;">
+                <p class="act-tag">PROGRAMAÇÃO</p>
+                <h2 class="impact-title">Segunda a Domingo</h2>
+                <p><strong>5 agentes operando.</strong> Lounge, Restaurante, Pista, Camarotes, Externas. Cada dia, uma combinação.</p>
+                <div class="programacao-semana">
+                    <div class="dia-card interactive-zone">
+                        <div class="dia-num">01</div>
+                        <div class="dia-nome">SEGUNDA</div>
+                        <div class="dia-evento">Corporativo fechado. Jantar executivo.</div>
+                        <div class="dia-ambientes">Restaurante · Lounge</div>
+                    </div>
+                    <div class="dia-card interactive-zone">
+                        <div class="dia-num">02</div>
+                        <div class="dia-nome">TERÇA</div>
+                        <div class="dia-evento">Wine & Jazz. Degustação + música ao vivo.</div>
+                        <div class="dia-ambientes">Lounge · Pista</div>
+                    </div>
+                    <div class="dia-card interactive-zone">
+                        <div class="dia-num">03</div>
+                        <div class="dia-nome">QUARTA</div>
+                        <div class="dia-evento">Corporate + Preview. Jantar + after.</div>
+                        <div class="dia-ambientes">Restaurante · Camarotes · Pista</div>
+                    </div>
+                    <div class="dia-card interactive-zone">
+                        <div class="dia-num">04</div>
+                        <div class="dia-nome">QUINTA</div>
+                        <div class="dia-evento">Gastro Club. Jantar vira festa.</div>
+                        <div class="dia-ambientes">Restaurante · Lounge · Pista · Camarotes</div>
+                    </div>
+                    <div class="dia-card interactive-zone">
+                        <div class="dia-num">05</div>
+                        <div class="dia-nome">SEXTA</div>
+                        <div class="dia-evento">High Energy. Casa cheia.</div>
+                        <div class="dia-ambientes">Pista · Camarotes · Front Stage · Externas</div>
+                    </div>
+                    <div class="dia-card interactive-zone">
+                        <div class="dia-num">06</div>
+                        <div class="dia-nome">SÁBADO</div>
+                        <div class="dia-evento">Pico. Reserva de camarote obrigatória.</div>
+                        <div class="dia-ambientes">Todos os ambientes</div>
+                    </div>
+                    <div class="dia-card interactive-zone">
+                        <div class="dia-num">07</div>
+                        <div class="dia-nome">DOMINGO</div>
+                        <div class="dia-evento">Brunch & Lounge. Respiro premium.</div>
+                        <div class="dia-ambientes">Restaurante · Externas</div>
+                    </div>
+                </div>
+                <p class="roi-line" style="margin-top: 32px;"><strong>5 ambientes</strong> — Lounge, Restaurante, Pista, Camarotes, Externas. Combinados de forma inteligente a cada dia.</p>
+            </div>
+        </section>
+
+        <!-- PILLAR 2: PHIGITAL -->
+        <section class="slide" id="pillar2">
+            <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1566737236500-c8ac43014a67?q=80&w=2940');"></div>
+            <div class="cinematic-layer">
+                <div class="cinematic-flash"></div>
+                <div class="cinematic-vignette"></div>
+                <div class="cinematic-light-leak"></div>
+                <div class="cinematic-grain"></div>
+            </div>
+            <div class="kinetic-lights">
+                <div class="light-beam"></div>
+                <div class="light-beam"></div>
+                <div class="light-beam"></div>
+                <div class="light-beam"></div>
+                <div class="light-beam"></div>
+                <div class="glow-orb gold"></div>
+                <div class="glow-orb side side-1"></div>
+                <div class="glow-orb side side-2"></div>
+                <div class="kinetic-grid"></div>
+            </div>
+            <div class="slide-overlay" style="background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.85) 100%);"></div>
+            <div class="slide-content">
+                <p class="act-tag">PILAR 2</p>
+                <h2 class="impact-title">O Ativo Instagramável</h2>
+                <p><strong>Marketing Gratuito.</strong> Ninguém mais tira foto no escuro.</p>
+                <p>Cenografia Cinética. O teto se mexe. As luzes respiram. Cada story postado por um VIP vale R$ 5.000 em mídia espontânea.</p>
+                <p class="highlight" style="margin-top: 24px;">A Royal deixa de ser um local e vira um cenário.</p>
+            </div>
+        </section>
+
+        <!-- PILLAR 3: MEMBERSHIP -->
+        <section class="slide" id="pillar3">
+            <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1560624052-449f5ddf0c31?q=80&w=2940');"></div>
+            <div class="cinematic-layer">
+                <div class="cinematic-flash"></div>
+                <div class="cinematic-vignette"></div>
+                <div class="cinematic-light-leak"></div>
+                <div class="cinematic-grain"></div>
+            </div>
+            <div class="kinetic-lights">
+                <div class="light-beam"></div>
+                <div class="light-beam"></div>
+                <div class="light-beam"></div>
+                <div class="glow-orb gold"></div>
+            </div>
+            <div class="slide-overlay"></div>
+            <div class="slide-content">
+                <p class="act-tag">PILAR 3</p>
+                <h2 class="impact-title">O "Colchão" Financeiro</h2>
+                <p><strong>Recorrência.</strong> Balada vive de altos e baixos. Membership vive de estabilidade.</p>
+                <p>Royal Black. Sala secreta. Concierge. Mixologista na mesa. O cliente paga anuidade.</p>
+                <p class="highlight" style="margin-top: 24px;">Em janeiro, quando SP está vazia, o caixa já está pago pelas anuidades vendidas em dezembro.</p>
+                <p style="font-size: 0.85rem; margin-top: 16px; color: #666;">Só 100 cartões Black no primeiro ano. Queremos fila de espera.</p>
+            </div>
+        </section>
+
+        <!-- ATO 3: O CHEQUE-MATE - MAPA -->
+        <section class="slide map-section" id="ato3">
+            <div class="slide-bg dark" style="background: #080808;"></div>
+            <div class="slide-overlay" style="background: transparent;"></div>
+            <div class="slide-content" style="max-width: 1200px;">
+                <p class="act-tag">ATO 3 — O CHEQUE-MATE</p>
+                <div class="map-header">
+                    <h2>Não é um mapa. É uma Máquina de Vendas.</h2>
+                    <p class="map-subtitle">Cada metro quadrado tem preço. Passe o mouse.</p>
+                </div>
+
+                <div id="tooltip">
+                    <h4>AREA INFO</h4>
+                    <span id="tt-cap">Pax: --</span>
+                    <span id="tt-val">Min: --</span>
+                </div>
+
+                <div class="svg-container">
+                    <svg viewBox="0 0 1000 600" id="royal-map">
+                        <g class="interactive-zone" data-name="FRONT STAGE 01" data-pax="20" data-min="R$ 7k">
+                            <rect x="750" y="200" width="70" height="100" class="area-path"/>
+                            <text x="785" y="255" class="area-text" transform="rotate(-90 785 255)">FRONT 01</text>
+                        </g>
+                        <g class="interactive-zone" data-name="FRONT STAGE 02" data-pax="20" data-min="R$ 7k">
+                            <rect x="750" y="320" width="70" height="100" class="area-path"/>
+                            <text x="785" y="375" class="area-text" transform="rotate(-90 785 375)">FRONT 02</text>
+                        </g>
+                        <g class="interactive-zone" data-name="CAMAROTE L1" data-pax="15" data-min="R$ 5k"><rect x="350" y="80" width="55" height="80" class="area-path"/><text x="377" y="125" class="area-text">L1</text></g>
+                        <g class="interactive-zone" data-name="CAMAROTE L2" data-pax="15" data-min="R$ 5k"><rect x="415" y="80" width="55" height="80" class="area-path"/><text x="442" y="125" class="area-text">L2</text></g>
+                        <g class="interactive-zone" data-name="CAMAROTE L3" data-pax="15" data-min="R$ 5k"><rect x="480" y="80" width="55" height="80" class="area-path"/><text x="507" y="125" class="area-text">L3</text></g>
+                        <g class="interactive-zone" data-name="CAMAROTE L4" data-pax="15" data-min="R$ 5k"><rect x="545" y="80" width="55" height="80" class="area-path"/><text x="572" y="125" class="area-text">L4</text></g>
+                        <g class="interactive-zone" data-name="CAMAROTE L5" data-pax="15" data-min="R$ 5k"><rect x="610" y="80" width="55" height="80" class="area-path"/><text x="637" y="125" class="area-text">L5</text></g>
+                        <g class="interactive-zone" data-name="CAMAROTE L6" data-pax="15" data-min="R$ 5k"><rect x="675" y="80" width="55" height="80" class="area-path"/><text x="702" y="125" class="area-text">L6</text></g>
+                        <g class="interactive-zone" data-name="CAMAROTE L7 (MASTER)" data-pax="25" data-min="R$ 10k">
+                            <path d="M740 80 H820 V180 H740 V80 Z" class="area-path"/>
+                            <text x="780" y="130" class="area-text">L7</text>
+                        </g>
+                        <g class="interactive-zone" data-name="CAMAROTE M1" data-pax="12" data-min="R$ 4k"><rect x="180" y="420" width="70" height="70" class="area-path"/><text x="215" y="460" class="area-text">M1</text></g>
+                        <g class="interactive-zone" data-name="CAMAROTE M2" data-pax="12" data-min="R$ 4k"><rect x="260" y="420" width="70" height="70" class="area-path"/><text x="295" y="460" class="area-text">M2</text></g>
+                        <g class="interactive-zone" data-name="CAMAROTE M3" data-pax="12" data-min="R$ 4k"><rect x="340" y="420" width="70" height="70" class="area-path"/><text x="375" y="460" class="area-text">M3</text></g>
+                        <g class="interactive-zone" data-name="CAMAROTE M4" data-pax="12" data-min="R$ 4k"><rect x="420" y="420" width="70" height="70" class="area-path"/><text x="455" y="460" class="area-text">M4</text></g>
+                        <g class="interactive-zone" data-name="CAMAROTE M5" data-pax="12" data-min="R$ 4k"><rect x="500" y="420" width="70" height="70" class="area-path"/><text x="535" y="460" class="area-text">M5</text></g>
+                        <rect x="850" y="100" width="120" height="400" fill="#111" stroke="#333" stroke-dasharray="4"/>
+                        <text x="910" y="300" transform="rotate(-90 910 300)" fill="#333" text-anchor="middle" font-size="20">PALCO</text>
+                        <g class="interactive-zone" data-name="PISTA P1" data-pax="4" data-min="R$ 1.5k"><circle cx="400" cy="250" r="15" class="area-path"/><text x="400" y="253" class="area-text">P1</text></g>
+                        <g class="interactive-zone" data-name="PISTA P2" data-pax="4" data-min="R$ 1.5k"><circle cx="450" cy="250" r="15" class="area-path"/><text x="450" y="253" class="area-text">P2</text></g>
+                        <g class="interactive-zone" data-name="PISTA P3" data-pax="4" data-min="R$ 1.5k"><circle cx="500" cy="250" r="15" class="area-path"/><text x="500" y="253" class="area-text">P3</text></g>
+                        <g class="interactive-zone" data-name="PISTA P4" data-pax="4" data-min="R$ 1.5k"><circle cx="550" cy="250" r="15" class="area-path"/><text x="550" y="253" class="area-text">P4</text></g>
+                    </svg>
+                </div>
+
+                <div class="map-cta">
+                    <a href="AVENUE/floor-plan.html" target="_blank">MAPA COMPLETO COM ZOOM →</a>
+                </div>
+
+                <div class="equity-block">
+                    <h3 style="font-family: 'Cinzel'; color: var(--gold); margin-bottom: 12px;">Não somos captadores. Somos Arquitetos de Valuation.</h3>
+                    <p>Aportamos R$ 200k + know-how. Opção de 20% de equity futuro. Se a Royal crescer, crescemos juntos. Se estagnar, nossa opção não vale nada. Skin in the game.</p>
+                    <p class="cta-line">Esse mapa vale R$ 30 milhões na mão de um fundo. Em 24 meses.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA - FECHAMENTO -->
+        <section class="slide cta" id="cta">
+            <div class="slide-bg dark" style="background: #050505;"></div>
+            <div class="slide-overlay" style="background: transparent;"></div>
+            <div class="slide-content">
+                <h2 style="color: #fff; font-size: clamp(1.2rem, 2.5vw, 1.8rem); margin-bottom: 16px;">Vocês podem contratar um gerente de marketing e um promoter.<br>Eles vão encher a casa sexta que vem.</h2>
+                <h1>Ou fechar com a gente.</h1>
+                <p style="margin-top: 24px;">E construir a casa noturna mais desejada e rentável do Brasil para os próximos 5 anos.</p>
+                <p class="highlight" style="margin-top: 16px;">O mapa está pronto. O conceito está pronto. O investidor está engatilhado.</p>
+                <div class="cta-buttons">
+                    <a href="AVENUE/floor-plan.html" target="_blank">VER MAPA COMPLETO</a>
+                    <a href="https://www.google.com/maps/search/Rua+Cardeal+Arcoverde+1393+Pinheiros+S%C3%A3o+Paulo+05407-002" target="_blank" rel="noopener">VER NO MAPA</a>
+                    <a href="#" class="primary">VAMOS ASSINAR?</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            <div class="address">
+                <h3>ROYAL</h3>
+                <p>Rua Cardeal Arcoverde, 1393 — Pinheiros — São Paulo, SP — 05407-002</p>
+                <a href="https://www.google.com/maps/search/Rua+Cardeal+Arcoverde+1393+Pinheiros+S%C3%A3o+Paulo+05407-002" target="_blank" rel="noopener">VER NO MAPA →</a>
+            </div>
+            <div class="branding">
+                <p class="footer-presented">APRESENTADO POR CASA SARMENTO</p>
+                STRATEGY & DESIGN BY  RICARDO SARMENTO
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Hero entrance
+        gsap.from("#hero .act-tag", { opacity: 0, duration: 1.7, delay: 0.2, ease: "power2.out" });
+        gsap.from("#hero .hero-quase", { opacity: 0, y: 10, duration: 0.8, delay: 2, ease: "power2.out" });
+        gsap.from("#hero h1", { opacity: 0, y: 40, duration: 1.2, delay: 2.5, ease: "power3.out" });
+        gsap.from("#hero p:not(.hero-quase):not(.scroll-text)", { opacity: 0, duration: 1, delay: 3, stagger: 0.15 });
+        gsap.from("#hero .scroll-cta", { opacity: 0, y: 20, duration: 1, delay: 3.5, ease: "power2.out" });
+
+        // Parallax on hero bg
+        gsap.to("#hero .slide-bg", {
+            scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: true },
+            y: 150, opacity: 0.15
+        });
+
+        // Cinematic flash on slide enter - "flash de cinema"
+        ["#ato2-intro", "#localizacao", "#conceito-visual", "#referencias", "#pillar1", "#gastro-club", "#casa-artistica", "#eventos-corporativos", "#programacao-semana", "#pillar2", "#pillar3"].forEach(id => {
+            gsap.from(`${id} .slide-bg`, {
+                scrollTrigger: { trigger: id, start: "top 85%" },
+                filter: "contrast(1.5) saturate(1.4)",
+                duration: 1.2,
+                ease: "power2.out"
+            });
+        });
+
+        // Kinetic lights entrance - Pillar 2 (Instagrammable)
+        gsap.from("#pillar2 .light-beam", {
+            scrollTrigger: { trigger: "#pillar2", start: "top 85%" },
+            opacity: 0,
+            duration: 1,
+            stagger: 0.08,
+            ease: "power2.out"
+        });
+        gsap.from("#pillar2 .glow-orb", {
+            scrollTrigger: { trigger: "#pillar2", start: "top 85%" },
+            opacity: 0,
+            duration: 1.2,
+            stagger: 0.15,
+            ease: "power2.out"
+        });
+
+        // Animação de entrada de cada ato (immediateRender: false = texto visível até animar)
+        ["#ato1", "#ato2-intro", "#localizacao", "#conceito-visual", "#referencias", "#pillar1", "#gastro-club", "#casa-artistica", "#eventos-corporativos", "#programacao-semana", "#pillar2", "#pillar3", "#ato3", "#cta"].forEach(id => {
+            gsap.from(`${id} .slide-content`, {
+                scrollTrigger: { trigger: id, start: "top 85%" },
+                opacity: 0,
+                y: 30,
+                duration: 0.9,
+                ease: "power3.out",
+                immediateRender: false
+            });
+        });
+        gsap.from("#ato1 .ato1-title .word span", {
+            scrollTrigger: { trigger: "#ato1", start: "top 85%" },
+            y: "100%",
+            duration: 0.8,
+            stagger: 0.15,
+            ease: "power4.out",
+            immediateRender: false
+        });
+        gsap.from("#ato1 .bullet", {
+            scrollTrigger: { trigger: "#ato1", start: "top 85%" },
+            opacity: 0,
+            x: -15,
+            duration: 0.7,
+            stagger: 0.1,
+            delay: 0.4,
+            ease: "power2.out",
+            immediateRender: false
+        });
+        gsap.from("#conceito-visual .impact-title", {
+            scrollTrigger: { trigger: "#conceito-visual", start: "top 85%" },
+            y: 40,
+            opacity: 0,
+            duration: 0.9,
+            ease: "power4.out",
+            immediateRender: false
+        });
+        gsap.from("#conceito-visual .conceito-chip", {
+            scrollTrigger: { trigger: "#conceito-visual", start: "top 85%" },
+            y: 30,
+            opacity: 0,
+            duration: 0.7,
+            stagger: 0.1,
+            delay: 0.2,
+            ease: "power3.out",
+            immediateRender: false
+        });
+        gsap.from("#referencias .ref-card", {
+            scrollTrigger: { trigger: "#referencias", start: "top 85%" },
+            y: 24,
+            opacity: 0,
+            duration: 0.6,
+            stagger: 0.04,
+            delay: 0.15,
+            ease: "power3.out",
+            immediateRender: false
+        });
+        gsap.from("#ato2-intro .slide-content > *", {
+            scrollTrigger: { trigger: "#ato2-intro", start: "top 85%" },
+            opacity: 0,
+            y: 20,
+            duration: 0.8,
+            stagger: 0.08,
+            ease: "power2.out",
+            immediateRender: false
+        });
+        gsap.from("#pillar1 .impact-title", {
+            scrollTrigger: { trigger: "#pillar1", start: "top 85%" },
+            y: 50,
+            opacity: 0,
+            duration: 0.9,
+            ease: "power4.out",
+            immediateRender: false
+        });
+        gsap.from("#pillar1 .card", {
+            scrollTrigger: { trigger: "#pillar1", start: "top 85%" },
+            opacity: 0,
+            y: 40,
+            duration: 0.9,
+            stagger: 0.12,
+            delay: 0.2,
+            ease: "power3.out",
+            immediateRender: false
+        });
+        gsap.from("#gastro-club .impact-title", {
+            scrollTrigger: { trigger: "#gastro-club", start: "top 85%" },
+            y: 40,
+            opacity: 0,
+            duration: 0.9,
+            ease: "power4.out",
+            immediateRender: false
+        });
+        gsap.from("#gastro-club .gastro-panel-img", {
+            scrollTrigger: { trigger: "#gastro-club", start: "top 85%" },
+            x: -40,
+            opacity: 0,
+            duration: 1,
+            ease: "power3.out",
+            immediateRender: false
+        });
+        gsap.from("#gastro-club .gastro-panel .dining-details-list li", {
+            scrollTrigger: { trigger: "#gastro-club", start: "top 85%" },
+            x: 30,
+            opacity: 0,
+            duration: 0.7,
+            stagger: 0.1,
+            delay: 0.2,
+            ease: "power2.out",
+            immediateRender: false
+        });
+        gsap.from("#casa-artistica .impact-title", {
+            scrollTrigger: { trigger: "#casa-artistica", start: "top 85%" },
+            y: 40,
+            opacity: 0,
+            duration: 0.9,
+            ease: "power4.out",
+            immediateRender: false
+        });
+        gsap.from("#eventos-corporativos .impact-title", {
+            scrollTrigger: { trigger: "#eventos-corporativos", start: "top 85%" },
+            y: 40,
+            opacity: 0,
+            duration: 0.9,
+            ease: "power4.out",
+            immediateRender: false
+        });
+        gsap.from("#eventos-corporativos .ambiente-card", {
+            scrollTrigger: { trigger: "#eventos-corporativos", start: "top 85%" },
+            y: 30,
+            opacity: 0,
+            duration: 0.7,
+            stagger: 0.08,
+            delay: 0.2,
+            ease: "power3.out",
+            immediateRender: false
+        });
+        gsap.from("#eventos-corporativos .construcao-inteligente", {
+            scrollTrigger: { trigger: "#eventos-corporativos", start: "top 85%" },
+            y: 25,
+            opacity: 0,
+            duration: 0.8,
+            delay: 0.6,
+            ease: "power2.out",
+            immediateRender: false
+        });
+        gsap.from("#programacao-semana .impact-title", {
+            scrollTrigger: { trigger: "#programacao-semana", start: "top 85%" },
+            y: 40,
+            opacity: 0,
+            duration: 0.9,
+            ease: "power4.out",
+            immediateRender: false
+        });
+        gsap.from("#programacao-semana .dia-card", {
+            scrollTrigger: { trigger: "#programacao-semana", start: "top 85%" },
+            y: 25,
+            opacity: 0,
+            duration: 0.6,
+            stagger: 0.06,
+            delay: 0.15,
+            ease: "power3.out",
+            immediateRender: false
+        });
+        gsap.from("#eventos-corporativos .light-beam", {
+            scrollTrigger: { trigger: "#eventos-corporativos", start: "top 85%" },
+            opacity: 0,
+            duration: 1,
+            stagger: 0.1,
+            ease: "power2.out"
+        });
+        gsap.from("#casa-artistica .dining-details-list li", {
+            scrollTrigger: { trigger: "#casa-artistica", start: "top 85%" },
+            y: 25,
+            opacity: 0,
+            duration: 0.7,
+            stagger: 0.12,
+            delay: 0.2,
+            ease: "power2.out",
+            immediateRender: false
+        });
+        gsap.from("#ato3 .map-header, #ato3 .svg-container", {
+            scrollTrigger: { trigger: "#ato3", start: "top 85%" },
+            opacity: 0,
+            y: 25,
+            duration: 0.9,
+            stagger: 0.12,
+            ease: "power2.out",
+            immediateRender: false
+        });
+        gsap.from("#cta h1, #cta h2, #cta p, #cta .cta-buttons", {
+            scrollTrigger: { trigger: "#cta", start: "top 85%" },
+            opacity: 0,
+            y: 20,
+            duration: 0.8,
+            stagger: 0.06,
+            ease: "power2.out",
+            immediateRender: false
+        });
+
+        // Cursor
+        const cursor = document.querySelector('.cursor');
+        const ring = document.querySelector('.cursor-ring');
+        document.addEventListener('mousemove', (e) => {
+            gsap.set(cursor, { x: e.clientX, y: e.clientY });
+            gsap.to(ring, { x: e.clientX, y: e.clientY, duration: 0.15 });
+        });
+
+        const zones = document.querySelectorAll('.interactive-zone, .card');
+        const tooltip = document.getElementById('tooltip');
+        zones.forEach(z => {
+            z.addEventListener('mouseenter', () => {
+                gsap.to(ring, { width: 70, height: 70, duration: 0.3 });
+                cursor.style.display = 'none';
+            });
+            z.addEventListener('mouseleave', () => {
+                gsap.to(ring, { width: 40, height: 40, duration: 0.3 });
+                cursor.style.display = 'block';
+                if (tooltip) tooltip.style.opacity = 0;
+            });
+        });
+
+        // Tooltip
+        const mapZones = document.querySelectorAll('.interactive-zone');
+        const ttName = tooltip?.querySelector('h4');
+        const ttPax = document.getElementById('tt-cap');
+        const ttVal = document.getElementById('tt-val');
+        mapZones.forEach(zone => {
+            zone.addEventListener('mouseenter', () => {
+                if (!tooltip) return;
+                ttName.innerText = zone.getAttribute('data-name');
+                ttPax.innerText = "Capacidade: " + zone.getAttribute('data-pax');
+                ttVal.innerText = "Consumação: " + zone.getAttribute('data-min');
+                tooltip.style.opacity = 1;
+            });
+            zone.addEventListener('mousemove', (e) => {
+                if (!tooltip) return;
+                tooltip.style.left = e.clientX + "px";
+                tooltip.style.top = (e.clientY - 24) + "px";
+            });
+        });
+
+        // Progress dots
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.progress-dots .dot');
+        const container = document.querySelector('.pitch-container');
+
+        const updateDots = () => {
+            const scrollTop = container.scrollTop;
+            const slideHeight = window.innerHeight;
+            const index = Math.round(scrollTop / slideHeight);
+            dots.forEach((d, i) => {
+                d.classList.toggle('active', i === Math.min(index, dots.length - 1));
+            });
+        };
+        container.addEventListener('scroll', updateDots);
+        updateDots();
+
+        // Scroll para seção do mapa quando voltar do floor-plan (#ato3)
+        if (window.location.hash === '#ato3') {
+            const ato3 = document.getElementById('ato3');
+            if (ato3) ato3.scrollIntoView({ block: 'start', behavior: 'smooth' });
+        }
+
+        // Fullscreen
+        const btnFullscreen = document.getElementById('btnFullscreen');
+        const toggleFullscreen = () => {
+            if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+                (document.documentElement.requestFullscreen || document.documentElement.webkitRequestFullscreen)?.call(document.documentElement).catch(() => {});
+            } else {
+                (document.exitFullscreen || document.webkitExitFullscreen)?.call(document).catch(() => {});
+            }
+        };
+        if (btnFullscreen) {
+            btnFullscreen.addEventListener('click', toggleFullscreen);
+        }
+        const isFullscreen = () => !!(document.fullscreenElement || document.webkitFullscreenElement);
+        const onFullscreenChange = () => {
+            const fs = isFullscreen();
+            document.body.classList.toggle('fullscreen', fs);
+            if (btnFullscreen) btnFullscreen.classList.toggle('hidden', fs);
+        };
+        document.addEventListener('fullscreenchange', onFullscreenChange);
+        document.addEventListener('webkitfullscreenchange', onFullscreenChange);
+        if (isFullscreen()) {
+            document.body.classList.add('fullscreen');
+            if (btnFullscreen) btnFullscreen.classList.add('hidden');
+        }
+        // Scroll indicator click
+        document.querySelector('.scroll-indicator')?.addEventListener('click', () => {
+            container.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
+        });
+
+        // Gastro Club: scroll = flip drinks ↔ comida. Scroll na direção de sair = vai pro próximo slide
+        const gastroSection = document.getElementById('gastro-club');
+        const gastroFlip = document.getElementById('gastroFlip');
+        const gastroHint = document.getElementById('gastroHint');
+        let gastroFlipCooldown = 0;
+        if (gastroSection && gastroFlip && gastroHint && container) {
+            document.addEventListener('wheel', (e) => {
+                const rect = gastroSection.getBoundingClientRect();
+                const isGastroActive = rect.top <= 80 && rect.bottom >= window.innerHeight - 80;
+                if (!isGastroActive) return;
+                const isFlipped = gastroFlip.classList.contains('flipped');
+                const scrollDown = e.deltaY > 0;
+                const willFlip = (scrollDown && !isFlipped) || (!scrollDown && isFlipped);
+                if (!willFlip) return;
+                e.preventDefault();
+                e.stopPropagation();
+                if (Date.now() < gastroFlipCooldown) return;
+                gastroFlipCooldown = Date.now() + 900;
+                gastroFlip.classList.toggle('flipped');
+                gastroHint.textContent = gastroFlip.classList.contains('flipped')
+                    ? '↑ Role para ver drinks'
+                    : '↓ Role para ver a gastronomia';
+            }, { passive: false, capture: true });
+        }
+
+        // Keyboard nav
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+                e.preventDefault();
+                container.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
+            } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+                e.preventDefault();
+                container.scrollBy({ top: -window.innerHeight, behavior: 'smooth' });
+            }
+        });
+    </script>
+</body>
+</html>
