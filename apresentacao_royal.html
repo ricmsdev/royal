@@ -764,9 +764,15 @@
         /* MAP SECTION - ACT 3 */
         .map-section {
             flex-direction: column;
-            padding: 80px 40px;
+            padding: 40px 24px 60px;
+            min-height: 100vh;
         }
-        .map-header { margin-bottom: 40px; }
+        @media (min-width: 768px) {
+            .map-section { padding: 60px 40px 80px; }
+        }
+        .map-header { margin-bottom: 24px; }
+        @media (min-width: 768px) { .map-header { margin-bottom: 40px; } }
+        .map-slide-content { width: 100%; box-sizing: border-box; }
         .map-header h2 { font-size: clamp(1.5rem, 3vw, 2.5rem); }
         .map-subtitle {
             font-size: 1rem;
@@ -775,14 +781,16 @@
             letter-spacing: 2px;
         }
         .svg-container {
-            width: 95%;
+            width: 100%;
             max-width: 1100px;
             background: rgba(255,255,255,0.02);
             border: 1px solid rgba(255,255,255,0.08);
             border-radius: 12px;
-            padding: 20px;
+            padding: 12px;
             box-shadow: 0 0 60px rgba(0,0,0,0.6);
+            overflow-x: auto;
         }
+        @media (min-width: 768px) { .svg-container { padding: 20px; } }
         .area-path {
             fill: #151515;
             stroke: #444;
@@ -815,9 +823,8 @@
         }
         #tooltip h4 { color: var(--gold); font-family: 'Cinzel', serif; margin-bottom: 6px; font-size: 0.9rem; }
         #tooltip span { color: #fff; font-size: 0.8rem; display: block; }
-        .map-cta {
-            margin-top: 30px;
-        }
+        .map-cta { margin-top: 24px; }
+        @media (min-width: 768px) { .map-cta { margin-top: 30px; } }
         .map-cta a {
             color: var(--gold);
             text-decoration: none;
@@ -831,13 +838,16 @@
 
         /* EQUITY MESSAGE */
         .equity-block {
-            margin-top: 50px;
-            padding: 40px;
+            margin-top: 30px;
+            padding: 24px;
             border: 1px solid #222;
             text-align: left;
             max-width: 700px;
             margin-left: auto;
             margin-right: auto;
+        }
+        @media (min-width: 768px) {
+            .equity-block { margin-top: 50px; padding: 40px; }
         }
         .equity-block p { margin-top: 12px; }
         .equity-block .cta-line {
@@ -1761,10 +1771,10 @@
         </section>
 
         <!-- ATO 3: O CHEQUE-MATE - MAPA -->
-        <section class="slide map-section" id="ato3">
+        <section class="slide map-section scrollable" id="ato3">
             <div class="slide-bg dark" style="background: #080808;"></div>
             <div class="slide-overlay" style="background: transparent;"></div>
-            <div class="slide-content" style="max-width: 1200px;">
+            <div class="slide-content map-slide-content" style="max-width: 1200px;">
                 <p class="act-tag">ATO 3 — O CHEQUE-MATE</p>
                 <div class="map-header">
                     <h2>Não é um mapa. É uma Máquina de Vendas.</h2>
@@ -1817,7 +1827,7 @@
 
                 <div class="equity-block">
                     <h3 style="font-family: 'Cinzel'; color: var(--gold); margin-bottom: 12px;">Não somos captadores. Somos Arquitetos de Valuation.</h3>
-                    <p>Aportamos R$ 200k + know-how. Opção de 20% de equity futuro. Se a Royal crescer, crescemos juntos. Se estagnar, nossa opção não vale nada. Skin in the game.</p>
+                    <p>Opção de 20% de equity futuro. Se a Royal crescer, crescemos juntos. Se estagnar, nossa opção não vale nada. Skin in the game.</p>
                     <p class="cta-line">Esse mapa vale R$ 30 milhões na mão de um fundo. Em 24 meses.</p>
                 </div>
             </div>
@@ -2078,12 +2088,12 @@
             ease: "power2.out",
             immediateRender: false
         });
-        gsap.from("#ato3 .map-header, #ato3 .svg-container", {
+        gsap.from("#ato3 .map-header, #ato3 .svg-container, #ato3 .map-cta, #ato3 .equity-block", {
             scrollTrigger: { trigger: "#ato3", start: "top 85%" },
             opacity: 0,
             y: 25,
             duration: 0.9,
-            stagger: 0.12,
+            stagger: 0.1,
             ease: "power2.out",
             immediateRender: false
         });
