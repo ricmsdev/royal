@@ -19,6 +19,7 @@ import { BroadcastSlide } from "./BroadcastSlide";
 import { MapSlide } from "./MapSlide";
 import { LaunchConceptSlide } from "./LaunchConceptSlide";
 import { NoiteSlide, NOITES_DATA } from "./NoiteSlide";
+import { PokerNightSlide } from "./PokerNightSlide";
 import { CTASlide } from "./CTASlide";
 import { Footer } from "./Footer";
 
@@ -407,6 +408,28 @@ export function PitchContainer() {
         immediateRender: false,
       });
 
+      // Poker Night (noite-terca) — cards e shark cage com stagger
+      gsap.from("#noite-terca .idol-poker-card", {
+        scrollTrigger: { trigger: "#noite-terca", start: "top 80%" },
+        y: 20,
+        opacity: 0,
+        duration: 0.6,
+        stagger: 0.06,
+        delay: 0.2,
+        ease: "power2.out",
+        immediateRender: false,
+      });
+      gsap.from("#noite-terca .shark-cage-content-inner li", {
+        scrollTrigger: { trigger: "#noite-terca", start: "top 80%" },
+        x: -12,
+        opacity: 0,
+        duration: 0.5,
+        stagger: 0.05,
+        delay: 0.35,
+        ease: "power2.out",
+        immediateRender: false,
+      });
+
       // Broadcast
       gsap.from("#broadcast .broadcast-lead, #broadcast .broadcast-visual", {
         scrollTrigger: { trigger: "#broadcast", start: "top 65%" },
@@ -459,6 +482,16 @@ export function PitchContainer() {
       cleanup.then((fn) => fn?.());
     };
   }, []);
+
+  const scrollToSlide = (index: number) => {
+    const container = containerRef.current;
+    if (!container) return;
+    const slides = container.querySelectorAll<HTMLElement>(".slide, .footer");
+    const target = slides[index];
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
 
   // Progress dots / scroll position
   useEffect(() => {
@@ -584,10 +617,13 @@ export function PitchContainer() {
 
       <div className="progress-dots">
         {SLIDE_IDS.map((_, i) => (
-          <div
+          <button
             key={i}
+            type="button"
             className={`dot ${i === activeIndex ? "active" : ""}`}
-            aria-hidden
+            onClick={() => scrollToSlide(i)}
+            aria-label={`Ir para slide ${i + 1}`}
+            aria-current={i === activeIndex ? "true" : undefined}
           />
         ))}
       </div>
@@ -611,18 +647,22 @@ export function PitchContainer() {
         <ActSlide id="fora-da-curva" variant="fora-da-curva" />
         <MapSlide />
         <LaunchConceptSlide />
-        {NOITES_DATA.map((n) => (
-          <NoiteSlide
-            key={n.id}
-            id={n.id}
-            num={n.num}
-            nome={n.nome}
-            mood={n.mood}
-            evento={n.evento}
-            ambientes={n.ambientes}
-            destaque={n.destaque}
-          />
-        ))}
+        {NOITES_DATA.map((n) =>
+          n.id === "noite-terca" ? (
+            <PokerNightSlide key={n.id} />
+          ) : (
+            <NoiteSlide
+              key={n.id}
+              id={n.id}
+              num={n.num}
+              nome={n.nome}
+              mood={n.mood}
+              evento={n.evento}
+              ambientes={n.ambientes}
+              destaque={n.destaque}
+            />
+          )
+        )}
         <CTASlide />
         <Footer />
       </div>
