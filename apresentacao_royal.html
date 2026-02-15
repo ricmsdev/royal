@@ -26,6 +26,9 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+        /* Fallback: em preview/iframe o cursor customizado pode não funcionar — mostra cursor padrão */
+        body.preview-mode * { cursor: auto; }
+        body.preview-mode .cursor, body.preview-mode .cursor-ring { display: none !important; }
         
         body {
             background-color: var(--black);
@@ -42,7 +45,6 @@
             position: fixed; top: 0; left: 0;
             z-index: 9999;
             pointer-events: none;
-            mix-blend-mode: difference;
         }
         .cursor-ring {
             width: 40px; height: 40px;
@@ -881,6 +883,7 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
+            pointer-events: none;
         }
         .progress-dots .dot {
             width: 6px;
@@ -2093,13 +2096,19 @@
             immediateRender: false
         });
 
-        // Cursor
+        // Cursor — em preview (iframe) usa cursor padrão; senão custom
+        const isPreview = window.self !== window.top;
+        if (isPreview) document.body.classList.add('preview-mode');
         const cursor = document.querySelector('.cursor');
         const ring = document.querySelector('.cursor-ring');
-        document.addEventListener('mousemove', (e) => {
-            gsap.set(cursor, { x: e.clientX, y: e.clientY });
-            gsap.to(ring, { x: e.clientX, y: e.clientY, duration: 0.15 });
-        });
+        if (!isPreview) {
+            const moveCursor = (e) => {
+                gsap.set(cursor, { x: e.clientX, y: e.clientY, xPercent: -50, yPercent: -50 });
+                gsap.to(ring, { x: e.clientX, y: e.clientY, xPercent: -50, yPercent: -50, duration: 0.15 });
+            };
+            document.addEventListener('mousemove', moveCursor);
+            document.addEventListener('mouseenter', moveCursor);
+        }
 
         const zones = document.querySelectorAll('.interactive-zone, .card');
         const tooltip = document.getElementById('tooltip');
