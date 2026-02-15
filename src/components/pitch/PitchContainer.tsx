@@ -357,28 +357,21 @@ export function PitchContainer() {
       });
 
       // Broadcast
-      gsap.from("#broadcast .rec-overlay", {
-        scrollTrigger: { trigger: "#broadcast", start: "top 60%" },
+      gsap.from("#broadcast .broadcast-lead, #broadcast .broadcast-visual", {
+        scrollTrigger: { trigger: "#broadcast", start: "top 65%" },
+        y: 24,
         opacity: 0,
-        scale: 1.1,
-        duration: 1,
+        duration: 0.9,
+        stagger: 0.12,
         ease: "power2.out",
       });
-      gsap.from("#broadcast .broadcast-text > *", {
-        scrollTrigger: { trigger: "#broadcast", start: "top 60%" },
-        x: -30,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.15,
-        ease: "power2.out",
-      });
-      gsap.from("#broadcast .vp-board", {
-        scrollTrigger: { trigger: "#broadcast", start: "top 60%" },
-        x: 30,
+      gsap.from("#broadcast .broadcast-side", {
+        scrollTrigger: { trigger: "#broadcast", start: "top 65%" },
+        x: 24,
         opacity: 0,
         duration: 1,
-        delay: 0.3,
-        ease: "back.out(1.2)",
+        delay: 0.2,
+        ease: "power2.out",
       });
       } catch {
         // GSAP/ScrollTrigger may throw during hydration or with invalid targets

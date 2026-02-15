@@ -144,7 +144,19 @@ export function ActSlide({ id, variant }: ActSlideProps) {
   }
 
   return (
-    <Slide id={id} variant="enemy" dark overlayStyle={{ background: "rgba(0,0,0,0.7)" }}>
+    <Slide
+      id={id}
+      variant="enemy"
+      dark
+      cinematic={false}
+      videoBg={variant === "ato1" ? "/AVENUE/ato1-video.mp4" : undefined}
+      overlayStyle={{
+        background:
+          variant === "ato1"
+            ? "rgba(0,0,0,0.85)"
+            : "rgba(0,0,0,0.7)",
+      }}
+    >
       <ActTag>{data.tag}</ActTag>
       <h2 className="ato1-title" style={variant === "fora-da-curva" ? { marginBottom: "28px" } : undefined}>
         {data.title}
@@ -154,10 +166,13 @@ export function ActSlide({ id, variant }: ActSlideProps) {
           {data.highlightIntro}
         </p>
       )}
-      {"bullets" in data &&
-        data.bullets.map((bullet, i) => (
-          <Bullet key={i}>{bullet}</Bullet>
-        ))}
+      {"bullets" in data && (
+        <div className={variant === "ato1" ? "ato1-cards" : undefined}>
+          {data.bullets.map((bullet, i) => (
+            <Bullet key={i}>{bullet}</Bullet>
+          ))}
+        </div>
+      )}
       <p className="highlight" style={{ marginTop: "32px" }}>
         {data.highlight}
       </p>

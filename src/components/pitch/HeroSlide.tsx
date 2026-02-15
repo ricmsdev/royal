@@ -24,7 +24,7 @@ export function HeroSlide() {
       videoBg="/AVENUE/conceito-royal.mp4"
       overlayStyle={{
         background:
-          "linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.7) 50%, rgba(0,0,0,0.92) 100%)",
+          "linear-gradient(180deg, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.82) 50%, rgba(0,0,0,0.95) 100%)",
       }}
     >
       <p className="act-tag">CASA SARMENTO apresenta</p>
@@ -33,7 +33,6 @@ export function HeroSlide() {
         style={{
           fontSize: "0.9rem",
           letterSpacing: "0.25em",
-          color: "var(--gold)",
           marginBottom: "8px",
         }}
       >
