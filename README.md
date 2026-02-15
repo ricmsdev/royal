@@ -4,9 +4,10 @@ Pitch deck e site para a casa noturna **ROYAL** — Pinheiros, São Paulo.
 
 Apresentado por **Casa Sarmento**.
 
-## Ver apresentação (HTML renderizado)
+## Ver apresentação
 
-**[▶ Abrir apresentação no navegador](https://htmlpreview.github.io/?https://raw.githubusercontent.com/ricmsdev/royal/main/apresentacao_royal.html)**
+- **Repositório público:** [htmlpreview](https://htmlpreview.github.io/?https://raw.githubusercontent.com/ricmsdev/royal/main/apresentacao_royal.html)
+- **Repositório privado:** abra `apresentacao_royal.html` localmente no navegador ou ative [GitHub Pages](https://docs.github.com/pages) (Settings → Pages → Deploy from branch `main`)
 
 ## Estrutura
 

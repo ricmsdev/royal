@@ -2135,21 +2135,35 @@
             });
         });
 
-        // Progress dots
+        // Progress dots — detecta slide ativo pelo centro da viewport (funciona com slides de altura variável)
         const slides = document.querySelectorAll('.slide');
         const dots = document.querySelectorAll('.progress-dots .dot');
         const container = document.querySelector('.pitch-container');
 
         const updateDots = () => {
+            if (!container || !slides.length || !dots.length) return;
             const scrollTop = container.scrollTop;
-            const slideHeight = window.innerHeight;
-            const index = Math.round(scrollTop / slideHeight);
-            dots.forEach((d, i) => {
-                d.classList.toggle('active', i === Math.min(index, dots.length - 1));
+            const viewportMid = scrollTop + container.clientHeight / 2;
+            let bestIndex = 0;
+            let bestDist = Infinity;
+            slides.forEach((slide, i) => {
+                const top = slide.offsetTop;
+                const mid = top + slide.offsetHeight / 2;
+                const dist = Math.abs(viewportMid - mid);
+                if (dist < bestDist) {
+                    bestDist = dist;
+                    bestIndex = i;
+                }
             });
+            const idx = Math.min(bestIndex, dots.length - 1);
+            dots.forEach((d, i) => d.classList.toggle('active', i === idx));
         };
-        container.addEventListener('scroll', updateDots);
-        updateDots();
+
+        if (container) {
+            container.addEventListener('scroll', updateDots);
+            if ('onscrollend' in container) container.addEventListener('scrollend', updateDots);
+            updateDots();
+        }
 
         // Scroll para seção do mapa quando voltar do floor-plan (#ato3)
         if (window.location.hash === '#ato3') {
