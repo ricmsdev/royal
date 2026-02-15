@@ -2,6 +2,12 @@
 
 Se o site retorna **404**, ajuste no painel do Vercel:
 
+## 0. Deployment Protection (causa comum de 404)
+**Settings** → **Deployment Protection** (ou **Security**)
+- Se **Standard Protection** ou **Vercel Authentication** estiver ativo, visitantes não logados recebem **404**
+- Para produção pública: desative a proteção ou use **"None"** para Production
+- Domínios customizados costumam ficar desprotegidos por padrão; subdomínios `*.vercel.app` podem estar protegidos
+
 ## 1. Framework Preset
 **Settings** → **General** → **Framework Preset**  
 Defina como **Next.js** (não deixe em "Other").
