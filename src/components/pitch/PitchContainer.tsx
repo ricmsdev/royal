@@ -207,6 +207,57 @@ export function PitchContainer() {
         immediateRender: false,
       });
 
+      // Launch concept — parallax no bg (rosto do Danilo aparece ao rolar)
+      const launchBg = container.querySelector("#launch-concept .slide-bg");
+      if (launchBg && launchBg instanceof HTMLElement) {
+        gsap.to(launchBg, {
+          backgroundPosition: "60% 15%",
+          ease: "none",
+          scrollTrigger: {
+            trigger: "#launch-concept",
+            start: "top bottom",
+            end: "center center",
+            scrub: 1.5,
+          },
+        });
+      }
+      gsap.from("#launch-concept .launch-title, #launch-concept .launch-subtitle", {
+        scrollTrigger: { trigger: "#launch-concept", start: "top 80%" },
+        y: 28,
+        opacity: 0,
+        duration: 0.9,
+        stagger: 0.1,
+        ease: "power3.out",
+        immediateRender: false,
+      });
+      gsap.from("#launch-concept .launch-estreia", {
+        scrollTrigger: { trigger: "#launch-concept", start: "top 75%" },
+        y: 36,
+        opacity: 0,
+        duration: 1,
+        delay: 0.15,
+        ease: "power3.out",
+        immediateRender: false,
+      });
+      gsap.from("#launch-concept .launch-highlight-item", {
+        scrollTrigger: { trigger: "#launch-concept", start: "top 72%" },
+        x: -20,
+        opacity: 0,
+        duration: 0.7,
+        stagger: 0.08,
+        delay: 0.25,
+        ease: "power2.out",
+        immediateRender: false,
+      });
+      gsap.from("#launch-concept .launch-tagline", {
+        scrollTrigger: { trigger: "#launch-concept", start: "top 70%" },
+        opacity: 0,
+        duration: 0.8,
+        delay: 0.5,
+        ease: "power2.out",
+        immediateRender: false,
+      });
+
       // Conceito visual
       gsap.from("#conceito-visual .impact-title", {
         scrollTrigger: { trigger: "#conceito-visual", start: "top 85%" },
