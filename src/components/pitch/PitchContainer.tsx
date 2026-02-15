@@ -80,38 +80,38 @@ export function PitchContainer() {
 
       ctx = gsap.context(() => {
       try {
-      // Hero entrance
+      // Hero entrance — act-tag com mais presença (não some rápido)
       gsap.from("#hero .act-tag", {
         opacity: 0,
-        duration: 1.7,
-        delay: 0.2,
+        duration: 2.2,
+        delay: 0.3,
         ease: "power2.out",
       });
       gsap.from("#hero .hero-quase", {
         opacity: 0,
         y: 10,
-        duration: 0.8,
-        delay: 2,
+        duration: 1,
+        delay: 2.8,
         ease: "power2.out",
       });
       gsap.from("#hero h1", {
         opacity: 0,
         y: 40,
-        duration: 1.2,
-        delay: 2.5,
+        duration: 1.4,
+        delay: 3.5,
         ease: "power3.out",
       });
       gsap.from("#hero p:not(.hero-quase):not(.scroll-text)", {
         opacity: 0,
         duration: 1,
-        delay: 3,
-        stagger: 0.15,
+        delay: 4.2,
+        stagger: 0.18,
       });
       gsap.from("#hero .scroll-cta", {
         opacity: 0,
         y: 20,
         duration: 1,
-        delay: 3.5,
+        delay: 5,
         ease: "power2.out",
       });
 
