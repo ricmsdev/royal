@@ -6,6 +6,7 @@ interface SlideProps {
   id: string;
   variant?: SlideVariant;
   bg?: string;
+  videoBg?: string;
   bgHover?: string | null;
   dark?: boolean;
   cinematic?: boolean;
@@ -22,6 +23,7 @@ export function Slide({
   id,
   variant = "default",
   bg,
+  videoBg,
   bgHover,
   dark,
   cinematic = true,
@@ -54,16 +56,30 @@ export function Slide({
 
   return (
     <section className={slideClasses} id={id}>
-      <div
-        className={`slide-bg ${dark ? "dark" : ""}`}
-        style={
-          baseBg === "#080808" || baseBg === "#0a0a0a"
-            ? { background: baseBg }
-            : baseBg
-              ? { backgroundImage: baseBg }
-              : undefined
-        }
-      />
+      {videoBg && (
+        <div className="slide-bg slide-bg-video">
+          <video
+            src={videoBg}
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="slide-video"
+          />
+        </div>
+      )}
+      {!videoBg && (
+        <div
+          className={`slide-bg ${dark ? "dark" : ""}`}
+          style={
+            baseBg === "#080808" || baseBg === "#0a0a0a"
+              ? { background: baseBg }
+              : baseBg
+                ? { backgroundImage: baseBg }
+                : undefined
+          }
+        />
+      )}
       {bgHover && (
         <div
           key={bgHover}
