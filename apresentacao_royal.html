@@ -1857,6 +1857,7 @@
 
     <script>
         gsap.registerPlugin(ScrollTrigger);
+        ScrollTrigger.defaults({ scroller: ".pitch-container" });
 
         // Hero entrance
         gsap.from("#hero .act-tag", { opacity: 0, duration: 1.7, delay: 0.2, ease: "power2.out" });
