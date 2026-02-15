@@ -18,7 +18,15 @@ export function HeroSlide() {
   };
 
   return (
-    <Slide id="hero" cinematic overlayStyle={{}}>
+    <Slide
+      id="hero"
+      cinematic
+      videoBg="/AVENUE/conceito-royal.mp4"
+      overlayStyle={{
+        background:
+          "linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.7) 50%, rgba(0,0,0,0.92) 100%)",
+      }}
+    >
       <p className="act-tag">CASA SARMENTO apresenta</p>
       <p
         className="hero-quase"

@@ -15,7 +15,7 @@ export function ConceitoVisualSlide() {
   return (
     <Slide
       id="conceito-visual"
-      bg="https://images.unsplash.com/photo-1566737236500-c8ac43014a67?q=80&w=2940"
+      videoBg="/AVENUE/conceito-royal-2.mp4"
       cinematic
       kineticLights
       contentStyle={{ maxWidth: "1000px" }}

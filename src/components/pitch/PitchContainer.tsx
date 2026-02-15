@@ -79,6 +79,7 @@ export function PitchContainer() {
       if (!heroBg || !document.contains(heroBg)) return false;
 
       ctx = gsap.context(() => {
+      try {
       // Hero entrance
       gsap.from("#hero .act-tag", {
         opacity: 0,
@@ -114,27 +115,9 @@ export function PitchContainer() {
         ease: "power2.out",
       });
 
-      // Parallax hero — use scoped selector; skip if element unavailable
-      try {
-        const heroBg = container.querySelector("#hero .slide-bg");
-        if (heroBg && document.contains(heroBg)) {
-          gsap.to(heroBg as HTMLElement, {
-            scrollTrigger: {
-              trigger: "#hero",
-              start: "top top",
-              end: "bottom top",
-              scrub: true,
-              once: false,
-            },
-            y: 150,
-            opacity: 0.15,
-          });
-        }
-      } catch {
-        // Skip parallax if GSAP fails (e.g. during hydration)
-      }
+      // Hero video stays fixed at top — no parallax (user requested zero movement)
 
-      // Generic slides
+      // Generic slides — validate target & trigger before animating (avoids _gsap undefined)
       const genericIds = [
         "#ato1",
         "#localizacao",
@@ -160,16 +143,27 @@ export function PitchContainer() {
         "#noite-domingo",
       ];
       genericIds.forEach((id) => {
-        const target = container.querySelector(`${id} .slide-content`);
-        if (target && document.contains(target)) {
-          gsap.from(target, {
-            scrollTrigger: { trigger: id, start: "top 85%" },
-            y: 28,
-            duration: 0.8,
-            ease: "power3.out",
-            immediateRender: false,
-            overwrite: "auto",
-          });
+        try {
+          const triggerEl = container.querySelector(id);
+          const target = container.querySelector(`${id} .slide-content`);
+          if (
+            triggerEl &&
+            target &&
+            document.contains(triggerEl) &&
+            document.contains(target) &&
+            target instanceof Element
+          ) {
+            gsap.from(target, {
+              scrollTrigger: { trigger: triggerEl, start: "top 85%" },
+              y: 28,
+              duration: 0.8,
+              ease: "power3.out",
+              immediateRender: false,
+              overwrite: "auto",
+            });
+          }
+        } catch {
+          // Skip animation if GSAP/ScrollTrigger fails (hydration, unmount, etc.)
         }
       });
 
@@ -386,6 +380,9 @@ export function PitchContainer() {
         delay: 0.3,
         ease: "back.out(1.2)",
       });
+      } catch {
+        // GSAP/ScrollTrigger may throw during hydration or with invalid targets
+      }
     }, container);
         return true;
       };
