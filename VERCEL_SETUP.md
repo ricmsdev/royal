@@ -1,5 +1,7 @@
 # Configuração Vercel — Royal
 
+O projeto usa **static export** (`output: 'export'`). O build gera a pasta `out/`.
+
 Se o site retorna **404**, ajuste no painel do Vercel:
 
 ## 0. Deployment Protection (causa comum de 404)
