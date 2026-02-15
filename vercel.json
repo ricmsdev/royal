@@ -1,5 +1,1 @@
-{
-  "rewrites": [
-    { "source": "/", "destination": "/apresentacao_royal.html" }
-  ]
-}
+{"rewrites":[{"source":"/","destination":"/apresentacao_royal.html"}]}

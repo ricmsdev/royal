@@ -2,9 +2,14 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="description" content="ROYAL 3.0 — Casa noturna em Pinheiros, São Paulo. Apresentado por Casa Sarmento.">
+    <meta name="theme-color" content="#050505">
     <title>ROYAL 3.0 | Mudança de Era</title>
     
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://images.unsplash.com">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Manrope:wght@200;400;600&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
@@ -26,10 +31,32 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        a:focus-visible, button:focus-visible, [tabindex="0"]:focus-visible {
+            outline: 2px solid var(--gold);
+            outline-offset: 4px;
+        }
         /* Cursor padrão visível por padrão; só esconde quando custom funciona */
         body.custom-cursor * { cursor: none; }
         body:not(.custom-cursor) .cursor, body:not(.custom-cursor) .cursor-ring { display: none !important; }
+        /* Touch: desativa cursor custom, restaura cursor nativo */
+        @media (hover: none) and (pointer: coarse) {
+            body.custom-cursor * { cursor: auto; }
+            .cursor, .cursor-ring { display: none !important; }
+        }
         
+        .skip-link {
+            position: absolute;
+            top: -100px;
+            left: 16px;
+            padding: 12px 20px;
+            background: var(--gold);
+            color: #000;
+            text-decoration: none;
+            font-weight: 600;
+            z-index: 10001;
+            transition: top 0.2s;
+        }
+        .skip-link:focus { top: 16px; }
         body {
             background-color: var(--black);
             color: #fff;
@@ -115,7 +142,7 @@
             animation: cinematicBreath 8s ease-in-out infinite;
         }
         @keyframes cinematicBreath {
-            0%, 100% { opacity: 0.9; }
+            0%, 100% { opacity: 0.98; }
             50% { opacity: 1; }
         }
         .cinematic-vignette {
@@ -134,13 +161,17 @@
                 linear-gradient(135deg, rgba(212, 175, 55, 0.12) 0%, transparent 45%),
                 linear-gradient(-45deg, rgba(212, 175, 55, 0.1) 0%, transparent 40%);
         }
+        @media (prefers-reduced-motion: reduce) {
+            .cinematic-flash, .cinematic-grain, .light-beam, .glow-orb,
+            .drink-glow::before, .drink-glow::after, .rec-dot { animation: none !important; }
+        }
         .cinematic-grain {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none;
             z-index: 0.45;
-            opacity: 0.04;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
         }
         /* Wrapper para efeitos cinematográficos */
         .cinematic-layer {
@@ -176,24 +207,19 @@
         .light-beam:nth-child(4) { left: 65%; transform: rotate(15deg); animation-delay: 1.5s; }
         .light-beam:nth-child(5) { left: 85%; transform: rotate(25deg); animation-delay: 2s; }
         @keyframes beamPulse {
-            0%, 100% { opacity: 0.4; }
-            50% { opacity: 1; }
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 0.85; }
         }
-        .light-beam:nth-child(1) { animation: beamPulse1 4s ease-in-out infinite; }
-        .light-beam:nth-child(2) { animation: beamPulse2 4s ease-in-out infinite 0.5s; }
-        .light-beam:nth-child(3) { animation: beamPulse3 4s ease-in-out infinite 1s; }
-        .light-beam:nth-child(4) { animation: beamPulse4 4s ease-in-out infinite 1.5s; }
-        .light-beam:nth-child(5) { animation: beamPulse5 4s ease-in-out infinite 2s; }
-        @keyframes beamPulse1 { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.9; } }
-        @keyframes beamPulse2 { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
-        @keyframes beamPulse3 { 0%, 100% { opacity: 0.4; } 50% { opacity: 0.95; } }
-        @keyframes beamPulse4 { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
-        @keyframes beamPulse5 { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.9; } }
+        .light-beam:nth-child(1) { animation: beamPulse 4s ease-in-out infinite; }
+        .light-beam:nth-child(2) { animation: beamPulse 4s ease-in-out infinite 0.5s; }
+        .light-beam:nth-child(3) { animation: beamPulse 4s ease-in-out infinite 1s; }
+        .light-beam:nth-child(4) { animation: beamPulse 4s ease-in-out infinite 1.5s; }
+        .light-beam:nth-child(5) { animation: beamPulse 4s ease-in-out infinite 2s; }
 
         .glow-orb {
             position: absolute;
             border-radius: 50%;
-            filter: blur(80px);
+            filter: blur(50px);
             animation: orbFloat 8s ease-in-out infinite;
         }
         .glow-orb.gold {
@@ -248,12 +274,12 @@
             animation: drinkFlareSubtle 5s ease-in-out infinite;
         }
         @keyframes drinkGlowPulse {
-            0%, 100% { opacity: 0.85; }
+            0%, 100% { opacity: 0.97; }
             50% { opacity: 1; }
         }
         @keyframes drinkFlareSubtle {
-            0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
-            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.15); }
+            0%, 100% { opacity: 0.95; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.02); }
         }
         #ato2-intro .drink-flare {
             position: absolute;
@@ -270,13 +296,13 @@
             animation: drinkFlareSubtle 4s ease-in-out infinite 1s;
         }
         @keyframes orbFloat {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.7; }
-            50% { transform: translate(-50%, -48%) scale(1.1); opacity: 1; }
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.85; }
+            50% { transform: translate(-50%, -49%) scale(1.03); opacity: 1; }
         }
         .glow-orb.side { animation: orbFloatSide 7s ease-in-out infinite; }
         @keyframes orbFloatSide {
-            0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.5; }
-            50% { transform: translate(20px, -20px) scale(1.2); opacity: 0.9; }
+            0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.6; }
+            50% { transform: translate(10px, -10px) scale(1.05); opacity: 0.8; }
         }
 
         .kinetic-grid {
@@ -461,6 +487,7 @@
             padding: 40px;
             transition: all 0.5s;
         }
+        .card { cursor: pointer; }
         .card:hover { border-color: var(--gold); }
         .card-bg {
             position: absolute;
@@ -562,6 +589,8 @@
             height: 420px;
             perspective: 1200px;
             margin: 0 auto;
+            cursor: pointer;
+            overflow: hidden;
         }
         .gastro-panel {
             position: absolute;
@@ -577,18 +606,18 @@
             background: rgba(0,0,0,0.5);
             border: 1px solid rgba(255,255,255,0.08);
             border-radius: 16px;
-            transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            overflow: visible;
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            overflow: hidden;
         }
         .gastro-panel > div {
             min-width: 0;
             overflow: visible;
         }
         @media (max-width: 768px) {
-            .gastro-flip { height: auto; min-height: 520px; }
+            .gastro-flip { height: 520px; min-height: 520px; }
             .gastro-panel { grid-template-columns: 1fr; padding: 28px 24px; gap: 24px; align-items: start; }
-            .gastro-panel-img { max-height: 260px; object-fit: cover; }
-            .gastro-scroll-hint { margin-top: 40px; }
+            .gastro-panel-img { max-height: 220px; object-fit: cover; }
+            .gastro-scroll-hint { margin-top: 24px; }
         }
         .gastro-panel.food {
             transform: rotateY(180deg);
@@ -614,12 +643,7 @@
             text-align: center;
             font-size: 0.7rem;
             letter-spacing: 0.2em;
-            color: rgba(212, 175, 55, 0.7);
-            animation: scrollHintPulse 2s ease-in-out infinite;
-        }
-        @keyframes scrollHintPulse {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
+            color: rgba(212, 175, 55, 0.8);
         }
 
         /* EVENTOS CORPORATIVOS - Gastro Bar + Construção Inteligente */
@@ -675,8 +699,11 @@
             border: 1px solid rgba(212, 175, 55, 0.2);
             border-radius: 8px;
             max-width: 800px;
+            width: 100%;
+            min-width: 0;
             margin-left: auto;
             margin-right: auto;
+            box-sizing: border-box;
         }
         .construcao-inteligente h3 {
             font-family: 'Cinzel', serif;
@@ -690,10 +717,11 @@
         }
         .construcao-inteligente li {
             padding: 8px 0;
-            padding-left: 24px;
+            padding-left: 28px;
             position: relative;
             color: var(--text-grey);
             font-size: 0.95rem;
+            overflow-wrap: break-word;
         }
         .construcao-inteligente li::before {
             content: "";
@@ -714,11 +742,6 @@
             letter-spacing: 0.2em;
             margin-bottom: 24px;
             border: 1px solid rgba(212, 175, 55, 0.3);
-            animation: areaBadgeGlow 3s ease-in-out infinite;
-        }
-        @keyframes areaBadgeGlow {
-            0%, 100% { box-shadow: 0 0 0 rgba(212, 175, 55, 0); }
-            50% { box-shadow: 0 0 20px rgba(212, 175, 55, 0.2); }
         }
         .roi-line {
             font-size: 0.9rem;
@@ -766,13 +789,20 @@
             flex-direction: column;
             padding: 40px 24px 60px;
             min-height: 100vh;
+            align-items: center;
         }
+        .map-section.scrollable { align-items: center; }
         @media (min-width: 768px) {
             .map-section { padding: 60px 40px 80px; }
         }
-        .map-header { margin-bottom: 24px; }
+        .map-header { margin-bottom: 24px; text-align: center; }
         @media (min-width: 768px) { .map-header { margin-bottom: 40px; } }
-        .map-slide-content { width: 100%; box-sizing: border-box; }
+        .map-slide-content {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            box-sizing: border-box;
+        }
         .map-header h2 { font-size: clamp(1.5rem, 3vw, 2.5rem); }
         .map-subtitle {
             font-size: 1rem;
@@ -780,9 +810,15 @@
             margin-top: 12px;
             letter-spacing: 2px;
         }
+        .svg-container svg {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
         .svg-container {
             width: 100%;
             max-width: 1100px;
+            margin: 0 auto;
             background: rgba(255,255,255,0.02);
             border: 1px solid rgba(255,255,255,0.08);
             border-radius: 12px;
@@ -797,6 +833,7 @@
             stroke-width: 1;
             transition: all 0.3s;
         }
+        .interactive-zone { cursor: pointer; }
         .interactive-zone:hover .area-path {
             fill: var(--gold);
             stroke: #fff;
@@ -823,13 +860,18 @@
         }
         #tooltip h4 { color: var(--gold); font-family: 'Cinzel', serif; margin-bottom: 6px; font-size: 0.9rem; }
         #tooltip span { color: #fff; font-size: 0.8rem; display: block; }
-        .map-cta { margin-top: 24px; }
+        .map-cta { margin-top: 24px; text-align: center; }
         @media (min-width: 768px) { .map-cta { margin-top: 30px; } }
         .map-cta a {
             color: var(--gold);
             text-decoration: none;
             border: 1px solid var(--gold);
             padding: 14px 28px;
+            min-height: 44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
             font-size: 0.85rem;
             letter-spacing: 3px;
             transition: all 0.3s;
@@ -839,12 +881,12 @@
         /* EQUITY MESSAGE */
         .equity-block {
             margin-top: 30px;
-            padding: 24px;
-            border: 1px solid #222;
-            text-align: left;
-            max-width: 700px;
             margin-left: auto;
             margin-right: auto;
+            padding: 24px;
+            border: 1px solid #222;
+            text-align: center;
+            max-width: 700px;
         }
         @media (min-width: 768px) {
             .equity-block { margin-top: 50px; padding: 40px; }
@@ -871,6 +913,10 @@
             text-decoration: none;
             border: 1px solid var(--gold);
             padding: 16px 32px;
+            min-height: 44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             font-size: 0.9rem;
             letter-spacing: 3px;
             transition: all 0.3s;
@@ -945,12 +991,7 @@
         .scroll-text {
             font-size: 0.8rem;
             letter-spacing: 0.2em;
-            opacity: 0.7;
-            animation: scrollTextPulse 2.5s ease-in-out infinite;
-        }
-        @keyframes scrollTextPulse {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
+            opacity: 0.85;
         }
         .scroll-indicator {
             position: relative;
@@ -971,7 +1012,6 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            animation: scrollDotPulse 1.5s ease-in-out infinite;
             box-shadow: 0 0 20px var(--gold-glow);
         }
         .scroll-ring {
@@ -983,37 +1023,13 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            animation: scrollRingExpand 2s ease-in-out infinite;
-            opacity: 0.6;
-        }
-        .scroll-ring::before {
-            content: "";
-            position: absolute;
-            inset: -4px;
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            border-radius: 50%;
-            animation: scrollRingExpand 2s ease-in-out infinite 0.5s;
-        }
-        @keyframes scrollDotPulse {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.8; }
-        }
-        @keyframes scrollRingExpand {
-            0%, 100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.8; }
-            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.3; }
+            opacity: 0.7;
         }
         .scroll-arrow {
             font-size: 1.2rem;
             color: var(--gold);
             margin-top: 42px;
-            animation: scrollBounce 1.2s ease-in-out infinite;
         }
-        @keyframes scrollBounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(8px); }
-        }
-        .scroll-indicator:hover .scroll-dot { animation-duration: 0.8s; }
-        .scroll-indicator:hover .scroll-ring { animation-duration: 1s; }
 
         /* FULLSCREEN BUTTON */
         .btn-fullscreen {
@@ -1180,15 +1196,76 @@
             color: var(--text-grey);
             letter-spacing: 0.08em;
         }
+
+        /* ROYAL STUDIOS / BROADCAST */
+        .rec-overlay {
+            position: absolute; top: 40px; left: 40px; right: 40px; bottom: 40px;
+            pointer-events: none; z-index: 2; border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+        }
+        .rec-overlay::before, .rec-overlay::after {
+            content: ''; position: absolute; width: 40px; height: 40px;
+            border: 3px solid rgba(255,255,255,0.3); transition: all 0.5s;
+        }
+        .rec-overlay::before { top: -1px; left: -1px; border-right: 0; border-bottom: 0; border-radius: 20px 0 0 0; }
+        .rec-overlay::after { bottom: -1px; right: -1px; border-left: 0; border-top: 0; border-radius: 0 0 20px 0; }
+
+        .rec-badge {
+            position: absolute; top: 30px; right: 40px;
+            display: flex; align-items: center; gap: 10px;
+            font-family: 'Manrope', sans-serif; font-weight: 700;
+            color: #ff3b30; letter-spacing: 2px; font-size: 0.8rem;
+            padding: 8px 16px; background: rgba(0,0,0,0.6); border-radius: 4px;
+            border: 1px solid rgba(255,59,48,0.3);
+        }
+        .rec-dot {
+            width: 10px; height: 10px; background-color: #ff3b30;
+            border-radius: 50%; animation: blinkRed 1.5s infinite;
+        }
+        @keyframes blinkRed { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+
+        .broadcast-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-top: 40px;
+        }
+        @media (max-width: 900px) { .broadcast-grid { grid-template-columns: 1fr; gap: 40px; } }
+
+        .broadcast-list { list-style: none; margin-top: 24px; }
+        .broadcast-list li {
+            position: relative; padding-left: 24px; margin-bottom: 16px;
+            font-size: 0.95rem; line-height: 1.6; color: var(--text-grey);
+        }
+        .broadcast-list li::before {
+            content: "📡"; position: absolute; left: 0; top: 2px; font-size: 0.8rem;
+        }
+
+        .vp-board {
+            background: rgba(20,20,20,0.8); border: 1px solid rgba(212,175,55,0.2);
+            padding: 30px; border-radius: 8px; backdrop-filter: blur(10px);
+        }
+        .vp-card {
+            display: flex; gap: 16px; align-items: flex-start; margin-bottom: 20px;
+            padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.3s;
+        }
+        .vp-card:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .vp-icon {
+            width: 32px; height: 32px; background: var(--gold); color: #000;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; font-size: 0.9rem;
+        }
+        .vp-card h4 { font-size: 0.9rem; margin: 0 0 4px 0; color: #fff; letter-spacing: 1px; }
+        .vp-card p { font-size: 0.8rem; margin: 0; color: #aaa; line-height: 1.4; }
     </style>
 </head>
 <body>
 
+    <a href="#hero" class="skip-link">Pular para o conteúdo</a>
     <div class="cursor"></div>
     <div class="cursor-ring"></div>
 
     <div class="progress-dots">
         <div class="dot active"></div>
+        <div class="dot"></div>
         <div class="dot"></div>
         <div class="dot"></div>
         <div class="dot"></div>
@@ -1222,13 +1299,13 @@
                 <p style="margin-top: 24px; letter-spacing: 0.3em; font-size: 1rem;">SÃO PAULO | PINHEIROS</p>
                 <div class="scroll-cta">
                     <p class="scroll-text">ROLE PARA INICIAR A VIAGEM</p>
-                    <div class="scroll-indicator">
+                    <div class="scroll-indicator" role="button" tabindex="0" aria-label="Rolar para próxima seção">
                         <div class="scroll-dot"></div>
                         <div class="scroll-ring"></div>
                         <div class="scroll-arrow">↓</div>
                     </div>
                 </div>
-                <button class="btn-fullscreen" id="btnFullscreen" title="Pressione F11 para melhor experiência">
+                <button class="btn-fullscreen" id="btnFullscreen" title="Pressione F11 para melhor experiência" aria-label="Ativar tela cheia">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
                     <span>F11 — TELA CHEIA</span>
                 </button>
@@ -1530,11 +1607,10 @@
             <div class="slide-content gastro-slide-content">
                 <p class="act-tag">PLANO ESTRATÉGICO</p>
                 <h2 class="impact-title">Gastro Club</h2>
-                <p style="margin-bottom: 30px;">Role para explorar — Drinks → Comida</p>
-                <div class="gastro-flip" id="gastroFlip">
+                <div class="gastro-flip" id="gastroFlip" role="button" tabindex="0" aria-label="Alternar entre coquetelaria e gastronomia">
                     <!-- Painel 1: Drinks -->
                     <div class="gastro-panel drinks">
-                        <img src="https://images.unsplash.com/photo-1575023782549-62ca0d244b39?q=80&w=600" alt="Coquetelaria" class="gastro-panel-img">
+                        <img src="https://images.unsplash.com/photo-1575023782549-62ca0d244b39?q=80&w=600" alt="Coquetelaria Royal — cocktails autorais e carta de vinhos" class="gastro-panel-img" loading="lazy">
                         <div>
                             <p style="color: var(--gold); font-size: 0.75rem; letter-spacing: 0.2em; margin-bottom: 16px;">COQUETELARIA</p>
                             <ul class="dining-details-list">
@@ -1546,7 +1622,7 @@
                     </div>
                     <!-- Painel 2: Comida -->
                     <div class="gastro-panel food">
-                        <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=600" alt="Gastronomia" class="gastro-panel-img">
+                        <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=600" alt="Gastronomia Royal — alta gastronomia compartilhada" class="gastro-panel-img" loading="lazy">
                         <div>
                             <p style="color: var(--gold); font-size: 0.75rem; letter-spacing: 0.2em; margin-bottom: 16px;">GASTRONOMIA</p>
                             <ul class="dining-details-list">
@@ -1557,7 +1633,7 @@
                         </div>
                     </div>
                 </div>
-                <p class="gastro-scroll-hint" id="gastroHint">↓ Role para ver a gastronomia</p>
+                <p class="gastro-scroll-hint" id="gastroHint">Clique ou use o scroll do mouse para alternar Drinks ↔ Comida</p>
             </div>
         </section>
 
@@ -1590,7 +1666,7 @@
         </section>
 
         <!-- SLIDE: EVENTOS CORPORATIVOS - Gastro Bar -->
-        <section class="slide" id="eventos-corporativos">
+        <section class="slide scrollable" id="eventos-corporativos">
             <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2940');"></div>
             <div class="cinematic-layer">
                 <div class="cinematic-flash"></div>
@@ -1650,6 +1726,7 @@
                     </ul>
                 </div>
                 <p class="roi-line"><strong>ROI:</strong> Evento corporativo médio R$ 80k–150k. 2 por mês = colchão de R$ 160k–300k antes da festa começar.</p>
+                <p class="gastro-scroll-hint" style="margin-top: 24px;">Role para ver mais conteúdo ↓</p>
             </div>
         </section>
 
@@ -1770,11 +1847,71 @@
             </div>
         </section>
 
+        <!-- ROYAL STUDIOS / BROADCAST -->
+        <section class="slide" id="broadcast">
+            <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1545128485-c400e7702796?q=80&w=1920');"></div>
+            <div class="slide-overlay" style="background: linear-gradient(90deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.6) 100%);"></div>
+            
+            <div class="rec-overlay">
+                <div class="rec-badge">
+                    <div class="rec-dot"></div> REC • LIVE
+                </div>
+            </div>
+
+            <div class="slide-content" style="text-align: left; max-width: 1100px; padding: 0 20px;">
+                <p class="act-tag">MÍDIA & EXPANSÃO</p>
+                <h2 style="font-size: clamp(2rem, 5vw, 3.5rem);">Royal Studios: <br><span class="highlight">A Casa vira Emissora.</span></h2>
+                
+                <div class="broadcast-grid">
+                    <div class="broadcast-text">
+                        <p><strong>Infraestrutura de TV dentro da Balada.</strong></p>
+                        <p>O palco não é apenas para quem está lá. É um estúdio de transmissão 4K fibra ótica. Inspirado no sucesso do <em>"Tiny Desk"</em> e <em>"Boiler Room"</em>.</p>
+                        <ul class="broadcast-list">
+                            <li><strong>Pocket Shows Intimistas:</strong> Lançamentos de álbuns exclusivos para 100 convidados e 1 milhão de viewers.</li>
+                            <li><strong>Podcast & Interviews:</strong> O camarim é um estúdio de podcast. O artista sai do palco e gera conteúdo.</li>
+                            <li><strong>Pay-Per-View:</strong> Venda de ingressos virtuais para shows esgotados.</li>
+                        </ul>
+                    </div>
+
+                    <div class="vp-board">
+                        <h3 style="font-family: 'Cinzel'; color: var(--gold); font-size: 1.2rem; margin-bottom: 20px;">BOARD DE CREATORS (VPs)</h3>
+                        <p style="font-size: 0.9rem; margin-bottom: 20px;">Não contratamos influencers. Montamos um time de sócios de mídia.</p>
+                        
+                        <div class="vp-card">
+                            <div class="vp-icon">★</div>
+                            <div>
+                                <h4>VP DE LIFESTYLE</h4>
+                                <p>Curadoria de público e marcas de luxo.</p>
+                            </div>
+                        </div>
+                        <div class="vp-card">
+                            <div class="vp-icon">►</div>
+                            <div>
+                                <h4>VP DE MÚSICA</h4>
+                                <p>Conexão direta com gravadoras para lançamentos.</p>
+                            </div>
+                        </div>
+                        <div class="vp-card">
+                            <div class="vp-icon">●</div>
+                            <div>
+                                <h4>VP DE TECH/CRYPTO</h4>
+                                <p>Eventos tokenizados e comunidade Web3.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 30px; padding: 15px 20px; border-left: 3px solid var(--gold); background: rgba(212,175,55,0.05);">
+                    <p style="margin: 0; font-size: 0.9rem;"><strong>IMPACTO:</strong> A Royal deixa de depender do ticket da porta e passa a vender <em>media equity</em> e <em>naming rights</em> de transmissão.</p>
+                </div>
+            </div>
+        </section>
+
         <!-- ATO 3: O CHEQUE-MATE - MAPA -->
         <section class="slide map-section scrollable" id="ato3">
             <div class="slide-bg dark" style="background: #080808;"></div>
             <div class="slide-overlay" style="background: transparent;"></div>
-            <div class="slide-content map-slide-content" style="max-width: 1200px;">
+            <div class="slide-content map-slide-content">
                 <p class="act-tag">ATO 3 — O CHEQUE-MATE</p>
                 <div class="map-header">
                     <h2>Não é um mapa. É uma Máquina de Vendas.</h2>
@@ -1782,13 +1919,13 @@
                 </div>
 
                 <div id="tooltip">
-                    <h4>AREA INFO</h4>
-                    <span id="tt-cap">Pax: --</span>
-                    <span id="tt-val">Min: --</span>
+                    <h4>ÁREA</h4>
+                    <span id="tt-cap">Capacidade: --</span>
+                    <span id="tt-val">Consumação: --</span>
                 </div>
 
                 <div class="svg-container">
-                    <svg viewBox="0 0 1000 600" id="royal-map">
+                    <svg viewBox="0 0 1000 600" id="royal-map" preserveAspectRatio="xMidYMid meet">
                         <g class="interactive-zone" data-name="FRONT STAGE 01" data-pax="20" data-min="R$ 7k">
                             <rect x="750" y="200" width="70" height="100" class="area-path"/>
                             <text x="785" y="255" class="area-text" transform="rotate(-90 785 255)">FRONT 01</text>
@@ -1826,8 +1963,6 @@
                 </div>
 
                 <div class="equity-block">
-                    <h3 style="font-family: 'Cinzel'; color: var(--gold); margin-bottom: 12px;">Não somos captadores. Somos Arquitetos de Valuation.</h3>
-                    <p>Opção de 20% de equity futuro. Se a Royal crescer, crescemos juntos. Se estagnar, nossa opção não vale nada. Skin in the game.</p>
                     <p class="cta-line">Esse mapa vale R$ 30 milhões na mão de um fundo. Em 24 meses.</p>
                 </div>
             </div>
@@ -1867,7 +2002,8 @@
 
     <script>
         gsap.registerPlugin(ScrollTrigger);
-        ScrollTrigger.defaults({ scroller: ".pitch-container" });
+        ScrollTrigger.defaults({ scroller: ".pitch-container", once: true });
+        window.addEventListener("load", function() { ScrollTrigger.refresh(); });
 
         // Hero entrance
         gsap.from("#hero .act-tag", { opacity: 0, duration: 1.7, delay: 0.2, ease: "power2.out" });
@@ -1876,21 +2012,13 @@
         gsap.from("#hero p:not(.hero-quase):not(.scroll-text)", { opacity: 0, duration: 1, delay: 3, stagger: 0.15 });
         gsap.from("#hero .scroll-cta", { opacity: 0, y: 20, duration: 1, delay: 3.5, ease: "power2.out" });
 
-        // Parallax on hero bg
+        // Parallax on hero bg (scrub precisa once: false)
         gsap.to("#hero .slide-bg", {
-            scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: true },
+            scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: true, once: false },
             y: 150, opacity: 0.15
         });
 
-        // Cinematic flash on slide enter - "flash de cinema"
-        ["#ato2-intro", "#localizacao", "#conceito-visual", "#referencias", "#pillar1", "#gastro-club", "#casa-artistica", "#eventos-corporativos", "#programacao-semana", "#pillar2", "#pillar3"].forEach(id => {
-            gsap.from(`${id} .slide-bg`, {
-                scrollTrigger: { trigger: id, start: "top 85%" },
-                filter: "contrast(1.5) saturate(1.4)",
-                duration: 1.2,
-                ease: "power2.out"
-            });
-        });
+        // Cinematic flash — removido (causava piscar no slide enter)
 
         // Kinetic lights entrance - Pillar 2 (Instagrammable)
         gsap.from("#pillar2 .light-beam", {
@@ -1908,15 +2036,40 @@
             ease: "power2.out"
         });
 
-        // Animação de entrada de cada ato (immediateRender: false = texto visível até animar)
-        ["#ato1", "#ato2-intro", "#localizacao", "#conceito-visual", "#referencias", "#pillar1", "#gastro-club", "#casa-artistica", "#eventos-corporativos", "#programacao-semana", "#pillar2", "#pillar3", "#ato3", "#cta"].forEach(id => {
+        // Royal Studios / Broadcast — animações específicas
+        gsap.from("#broadcast .rec-overlay", {
+            scrollTrigger: { trigger: "#broadcast", start: "top 60%" },
+            opacity: 0, scale: 1.1, duration: 1, ease: "power2.out"
+        });
+        gsap.from("#broadcast .broadcast-text > *", {
+            scrollTrigger: { trigger: "#broadcast", start: "top 60%" },
+            x: -30, opacity: 0, duration: 0.8, stagger: 0.15, ease: "power2.out"
+        });
+        gsap.from("#broadcast .vp-board", {
+            scrollTrigger: { trigger: "#broadcast", start: "top 60%" },
+            x: 30, opacity: 0, duration: 1, delay: 0.3, ease: "back.out(1.2)"
+        });
+        document.querySelectorAll('.vp-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                gsap.to(card, { x: 10, duration: 0.3 });
+                gsap.to(card.querySelector('.vp-icon'), { scale: 1.2, duration: 0.3 });
+            });
+            card.addEventListener('mouseleave', () => {
+                gsap.to(card, { x: 0, duration: 0.3 });
+                gsap.to(card.querySelector('.vp-icon'), { scale: 1, duration: 0.3 });
+            });
+        });
+
+        // Animação de entrada — exclui seções com animações específicas (evita duplicação e piscar)
+        const genericSlideIds = ["#ato1", "#localizacao", "#conceito-visual", "#referencias", "#pillar1", "#gastro-club", "#casa-artistica", "#eventos-corporativos", "#programacao-semana", "#pillar2", "#pillar3", "#broadcast", "#ato3"];
+        genericSlideIds.forEach(id => {
             gsap.from(`${id} .slide-content`, {
                 scrollTrigger: { trigger: id, start: "top 85%" },
-                opacity: 0,
-                y: 30,
-                duration: 0.9,
+                y: 28,
+                duration: 0.8,
                 ease: "power3.out",
-                immediateRender: false
+                immediateRender: false,
+                overwrite: "auto"
             });
         });
         gsap.from("#ato1 .ato1-title .word span", {
@@ -1967,12 +2120,12 @@
         });
         gsap.from("#ato2-intro .slide-content > *", {
             scrollTrigger: { trigger: "#ato2-intro", start: "top 85%" },
-            opacity: 0,
-            y: 20,
-            duration: 0.8,
-            stagger: 0.08,
+            y: 24,
+            duration: 0.7,
+            stagger: 0.06,
             ease: "power2.out",
-            immediateRender: false
+            immediateRender: false,
+            overwrite: "auto"
         });
         gsap.from("#pillar1 .impact-title", {
             scrollTrigger: { trigger: "#pillar1", start: "top 85%" },
@@ -1992,32 +2145,7 @@
             ease: "power3.out",
             immediateRender: false
         });
-        gsap.from("#gastro-club .impact-title", {
-            scrollTrigger: { trigger: "#gastro-club", start: "top 85%" },
-            y: 40,
-            opacity: 0,
-            duration: 0.9,
-            ease: "power4.out",
-            immediateRender: false
-        });
-        gsap.from("#gastro-club .gastro-panel-img", {
-            scrollTrigger: { trigger: "#gastro-club", start: "top 85%" },
-            x: -40,
-            opacity: 0,
-            duration: 1,
-            ease: "power3.out",
-            immediateRender: false
-        });
-        gsap.from("#gastro-club .gastro-panel .dining-details-list li", {
-            scrollTrigger: { trigger: "#gastro-club", start: "top 85%" },
-            x: 30,
-            opacity: 0,
-            duration: 0.7,
-            stagger: 0.1,
-            delay: 0.2,
-            ease: "power2.out",
-            immediateRender: false
-        });
+        /* Gastro Club: só slide-content anima (evita conflito e piscar) */
         gsap.from("#casa-artistica .impact-title", {
             scrollTrigger: { trigger: "#casa-artistica", start: "top 85%" },
             y: 40,
@@ -2099,27 +2227,37 @@
         });
         gsap.from("#cta h1, #cta h2, #cta p, #cta .cta-buttons", {
             scrollTrigger: { trigger: "#cta", start: "top 85%" },
-            opacity: 0,
-            y: 20,
-            duration: 0.8,
-            stagger: 0.06,
+            y: 24,
+            duration: 0.7,
+            stagger: 0.05,
             ease: "power2.out",
-            immediateRender: false
+            immediateRender: false,
+            overwrite: "auto"
         });
 
-        // Cursor — padrão visível sempre; custom só ativa quando mousemove funciona
+        // Cursor — ativa no load para evitar piscar no primeiro mousemove
         const cursor = document.querySelector('.cursor');
         const ring = document.querySelector('.cursor-ring');
         const isIframe = window.self !== window.top;
         const url = (document.referrer || '') + (location.href || '');
         const isGitPreview = /github\.com|htmlpreview|raw\.githubusercontent/.test(url);
-        let moved = false;
+        const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+        const useCustomCursor = !isIframe && !isGitPreview && !isTouchDevice;
+        if (useCustomCursor) document.body.classList.add('custom-cursor');
+        let lastX = 0, lastY = 0;
+        let rafCursor = null;
         const moveCursor = (e) => {
-            if (!moved) { moved = true; document.body.classList.add('custom-cursor'); }
-            gsap.set(cursor, { x: e.clientX, y: e.clientY, xPercent: -50, yPercent: -50 });
-            gsap.to(ring, { x: e.clientX, y: e.clientY, xPercent: -50, yPercent: -50, duration: 0.15 });
+            if (!cursor || !ring) return;
+            lastX = e.clientX;
+            lastY = e.clientY;
+            if (rafCursor) return;
+            rafCursor = requestAnimationFrame(() => {
+                gsap.set(cursor, { x: lastX, y: lastY, xPercent: -50, yPercent: -50 });
+                gsap.to(ring, { x: lastX, y: lastY, xPercent: -50, yPercent: -50, duration: 0.15 });
+                rafCursor = null;
+            });
         };
-        if (!isIframe && !isGitPreview) {
+        if (useCustomCursor) {
             document.addEventListener('mousemove', moveCursor);
             document.addEventListener('mouseenter', moveCursor);
         }
@@ -2128,12 +2266,12 @@
         const tooltip = document.getElementById('tooltip');
         zones.forEach(z => {
             z.addEventListener('mouseenter', () => {
-                gsap.to(ring, { width: 70, height: 70, duration: 0.3 });
-                cursor.style.display = 'none';
+                if (ring) gsap.to(ring, { width: 70, height: 70, duration: 0.3 });
+                if (cursor) cursor.style.display = 'none';
             });
             z.addEventListener('mouseleave', () => {
-                gsap.to(ring, { width: 40, height: 40, duration: 0.3 });
-                cursor.style.display = 'block';
+                if (ring) gsap.to(ring, { width: 40, height: 40, duration: 0.3 });
+                if (cursor) cursor.style.display = 'block';
                 if (tooltip) tooltip.style.opacity = 0;
             });
         });
@@ -2163,6 +2301,7 @@
         const dots = document.querySelectorAll('.progress-dots .dot');
         const container = document.querySelector('.pitch-container');
 
+        let rafDots = null;
         const updateDots = () => {
             if (!container || !slides.length || !dots.length) return;
             const scrollTop = container.scrollTop;
@@ -2181,9 +2320,16 @@
             const idx = Math.min(bestIndex, dots.length - 1);
             dots.forEach((d, i) => d.classList.toggle('active', i === idx));
         };
+        const throttledUpdateDots = () => {
+            if (rafDots) return;
+            rafDots = requestAnimationFrame(() => {
+                updateDots();
+                rafDots = null;
+            });
+        };
 
         if (container) {
-            container.addEventListener('scroll', updateDots);
+            container.addEventListener('scroll', throttledUpdateDots);
             if ('onscrollend' in container) container.addEventListener('scrollend', updateDots);
             updateDots();
         }
@@ -2218,34 +2364,40 @@
             document.body.classList.add('fullscreen');
             if (btnFullscreen) btnFullscreen.classList.add('hidden');
         }
-        // Scroll indicator click
-        document.querySelector('.scroll-indicator')?.addEventListener('click', () => {
-            container.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
+        // Scroll indicator click e teclado
+        const scrollIndicator = document.querySelector('.scroll-indicator');
+        const scrollNext = () => container?.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
+        scrollIndicator?.addEventListener('click', scrollNext);
+        scrollIndicator?.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                scrollNext();
+            }
         });
 
-        // Gastro Club: scroll = flip drinks ↔ comida. Scroll na direção de sair = vai pro próximo slide
-        const gastroSection = document.getElementById('gastro-club');
+        // Gastro Club: clique ou scroll para girar card
         const gastroFlip = document.getElementById('gastroFlip');
-        const gastroHint = document.getElementById('gastroHint');
-        let gastroFlipCooldown = 0;
-        if (gastroSection && gastroFlip && gastroHint && container) {
-            document.addEventListener('wheel', (e) => {
-                const rect = gastroSection.getBoundingClientRect();
-                const isGastroActive = rect.top <= 80 && rect.bottom >= window.innerHeight - 80;
-                if (!isGastroActive) return;
+        if (gastroFlip) {
+            const flipCard = () => gastroFlip.classList.toggle('flipped');
+            const flipTo = (side) => {
                 const isFlipped = gastroFlip.classList.contains('flipped');
-                const scrollDown = e.deltaY > 0;
-                const willFlip = (scrollDown && !isFlipped) || (!scrollDown && isFlipped);
-                if (!willFlip) return;
+                if (side === 'food' && !isFlipped) flipCard();
+                if (side === 'drinks' && isFlipped) flipCard();
+            };
+            gastroFlip.addEventListener('click', flipCard);
+            gastroFlip.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    flipCard();
+                }
+            });
+            let wheelDebounce = 0;
+            gastroFlip.addEventListener('wheel', (e) => {
+                if (Date.now() - wheelDebounce < 500) return;
+                wheelDebounce = Date.now();
                 e.preventDefault();
-                e.stopPropagation();
-                if (Date.now() < gastroFlipCooldown) return;
-                gastroFlipCooldown = Date.now() + 900;
-                gastroFlip.classList.toggle('flipped');
-                gastroHint.textContent = gastroFlip.classList.contains('flipped')
-                    ? '↑ Role para ver drinks'
-                    : '↓ Role para ver a gastronomia';
-            }, { passive: false, capture: true });
+                flipTo(e.deltaY > 0 ? 'food' : 'drinks');
+            }, { passive: false });
         }
 
         // Keyboard nav
