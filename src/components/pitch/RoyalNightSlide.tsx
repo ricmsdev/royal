@@ -162,13 +162,21 @@ const TU_GOXTA_NOITE = DASHBOARD_NOITES.find((n) => n.mood === "Tu Goxta")!;
 const EVENTOS_POR_MES = 4; // ~4 sábados, 4 sextas, etc.
 const PERCENTUAL_ADIANTAMENTO = 35;
 
-/** Dados do último evento Tu Goxta (FEV 2025) — 605 pax, consumo bar R$ 115/pax conservador */
-const FATURAMENTO_PAX = 605;
-const FATURAMENTO_BILHETERIA = 65_250;
-const FATURAMENTO_BAR_MEDIA_PAX = 115;
-const FATURAMENTO_BAR = FATURAMENTO_PAX * FATURAMENTO_BAR_MEDIA_PAX; // 69.575
-const FATURAMENTO_TOTAL = FATURAMENTO_BILHETERIA + FATURAMENTO_BAR; // 134.825
-const FATURAMENTO_LUCRO = 87_500; // estimado
+/** Projeção faturamento Tu Goxta — 485 pista R$ 90 + 120 camarote R$ 135; bar: 485×70 + 120×205 */
+const FATURAMENTO_PISTA_PAX = 485;
+const FATURAMENTO_PISTA_TICKET = 90;
+const FATURAMENTO_CAMAROTES_PAX = 120;
+const FATURAMENTO_CAMAROTES_TICKET = 135;
+const FATURAMENTO_PISTA = FATURAMENTO_PISTA_PAX * FATURAMENTO_PISTA_TICKET; // 43.650
+const FATURAMENTO_CAMAROTES = FATURAMENTO_CAMAROTES_PAX * FATURAMENTO_CAMAROTES_TICKET; // 16.200
+const FATURAMENTO_PAX = FATURAMENTO_PISTA_PAX + FATURAMENTO_CAMAROTES_PAX; // 605
+const FATURAMENTO_BILHETERIA = FATURAMENTO_PISTA + FATURAMENTO_CAMAROTES; // 59.850
+const FATURAMENTO_BAR_PISTA_MEDIA = 70;
+const FATURAMENTO_BAR_CAMAROTE_MEDIA = 205;
+const FATURAMENTO_BAR_PISTA = FATURAMENTO_PISTA_PAX * FATURAMENTO_BAR_PISTA_MEDIA; // 33.950
+const FATURAMENTO_BAR_CAMAROTE = FATURAMENTO_CAMAROTES_PAX * FATURAMENTO_BAR_CAMAROTE_MEDIA; // 24.600
+const FATURAMENTO_BAR = FATURAMENTO_BAR_PISTA + FATURAMENTO_BAR_CAMAROTE; // 58.550
+const FATURAMENTO_TOTAL = FATURAMENTO_BILHETERIA + FATURAMENTO_BAR; // 118.400
 
 const TU_GOXTA_ULTIMO_EVENTO = {
   faturamentoTotal: FATURAMENTO_TOTAL,
@@ -355,15 +363,10 @@ export function RoyalNightSlide() {
                   <p className="tu-goxta-contexto">
                     Casa em obras e ajustes operacionais. Abertura em fevereiro.
                   </p>
-                  <div className="tu-goxta-ultimo-hero">
+                  <div className="tu-goxta-ultimo-hero tu-goxta-ultimo-hero-verde">
                     <div className="tu-goxta-ultimo-hero-main">
                       <span className="tu-goxta-ultimo-val">{formatBRL(FATURAMENTO_TOTAL)}</span>
                       <span className="tu-goxta-ultimo-label">Faturamento total</span>
-                    </div>
-                    <div className="tu-goxta-ultimo-hero-divider" aria-hidden />
-                    <div className="tu-goxta-ultimo-hero-lucro">
-                      <span className="tu-goxta-ultimo-val tu-goxta-ultimo-val-lucro">{formatBRL(FATURAMENTO_LUCRO)}</span>
-                      <span className="tu-goxta-ultimo-label">Lucro</span>
                     </div>
                   </div>
                   <div className="tu-goxta-ultimo-breakdown">
@@ -383,9 +386,9 @@ export function RoyalNightSlide() {
                 </section>
 
                 <section id="faturamento" className="tu-goxta-section tu-goxta-faturamento-section">
-                  <h3 className="tu-goxta-section-title">DETALHAMENTO — ÚLTIMO EVENTO</h3>
+                  <h3 className="tu-goxta-section-title">PROJEÇÃO DO FATURAMENTO DA TU GOXTA</h3>
                   <p className="tu-goxta-lead">
-                    605 pessoas na casa. Bilheteria (entrada) separada de consumo bar. Ticket full — bebida por fora.
+                    {FATURAMENTO_PAX} pessoas na casa. Bilheteria + bar. Cenário conservador — casa não vendeu todos os ingressos.
                   </p>
                   <div className="faturamento-tabela">
                     <div className="faturamento-linha faturamento-header">
@@ -398,16 +401,16 @@ export function RoyalNightSlide() {
                       <span className="faturamento-grupo-text">BILHETERIA (entrada)</span>
                     </div>
                     <div className="faturamento-linha">
-                      <span>Camarotes (bustos e sofás)</span>
-                      <span>120</span>
-                      <span>R$ 180</span>
-                      <span className="faturamento-valor">R$ 21.600</span>
+                      <span>Pista</span>
+                      <span>{FATURAMENTO_PISTA_PAX}</span>
+                      <span>R$ {FATURAMENTO_PISTA_TICKET}</span>
+                      <span className="faturamento-valor">{formatBRL(FATURAMENTO_PISTA)}</span>
                     </div>
                     <div className="faturamento-linha">
-                      <span>Pista</span>
-                      <span>485</span>
-                      <span>R$ 90</span>
-                      <span className="faturamento-valor">R$ 43.650</span>
+                      <span>Camarotes (bustos e sofás)</span>
+                      <span>{FATURAMENTO_CAMAROTES_PAX}</span>
+                      <span>R$ {FATURAMENTO_CAMAROTES_TICKET}</span>
+                      <span className="faturamento-valor">{formatBRL(FATURAMENTO_CAMAROTES)}</span>
                     </div>
                     <div className="faturamento-linha faturamento-subtotal">
                       <span>Bilheteria bruta</span>
@@ -416,29 +419,29 @@ export function RoyalNightSlide() {
                       <span className="faturamento-valor">{formatBRL(FATURAMENTO_BILHETERIA)}</span>
                     </div>
                     <div className="faturamento-linha faturamento-grupo-label">
-                      <span className="faturamento-grupo-text">BAR (consumo bebidas — custo bebidas por fora)</span>
+                      <span className="faturamento-grupo-text">BAR (consumo bebidas)</span>
                     </div>
                     <div className="faturamento-linha">
-                      <span>Consumo médio bar</span>
-                      <span>{FATURAMENTO_PAX}</span>
-                      <span>R$ {FATURAMENTO_BAR_MEDIA_PAX}/pax</span>
-                      <span className="faturamento-valor">{formatBRL(FATURAMENTO_BAR)}</span>
+                      <span>Pista — consumo médio</span>
+                      <span>{FATURAMENTO_PISTA_PAX}</span>
+                      <span>R$ {FATURAMENTO_BAR_PISTA_MEDIA}/pax</span>
+                      <span className="faturamento-valor">{formatBRL(FATURAMENTO_BAR_PISTA)}</span>
                     </div>
-                    <div className="faturamento-linha faturamento-total">
+                    <div className="faturamento-linha">
+                      <span>Camarotes — consumo médio</span>
+                      <span>{FATURAMENTO_CAMAROTES_PAX}</span>
+                      <span>R$ {FATURAMENTO_BAR_CAMAROTE_MEDIA}/pax</span>
+                      <span className="faturamento-valor">{formatBRL(FATURAMENTO_BAR_CAMAROTE)}</span>
+                    </div>
+                    <div className="faturamento-linha faturamento-total faturamento-total-verde">
                       <span>Faturamento total</span>
                       <span>—</span>
                       <span>—</span>
                       <span className="faturamento-valor">{formatBRL(FATURAMENTO_TOTAL)}</span>
                     </div>
-                    <div className="faturamento-linha faturamento-lucro">
-                      <span>Lucro (casa)</span>
-                      <span>—</span>
-                      <span>—</span>
-                      <span className="faturamento-valor faturamento-valor-lucro">{formatBRL(FATURAMENTO_LUCRO)}</span>
-                    </div>
                   </div>
                   <div className="faturamento-resumo">
-                    <p><strong>Bilheteria:</strong> {formatBRL(FATURAMENTO_BILHETERIA)} · <strong>Bar:</strong> {formatBRL(FATURAMENTO_BAR)} ({FATURAMENTO_BAR_MEDIA_PAX}/pax) · <strong>Total:</strong> {formatBRL(FATURAMENTO_TOTAL)} · <strong>Lucro:</strong> {formatBRL(FATURAMENTO_LUCRO)} · <strong>{FATURAMENTO_PAX} pax</strong></p>
+                    <p><strong>Bilheteria:</strong> {formatBRL(FATURAMENTO_BILHETERIA)} · <strong>Bar:</strong> {formatBRL(FATURAMENTO_BAR)} ({FATURAMENTO_PISTA_PAX}×R$ {FATURAMENTO_BAR_PISTA_MEDIA} + {FATURAMENTO_CAMAROTES_PAX}×R$ {FATURAMENTO_BAR_CAMAROTE_MEDIA}) · <strong>Total:</strong> {formatBRL(FATURAMENTO_TOTAL)} · <strong>{FATURAMENTO_PAX} pax</strong></p>
                   </div>
                   <div id="projecao-tu-goxta" className="tu-goxta-projecao-block">
                     <h4 className="tu-goxta-projecao-title">PROJEÇÃO TU GOXTA — SÁBADOS</h4>
@@ -449,7 +452,7 @@ export function RoyalNightSlide() {
                       <div className="tu-goxta-projecao-item">
                         <span className="tu-goxta-projecao-label">Último evento (real)</span>
                         <span className="tu-goxta-projecao-val">{formatBRL(TU_GOXTA_ULTIMO_EVENTO.faturamentoTotal)}</span>
-                        <span className="tu-goxta-projecao-sublabel">605 pax · FEV 2025</span>
+                        <span className="tu-goxta-projecao-sublabel">{FATURAMENTO_PAX} pax · bilheteria + bar · FEV 2025</span>
                       </div>
                       <div className="tu-goxta-projecao-item">
                         <span className="tu-goxta-projecao-label">Projeção conservadora</span>

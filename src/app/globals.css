@@ -3778,11 +3778,20 @@ body.fullscreen .landing-nav-header {
   background: linear-gradient(135deg, rgba(212, 175, 55, 0.12) 0%, rgba(212, 175, 55, 0.04) 100%);
   border: 1px solid rgba(212, 175, 55, 0.3);
 }
-.tu-goxta-ultimo-hero-main,
-.tu-goxta-ultimo-hero-lucro {
+.tu-goxta-ultimo-hero-main {
   display: flex;
   flex-direction: column;
   gap: 6px;
+}
+.tu-goxta-ultimo-hero-verde {
+  background: linear-gradient(135deg, rgba(13, 74, 61, 0.35) 0%, rgba(6, 52, 42, 0.3) 100%) !important;
+  border-color: rgba(74, 222, 128, 0.4) !important;
+}
+.tu-goxta-ultimo-hero-verde .tu-goxta-ultimo-val {
+  color: #4ade80 !important;
+}
+.tu-goxta-ultimo-hero-verde .tu-goxta-ultimo-label {
+  color: rgba(74, 222, 128, 0.9);
 }
 .tu-goxta-ultimo-hero-divider {
   width: 1px;
@@ -3951,16 +3960,16 @@ body.fullscreen .landing-nav-header {
   font-size: 1.05rem;
   color: var(--gold) !important;
 }
-.faturamento-lucro {
+.faturamento-total-verde {
   font-weight: 600;
-  background: rgba(13, 74, 61, 0.2);
+  background: rgba(13, 74, 61, 0.25) !important;
   padding: 14px 16px;
-  border-top: 1px solid rgba(74, 222, 128, 0.3);
+  border-top: 1px solid rgba(74, 222, 128, 0.35);
 }
-.faturamento-lucro span {
+.faturamento-total-verde span {
   color: #fff !important;
 }
-.faturamento-valor-lucro {
+.faturamento-total-verde .faturamento-valor {
   color: #4ade80 !important;
   font-size: 1.1rem !important;
 }
