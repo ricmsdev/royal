@@ -1660,6 +1660,236 @@ body.fullscreen .progress-dots {
   transition: opacity 0.3s;
 }
 
+/* LANDING NAV — Menu premium */
+.landing-nav-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 32px;
+  transition: background 0.4s, padding 0.3s;
+}
+.landing-nav-header.scrolled {
+  background: rgba(5, 5, 5, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.08);
+}
+.landing-nav-header.open {
+  background: rgba(5, 5, 5, 0.98);
+}
+.landing-nav-logo {
+  font-family: var(--font-cinzel), Cinzel, serif;
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: var(--gold);
+  letter-spacing: 0.35em;
+  text-decoration: none;
+  transition: color 0.3s, letter-spacing 0.3s;
+}
+.landing-nav-logo:hover {
+  color: #e5c04a;
+  letter-spacing: 0.4em;
+}
+.landing-nav-trigger {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  background: transparent;
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  color: var(--gold);
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.landing-nav-trigger:hover {
+  background: rgba(212, 175, 55, 0.12);
+  border-color: var(--gold);
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
+}
+.landing-nav-trigger-icon {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.landing-nav-trigger-icon .bar {
+  width: 18px;
+  height: 1.5px;
+  background: var(--gold);
+  transition: transform 0.35s, opacity 0.35s;
+}
+.landing-nav-trigger-icon .bar:nth-child(1) {
+  transform-origin: center;
+}
+.landing-nav-trigger-icon .bar:nth-child(2) {
+  transform-origin: center;
+}
+.landing-nav-trigger-icon .bar:nth-child(3) {
+  transform-origin: center;
+}
+.landing-nav-trigger.open .bar:nth-child(1) {
+  transform: translateY(3.25px) rotate(45deg);
+}
+.landing-nav-trigger.open .bar:nth-child(2) {
+  opacity: 0;
+}
+.landing-nav-trigger.open .bar:nth-child(3) {
+  transform: translateY(-3.25px) rotate(-45deg);
+}
+.landing-nav-trigger .bar.open {
+  /* used by JS class toggle */
+}
+
+.landing-nav-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 201;
+  background: rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s, visibility 0.4s;
+}
+.landing-nav-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.landing-nav-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: min(420px, 92vw);
+  max-width: 100%;
+  height: 100vh;
+  z-index: 202;
+  background: linear-gradient(
+    180deg,
+    rgba(10, 10, 10, 0.98) 0%,
+    rgba(5, 5, 5, 0.99) 100%
+  );
+  border-left: 1px solid rgba(212, 175, 55, 0.12);
+  box-shadow: -24px 0 64px rgba(0, 0, 0, 0.6);
+  transform: translateX(100%);
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  overflow-y: auto;
+}
+.landing-nav-drawer.open {
+  transform: translateX(0);
+}
+.landing-nav-drawer-inner {
+  padding: 80px 32px 40px;
+}
+.landing-nav-drawer-title {
+  font-family: var(--font-cinzel), Cinzel, serif;
+  font-size: 0.85rem;
+  color: var(--gold);
+  letter-spacing: 0.3em;
+  margin-bottom: 36px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+}
+.landing-nav-group {
+  margin-bottom: 28px;
+}
+.landing-nav-group-label {
+  display: block;
+  font-size: 0.6rem;
+  color: var(--text-grey);
+  letter-spacing: 0.2em;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+.landing-nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.landing-nav-list li {
+  margin-bottom: 4px;
+}
+.landing-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 12px 0;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 0.9rem;
+  text-align: left;
+  cursor: pointer;
+  transition: color 0.25s, padding-left 0.25s;
+  border-left: 2px solid transparent;
+}
+.landing-nav-item:hover {
+  color: var(--gold);
+  padding-left: 8px;
+}
+.landing-nav-item.active {
+  color: var(--gold);
+  border-left-color: var(--gold);
+  padding-left: 8px;
+}
+.landing-nav-item-num {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.4);
+  min-width: 24px;
+}
+.landing-nav-item.active .landing-nav-item-num {
+  color: var(--gold);
+}
+.landing-nav-item-label {
+  flex: 1;
+}
+.landing-nav-sub {
+  display: block;
+  width: 100%;
+  padding: 8px 0 8px 38px;
+  background: none;
+  border: none;
+  color: var(--text-grey);
+  font-size: 0.8rem;
+  text-align: left;
+  cursor: pointer;
+  transition: color 0.25s;
+}
+.landing-nav-sub:hover {
+  color: var(--gold);
+}
+
+@media (max-width: 768px) {
+  .landing-nav-header {
+    padding: 16px 20px;
+  }
+  .landing-nav-logo {
+    font-size: 1rem;
+    letter-spacing: 0.25em;
+  }
+  .landing-nav-trigger-text {
+    display: none;
+  }
+  .landing-nav-drawer {
+    width: 100%;
+  }
+  .landing-nav-drawer-inner {
+    padding: 72px 24px 32px;
+  }
+}
+
+body.fullscreen .landing-nav-header {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  transition: opacity 0.3s;
+}
+
 /* CONCEITO VISUAL */
 .conceito-grid {
   display: grid;
@@ -2037,6 +2267,294 @@ body.fullscreen .progress-dots {
     grid-template-columns: 1fr;
   }
 }
+
+/* JACK DANIEL'S — Royal Black Box · Boiler Room · Estilo Royal */
+#jack-daniels .slide-bg-video .slide-video {
+  filter: brightness(0.55);
+}
+.jack-daniels-header {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.4fr) 1fr;
+  gap: 28px;
+  align-items: center;
+  margin-bottom: 28px;
+}
+.jack-daniels-black-box {
+  padding: 32px 28px;
+  border-radius: 16px;
+  border: 2px solid rgba(212, 175, 55, 0.45);
+  background: linear-gradient(165deg, rgba(10, 8, 6, 0.98) 0%, rgba(4, 3, 2, 0.98) 100%);
+  box-shadow:
+    0 20px 56px rgba(0, 0, 0, 0.65),
+    inset 0 1px 0 rgba(212, 175, 55, 0.12);
+}
+.jack-daniels-logo-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 64px;
+  margin-bottom: 18px;
+}
+.jack-daniels-logo {
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+.jack-daniels-logo-fallback {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.jack-daniels-logo-text {
+  font-family: Georgia, serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 0.08em;
+}
+.jack-daniels-logo-old {
+  font-family: Georgia, serif;
+  font-size: 0.65rem;
+  font-style: italic;
+  color: rgba(212, 175, 55, 0.8);
+  letter-spacing: 0.2em;
+}
+.jack-daniels-tagline {
+  margin: 0 0 6px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.26em;
+  color: var(--gold);
+  text-align: center;
+}
+.jack-daniels-sub {
+  margin: 0;
+  font-size: 0.68rem;
+  color: rgba(212, 175, 55, 0.75);
+  letter-spacing: 0.1em;
+  text-align: center;
+}
+.jack-daniels-header-text {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.jack-daniels-title {
+  margin: 0;
+  font-family: var(--font-cinzel), Cinzel, serif;
+  font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+  color: #fff;
+  letter-spacing: 0.06em;
+}
+.jack-daniels-lead {
+  margin: 0;
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: #c9c9c9;
+}
+
+/* Defesa — Por que Jack Daniel's × Royal */
+.jack-daniels-defesa {
+  margin-bottom: 28px;
+  padding: 28px 32px;
+  border-radius: 16px;
+  border-left: 4px solid var(--gold);
+  background: linear-gradient(90deg, rgba(212, 175, 55, 0.12) 0%, rgba(212, 175, 55, 0.02) 100%);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+}
+.jack-daniels-defesa-text {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #d0d0d0;
+}
+
+/* Cards artistas — estilo Royal */
+.jack-daniels-artists {
+  margin-bottom: 28px;
+  padding: 32px 30px;
+  border-radius: 16px;
+  border: 1px solid rgba(212, 175, 55, 0.28);
+  background: linear-gradient(165deg, rgba(14, 12, 10, 0.95) 0%, rgba(8, 6, 4, 0.92) 100%);
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(212, 175, 55, 0.06);
+}
+.jack-daniels-section-title {
+  margin: 0 0 24px;
+  font-family: var(--font-cinzel), Cinzel, serif;
+  font-size: 0.9rem;
+  color: var(--gold);
+  letter-spacing: 0.14em;
+}
+.jack-daniels-artists-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px 28px;
+}
+.jack-daniels-artist-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 28px 22px;
+  border-radius: 16px;
+  border: 1px solid rgba(212, 175, 55, 0.22);
+  background: linear-gradient(180deg, rgba(22, 20, 18, 0.95) 0%, rgba(12, 10, 8, 0.98) 100%);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+}
+.jack-daniels-artist-card:hover {
+  border-color: rgba(212, 175, 55, 0.5);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.55), 0 0 24px rgba(212, 175, 55, 0.12);
+  transform: translateY(-4px);
+}
+.jack-daniels-artist-card:hover .jack-daniels-artist-photo {
+  border-color: var(--gold);
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.25);
+}
+.jack-daniels-artist-photo {
+  position: relative;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid rgba(212, 175, 55, 0.4);
+  margin-bottom: 18px;
+  flex-shrink: 0;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.jack-daniels-artist-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.jack-daniels-artist-role {
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  background: rgba(212, 175, 55, 0.9);
+  color: #0a0a0a;
+}
+.jack-daniels-artist-nome {
+  margin: 0 0 8px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: 0.02em;
+}
+.jack-daniels-artist-ig {
+  font-size: 0.8rem;
+  color: var(--gold);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  transition: opacity 0.2s;
+}
+.jack-daniels-artist-ig:hover {
+  opacity: 0.85;
+}
+
+/* Format cards */
+.jack-daniels-formats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px 24px;
+  margin-bottom: 28px;
+}
+.jack-daniels-format-card {
+  padding: 32px 26px;
+  border-radius: 16px;
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  background: linear-gradient(180deg, rgba(18, 16, 14, 0.95) 0%, rgba(10, 8, 6, 0.98) 100%);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+}
+.jack-daniels-format-card:hover {
+  border-color: rgba(212, 175, 55, 0.45);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 20px rgba(212, 175, 55, 0.08);
+  transform: translateY(-2px);
+}
+.jack-daniels-format-tag {
+  display: inline-block;
+  margin-bottom: 10px;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+}
+.jack-daniels-format-card h4 {
+  margin: 0 0 10px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: 0.04em;
+}
+.jack-daniels-format-card p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #b8b8b8;
+  line-height: 1.5;
+}
+
+.jack-daniels-footer {
+  display: flex;
+  justify-content: center;
+}
+.jack-daniels-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 22px 44px;
+  border-radius: 14px;
+  border: 2px solid rgba(212, 175, 55, 0.45);
+  background: linear-gradient(145deg, rgba(212, 175, 55, 0.12) 0%, rgba(212, 175, 55, 0.05) 100%);
+  text-decoration: none;
+  transition: all 0.35s;
+  cursor: pointer;
+}
+.jack-daniels-cta:hover {
+  border-color: var(--gold);
+  background: linear-gradient(145deg, rgba(212, 175, 55, 0.18) 0%, rgba(212, 175, 55, 0.08) 100%);
+  box-shadow: 0 0 32px rgba(212, 175, 55, 0.2);
+  transform: translateY(-2px);
+}
+.jack-daniels-cta-label {
+  font-size: 0.68rem;
+  color: var(--gold);
+  letter-spacing: 0.22em;
+}
+.jack-daniels-cta-val {
+  font-family: var(--font-cinzel), Cinzel, serif;
+  font-size: 1.2rem;
+  color: #fff;
+  font-weight: 600;
+}
+
+@media (max-width: 900px) {
+  .jack-daniels-header {
+    grid-template-columns: 1fr;
+  }
+  .jack-daniels-artists-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .jack-daniels-formats {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 500px) {
+  .jack-daniels-artists-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .vp-board {
   background: rgba(14, 14, 14, 0.84);
   border: 1px solid rgba(212, 175, 55, 0.2);
@@ -2281,6 +2799,107 @@ body.fullscreen .progress-dots {
   line-height: 1.55;
   margin: 0 0 12px 0;
 }
+/* Marcas parceiras — cards Royal */
+.marcas-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px 14px;
+  margin: 16px 0 12px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(212, 175, 55, 0.2);
+}
+.marca-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  background: linear-gradient(180deg, rgba(18, 16, 14, 0.95) 0%, rgba(10, 8, 6, 0.98) 100%);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+.marca-card:hover {
+  border-color: rgba(212, 175, 55, 0.45);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
+}
+.marca-card-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  width: 100%;
+}
+.marca-logo {
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  filter: brightness(1.1);
+}
+.marca-fallback {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 0.06em;
+}
+@media (max-width: 600px) {
+  .marcas-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* MarcasSlide — grid de tiles */
+.marcas-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px 24px;
+  margin-top: 24px;
+}
+.marca-tile {
+  padding: 24px 20px;
+  border-radius: 14px;
+  border: 1px solid rgba(212, 175, 55, 0.28);
+  background: linear-gradient(180deg, rgba(18, 16, 14, 0.95) 0%, rgba(10, 8, 6, 0.98) 100%);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
+  transition: border-color 0.25s, box-shadow 0.25s, transform 0.2s;
+}
+.marca-tile:hover {
+  border-color: rgba(212, 175, 55, 0.5);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 24px rgba(212, 175, 55, 0.08);
+  transform: translateY(-2px);
+}
+.marca-tile-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  margin-bottom: 12px;
+}
+.marca-tile-img {
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  filter: brightness(1.1);
+}
+.marca-tile-fallback {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 0.08em;
+}
+.marca-tile-desc {
+  font-size: 0.82rem;
+  color: #a8a8a8;
+  line-height: 1.5;
+  margin: 0;
+}
+@media (max-width: 600px) {
+  .marcas-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
 .pillar3-logos {
   display: flex;
   flex-wrap: wrap;
@@ -3110,6 +3729,123 @@ body.fullscreen .progress-dots {
   font-size: 0.8rem;
   color: var(--text-grey);
 }
+
+/* Último evento — layout premium */
+.tu-goxta-ultimo-evento {
+  padding: 24px 24px 28px;
+  min-height: auto;
+  border: 2px solid rgba(212, 175, 55, 0.3);
+  box-shadow: 0 0 40px rgba(212, 175, 55, 0.06), inset 0 1px 0 rgba(212, 175, 55, 0.08);
+}
+.tu-goxta-ultimo-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.tu-goxta-ultimo-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+  padding: 6px 12px;
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  border-radius: 6px;
+  background: rgba(212, 175, 55, 0.08);
+}
+.tu-goxta-ultimo-evento .tu-goxta-contexto {
+  margin-bottom: 20px;
+}
+.tu-goxta-ultimo-hero {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px 32px;
+  margin-bottom: 20px;
+  padding: 20px 24px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.12) 0%, rgba(212, 175, 55, 0.04) 100%);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+}
+.tu-goxta-ultimo-hero-main,
+.tu-goxta-ultimo-hero-lucro {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.tu-goxta-ultimo-hero-divider {
+  width: 1px;
+  min-height: 48px;
+  background: linear-gradient(180deg, transparent, rgba(212, 175, 55, 0.4), transparent);
+}
+@media (max-width: 400px) {
+  .tu-goxta-ultimo-hero-divider {
+    width: 100%;
+    min-height: 1px;
+    height: 1px;
+  }
+}
+.tu-goxta-ultimo-val {
+  font-family: var(--font-cinzel), Cinzel, serif;
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 0.04em;
+}
+.tu-goxta-ultimo-val-lucro {
+  color: #4ade80;
+  font-size: 1.75rem;
+}
+.tu-goxta-ultimo-label {
+  font-size: 0.78rem;
+  color: var(--text-grey);
+  letter-spacing: 0.06em;
+}
+.tu-goxta-ultimo-breakdown {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.tu-goxta-ultimo-item {
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  text-align: center;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.tu-goxta-ultimo-item:hover {
+  border-color: rgba(212, 175, 55, 0.4);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+.tu-goxta-ultimo-item-val {
+  display: block;
+  font-family: var(--font-cinzel), Cinzel, serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 4px;
+}
+.tu-goxta-ultimo-item-desc {
+  font-size: 0.75rem;
+  color: var(--text-grey);
+}
+.tu-goxta-ultimo-item-pessoas .tu-goxta-ultimo-item-val {
+  font-size: 1.4rem;
+  color: var(--gold);
+}
+@media (max-width: 500px) {
+  .tu-goxta-ultimo-breakdown {
+    grid-template-columns: 1fr;
+  }
+  .tu-goxta-ultimo-val {
+    font-size: 1.6rem;
+  }
+  .tu-goxta-ultimo-val-lucro {
+    font-size: 1.4rem;
+  }
+}
+
 .tu-goxta-lead {
   margin: 0 0 16px;
   font-size: 0.9rem;
@@ -3191,6 +3927,19 @@ body.fullscreen .progress-dots {
 .faturamento-total .faturamento-valor {
   font-size: 1.05rem;
   color: var(--gold) !important;
+}
+.faturamento-lucro {
+  font-weight: 600;
+  background: rgba(13, 74, 61, 0.2);
+  padding: 14px 16px;
+  border-top: 1px solid rgba(74, 222, 128, 0.3);
+}
+.faturamento-lucro span {
+  color: #fff !important;
+}
+.faturamento-valor-lucro {
+  color: #4ade80 !important;
+  font-size: 1.1rem !important;
 }
 @media (max-width: 500px) {
   .faturamento-linha {

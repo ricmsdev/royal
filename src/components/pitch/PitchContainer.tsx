@@ -15,7 +15,9 @@ import { ProgramacaoSemanaSlide } from "./ProgramacaoSemanaSlide";
 import { Pillar2Slide } from "./Pillar2Slide";
 import { AcessoLocalizacaoSlide } from "./AcessoLocalizacaoSlide";
 import { Pillar3Slide } from "./Pillar3Slide";
+import { MarcasSlide } from "./MarcasSlide";
 import { BroadcastSlide } from "./BroadcastSlide";
+import { JackDanielsSlide } from "./JackDanielsSlide";
 import { MapSlide } from "./MapSlide";
 import { LaunchConceptSlide } from "./LaunchConceptSlide";
 import { NoiteSlide, NOITES_DATA } from "./NoiteSlide";
@@ -23,6 +25,7 @@ import { PokerNightSlide } from "./PokerNightSlide";
 import { RoyalNightSlide } from "./RoyalNightSlide";
 import { CTASlide } from "./CTASlide";
 import { Footer } from "./Footer";
+import { LandingNav } from "./LandingNav";
 
 const SLIDE_IDS = [
   "hero",
@@ -39,7 +42,9 @@ const SLIDE_IDS = [
   "pillar2",
   "acesso-localizacao",
   "pillar3",
+  "marcas",
   "broadcast",
+  "jack-daniels",
   "fora-da-curva",
   "ato3",
   "launch-concept",
@@ -133,6 +138,7 @@ export function PitchContainer() {
         "#pillar2",
         "#acesso-localizacao",
         "#pillar3",
+        "#marcas",
         "#broadcast",
         "#ato3",
         "#launch-concept",
@@ -448,6 +454,44 @@ export function PitchContainer() {
         delay: 0.2,
         ease: "power2.out",
       });
+
+      // Jack Daniel's — entrada em sequência
+      gsap.from("#jack-daniels .jack-daniels-header", {
+        scrollTrigger: { trigger: "#jack-daniels", start: "top 80%" },
+        y: 24,
+        opacity: 0,
+        duration: 0.9,
+        ease: "power3.out",
+        immediateRender: false,
+      });
+      gsap.from("#jack-daniels .jack-daniels-artist-card", {
+        scrollTrigger: { trigger: "#jack-daniels .jack-daniels-artists", start: "top 85%" },
+        y: 20,
+        opacity: 0,
+        duration: 0.6,
+        stagger: 0.08,
+        delay: 0.15,
+        ease: "power2.out",
+        immediateRender: false,
+      });
+      gsap.from("#jack-daniels .jack-daniels-format-card", {
+        scrollTrigger: { trigger: "#jack-daniels .jack-daniels-formats", start: "top 88%" },
+        y: 18,
+        opacity: 0,
+        duration: 0.6,
+        stagger: 0.1,
+        delay: 0.1,
+        ease: "power2.out",
+        immediateRender: false,
+      });
+      gsap.from("#jack-daniels .jack-daniels-cta", {
+        scrollTrigger: { trigger: "#jack-daniels .jack-daniels-footer", start: "top 90%" },
+        y: 16,
+        opacity: 0,
+        duration: 0.7,
+        ease: "power2.out",
+        immediateRender: false,
+      });
       } catch {
         // GSAP/ScrollTrigger may throw during hydration or with invalid targets
       }
@@ -491,6 +535,16 @@ export function PitchContainer() {
     const target = slides[index];
     if (target) {
       target.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
+  const handleNavNavigate = (index: number, hash?: string) => {
+    scrollToSlide(index);
+    if (hash) {
+      setTimeout(() => {
+        const el = document.getElementById(hash);
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 300);
     }
   };
 
@@ -653,6 +707,8 @@ export function PitchContainer() {
       <div className="cursor" />
       <div className="cursor-ring" />
 
+      <LandingNav activeIndex={activeIndex} onNavigate={handleNavNavigate} />
+
       <div className="progress-dots">
         {SLIDE_IDS.map((_, i) => (
           <button
@@ -681,7 +737,9 @@ export function PitchContainer() {
         <Pillar2Slide />
         <AcessoLocalizacaoSlide />
         <Pillar3Slide />
+        <MarcasSlide />
         <BroadcastSlide />
+        <JackDanielsSlide />
         <ActSlide id="fora-da-curva" variant="fora-da-curva" />
         <MapSlide />
         <LaunchConceptSlide />
