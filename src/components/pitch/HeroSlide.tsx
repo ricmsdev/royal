@@ -27,7 +27,7 @@ export function HeroSlide() {
           "linear-gradient(180deg, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.82) 50%, rgba(0,0,0,0.95) 100%)",
       }}
     >
-      <p className="act-tag">CASA SARMENTO apresenta</p>
+      <p className="act-tag">ROYAL</p>
       <p
         className="hero-quase"
         style={{

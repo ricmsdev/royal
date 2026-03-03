@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <meta name="description" content="ROYAL 3.0 — Casa noturna em Pinheiros, São Paulo. Apresentado por Casa Sarmento.">
+    <meta name="description" content="ROYAL 3.0 — Casa noturna em Pinheiros, São Paulo.">
     <meta name="theme-color" content="#050505">
     <title>ROYAL 3.0 | Mudança de Era</title>
     
@@ -1293,7 +1293,7 @@
             </div>
             <div class="slide-overlay"></div>
             <div class="slide-content">
-                <p class="act-tag">CASA SARMENTO apresenta</p>
+                <p class="act-tag">ROYAL</p>
                 <p class="hero-quase" style="font-size: 0.9rem; letter-spacing: 0.25em; color: var(--gold); margin-bottom: 8px;">QUASE LÁ — JÁ EXISTIRAM 2</p>
                 <h1>ROYAL 3.0</h1>
                 <p style="margin-top: 24px; letter-spacing: 0.3em; font-size: 1rem;">SÃO PAULO | PINHEIROS</p>
@@ -1907,6 +1907,33 @@
             </div>
         </section>
 
+        <!-- FORA DA CURVA — Tese de Valuation -->
+        <section class="slide enemy" id="fora-da-curva">
+            <div class="slide-bg dark" style="background: #0a0a0a;"></div>
+            <div class="slide-overlay" style="background: rgba(0,0,0,0.75);"></div>
+            <div class="slide-content" style="max-width: 1000px;">
+                <p class="act-tag">FORA DA CURVA</p>
+                <h2 class="ato1-title" style="margin-bottom: 28px;">
+                    <span class="word"><span>O mercado paga 4x EBITDA para balada.</span></span><br>
+                    <span class="word punch"><span>Annabel's vale 15x.</span></span>
+                </h2>
+                <p class="highlight" style="margin-bottom: 24px;">A diferença não é o champagne. É o protocolo.</p>
+                <div class="bullet">
+                    <strong>Royal não vende EBITDA.</strong> Vende três ativos com cash flows desacoplados: Operação física (4–6x), Membership (8–12x), Media Equity (10–15x). <strong>Blended: 7–9x.</strong>
+                </div>
+                <div class="bullet">
+                    O investidor não compra balada. Compra um <strong>veículo de lifestyle com yield de real estate.</strong> O mesmo imóvel, três classes de ativo.
+                </div>
+                <div class="bullet">
+                    <strong>20% de equity</strong> não é concessão. É o capital mais barato que o fundo vai deployar: cap table limpo, protocolo validado, goodwill de graça.
+                </div>
+                <p class="highlight" style="margin-top: 32px;">
+                    A pergunta não é "quanto custa 20%?".<br>
+                    <strong>A pergunta é: quanto custa não ter a Royal no portfólio?</strong>
+                </p>
+            </div>
+        </section>
+
         <!-- ATO 3: O CHEQUE-MATE - MAPA -->
         <section class="slide map-section scrollable" id="ato3">
             <div class="slide-bg dark" style="background: #080808;"></div>
@@ -1993,8 +2020,6 @@
                 <a href="https://www.google.com/maps/search/Rua+Cardeal+Arcoverde+1393+Pinheiros+S%C3%A3o+Paulo+05407-002" target="_blank" rel="noopener">VER NO MAPA →</a>
             </div>
             <div class="branding">
-                <p class="footer-presented">APRESENTADO POR CASA SARMENTO</p>
-                STRATEGY & DESIGN BY RICARDO SARMENTO
                 <p style="margin-top: 12px;"><a href="https://github.com/ricmsdev/royal" target="_blank" rel="noopener" style="color: var(--gold); text-decoration: none; font-size: 0.75rem;">github.com/ricmsdev/royal</a></p>
             </div>
         </footer>
@@ -2082,6 +2107,24 @@
         });
         gsap.from("#ato1 .bullet", {
             scrollTrigger: { trigger: "#ato1", start: "top 85%" },
+            opacity: 0,
+            x: -15,
+            duration: 0.7,
+            stagger: 0.1,
+            delay: 0.4,
+            ease: "power2.out",
+            immediateRender: false
+        });
+        gsap.from("#fora-da-curva .ato1-title .word span", {
+            scrollTrigger: { trigger: "#fora-da-curva", start: "top 85%" },
+            y: "100%",
+            duration: 0.8,
+            stagger: 0.15,
+            ease: "power4.out",
+            immediateRender: false
+        });
+        gsap.from("#fora-da-curva .bullet", {
+            scrollTrigger: { trigger: "#fora-da-curva", start: "top 85%" },
             opacity: 0,
             x: -15,
             duration: 0.7,
