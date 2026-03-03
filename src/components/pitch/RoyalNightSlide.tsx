@@ -144,7 +144,7 @@ function ArtistCard({ nome, slug, status, instagram, followers, spotifyMonthlyLi
   );
 }
 
-const TU_GOXTA_HASH_IDS = ["lineup-abril", "ultimo-evento", "faturamento", "dashboard-consolidado"];
+const TU_GOXTA_HASH_IDS = ["lineup-abril", "ultimo-evento", "faturamento", "projecao-tu-goxta", "dashboard-consolidado"];
 
 /** Dashboard consolidado — faturamento estimado por noite (valor por evento) */
 const DASHBOARD_NOITES = [
@@ -157,8 +157,25 @@ const DASHBOARD_NOITES = [
   { num: "07", dia: "Domingo", mood: "Respiro", evento: "Brunch & Lounge", faturamento: 35_000 },
 ] as const;
 
+const TU_GOXTA_NOITE = DASHBOARD_NOITES.find((n) => n.mood === "Tu Goxta")!;
+
 const EVENTOS_POR_MES = 4; // ~4 sábados, 4 sextas, etc.
 const PERCENTUAL_ADIANTAMENTO = 35;
+
+/** Dados do último evento Tu Goxta (FEV 2025) — 605 pax, consumo bar R$ 115/pax conservador */
+const FATURAMENTO_PAX = 605;
+const FATURAMENTO_BILHETERIA = 65_250;
+const FATURAMENTO_BAR_MEDIA_PAX = 115;
+const FATURAMENTO_BAR = FATURAMENTO_PAX * FATURAMENTO_BAR_MEDIA_PAX; // 69.575
+const FATURAMENTO_TOTAL = FATURAMENTO_BILHETERIA + FATURAMENTO_BAR; // 134.825
+const FATURAMENTO_LUCRO = 87_500; // estimado
+
+const TU_GOXTA_ULTIMO_EVENTO = {
+  faturamentoTotal: FATURAMENTO_TOTAL,
+  bilheteria: FATURAMENTO_BILHETERIA,
+  bar: FATURAMENTO_BAR,
+  pax: FATURAMENTO_PAX,
+} as const;
 
 function formatBRL(n: number): string {
   return new Intl.NumberFormat("pt-BR", {
@@ -168,8 +185,26 @@ function formatBRL(n: number): string {
   }).format(n);
 }
 
+const DASHBOARD_NUM_KEYS = DASHBOARD_NOITES.map((n) => n.num);
+
 export function RoyalNightSlide() {
   const [activeTab, setActiveTab] = useState<"royal" | "tu-goxta">("royal");
+  const [selectedDays, setSelectedDays] = useState<Set<string>>(() => new Set(DASHBOARD_NUM_KEYS));
+
+  const toggleDay = (num: string) => {
+    setSelectedDays((prev) => {
+      const next = new Set(prev);
+      if (next.has(num)) next.delete(num);
+      else next.add(num);
+      return next;
+    });
+  };
+
+  const totalMensal = DASHBOARD_NOITES.reduce(
+    (s, n) => (selectedDays.has(n.num) ? s + n.faturamento * EVENTOS_POR_MES : s),
+    0
+  );
+  const adiantamentoVal = Math.round((totalMensal * PERCENTUAL_ADIANTAMENTO) / 100);
 
   // Abre Tu Goxta ao acessar via link com hash (/#lineup-abril, etc.)
   useEffect(() => {
@@ -322,26 +357,26 @@ export function RoyalNightSlide() {
                   </p>
                   <div className="tu-goxta-ultimo-hero">
                     <div className="tu-goxta-ultimo-hero-main">
-                      <span className="tu-goxta-ultimo-val">R$ 185k</span>
+                      <span className="tu-goxta-ultimo-val">{formatBRL(FATURAMENTO_TOTAL)}</span>
                       <span className="tu-goxta-ultimo-label">Faturamento total</span>
                     </div>
                     <div className="tu-goxta-ultimo-hero-divider" aria-hidden />
                     <div className="tu-goxta-ultimo-hero-lucro">
-                      <span className="tu-goxta-ultimo-val tu-goxta-ultimo-val-lucro">R$ 120k</span>
+                      <span className="tu-goxta-ultimo-val tu-goxta-ultimo-val-lucro">{formatBRL(FATURAMENTO_LUCRO)}</span>
                       <span className="tu-goxta-ultimo-label">Lucro</span>
                     </div>
                   </div>
                   <div className="tu-goxta-ultimo-breakdown">
                     <div className="tu-goxta-ultimo-item">
-                      <span className="tu-goxta-ultimo-item-val">R$ 65k</span>
+                      <span className="tu-goxta-ultimo-item-val">{formatBRL(FATURAMENTO_BILHETERIA)}</span>
                       <span className="tu-goxta-ultimo-item-desc">Bilheteria</span>
                     </div>
                     <div className="tu-goxta-ultimo-item">
-                      <span className="tu-goxta-ultimo-item-val">R$ 120k</span>
+                      <span className="tu-goxta-ultimo-item-val">{formatBRL(FATURAMENTO_BAR)}</span>
                       <span className="tu-goxta-ultimo-item-desc">Bar</span>
                     </div>
                     <div className="tu-goxta-ultimo-item tu-goxta-ultimo-item-pessoas">
-                      <span className="tu-goxta-ultimo-item-val">605</span>
+                      <span className="tu-goxta-ultimo-item-val">{FATURAMENTO_PAX}</span>
                       <span className="tu-goxta-ultimo-item-desc">Pessoas na casa</span>
                     </div>
                   </div>
@@ -376,34 +411,57 @@ export function RoyalNightSlide() {
                     </div>
                     <div className="faturamento-linha faturamento-subtotal">
                       <span>Bilheteria bruta</span>
-                      <span>605</span>
+                      <span>{FATURAMENTO_PAX}</span>
                       <span>—</span>
-                      <span className="faturamento-valor">R$ 65.250</span>
+                      <span className="faturamento-valor">{formatBRL(FATURAMENTO_BILHETERIA)}</span>
                     </div>
                     <div className="faturamento-linha faturamento-grupo-label">
                       <span className="faturamento-grupo-text">BAR (consumo bebidas — custo bebidas por fora)</span>
                     </div>
                     <div className="faturamento-linha">
                       <span>Consumo médio bar</span>
-                      <span>605</span>
-                      <span>~R$ 198</span>
-                      <span className="faturamento-valor">R$ 119.750</span>
+                      <span>{FATURAMENTO_PAX}</span>
+                      <span>R$ {FATURAMENTO_BAR_MEDIA_PAX}/pax</span>
+                      <span className="faturamento-valor">{formatBRL(FATURAMENTO_BAR)}</span>
                     </div>
                     <div className="faturamento-linha faturamento-total">
                       <span>Faturamento total</span>
                       <span>—</span>
                       <span>—</span>
-                      <span className="faturamento-valor">R$ 185.000</span>
+                      <span className="faturamento-valor">{formatBRL(FATURAMENTO_TOTAL)}</span>
                     </div>
                     <div className="faturamento-linha faturamento-lucro">
                       <span>Lucro (casa)</span>
                       <span>—</span>
                       <span>—</span>
-                      <span className="faturamento-valor faturamento-valor-lucro">R$ 120.000</span>
+                      <span className="faturamento-valor faturamento-valor-lucro">{formatBRL(FATURAMENTO_LUCRO)}</span>
                     </div>
                   </div>
                   <div className="faturamento-resumo">
-                    <p><strong>Bilheteria:</strong> R$ 65k · <strong>Bar:</strong> R$ 120k · <strong>Total:</strong> R$ 185k · <strong>Lucro:</strong> R$ 120k · <strong>605 pax</strong></p>
+                    <p><strong>Bilheteria:</strong> {formatBRL(FATURAMENTO_BILHETERIA)} · <strong>Bar:</strong> {formatBRL(FATURAMENTO_BAR)} ({FATURAMENTO_BAR_MEDIA_PAX}/pax) · <strong>Total:</strong> {formatBRL(FATURAMENTO_TOTAL)} · <strong>Lucro:</strong> {formatBRL(FATURAMENTO_LUCRO)} · <strong>{FATURAMENTO_PAX} pax</strong></p>
+                  </div>
+                  <div id="projecao-tu-goxta" className="tu-goxta-projecao-block">
+                    <h4 className="tu-goxta-projecao-title">PROJEÇÃO TU GOXTA — SÁBADOS</h4>
+                    <p className="tu-goxta-projecao-lead">
+                      Com base no último evento e valores conservadores para o dashboard.
+                    </p>
+                    <div className="tu-goxta-projecao-grid">
+                      <div className="tu-goxta-projecao-item">
+                        <span className="tu-goxta-projecao-label">Último evento (real)</span>
+                        <span className="tu-goxta-projecao-val">{formatBRL(TU_GOXTA_ULTIMO_EVENTO.faturamentoTotal)}</span>
+                        <span className="tu-goxta-projecao-sublabel">605 pax · FEV 2025</span>
+                      </div>
+                      <div className="tu-goxta-projecao-item">
+                        <span className="tu-goxta-projecao-label">Projeção conservadora</span>
+                        <span className="tu-goxta-projecao-val">{formatBRL(TU_GOXTA_NOITE.faturamento)}</span>
+                        <span className="tu-goxta-projecao-sublabel">por evento · usado no dashboard</span>
+                      </div>
+                      <div className="tu-goxta-projecao-item tu-goxta-projecao-item-destaque">
+                        <span className="tu-goxta-projecao-label">Mensal Tu Goxta (4 sábados)</span>
+                        <span className="tu-goxta-projecao-val">{formatBRL(TU_GOXTA_NOITE.faturamento * EVENTOS_POR_MES)}</span>
+                        <span className="tu-goxta-projecao-sublabel">conservador · bilheteria + bar</span>
+                      </div>
+                    </div>
                   </div>
                   <div className="tu-goxta-adiantamento">
                     <span className="adiantamento-valor">35%</span>
@@ -422,14 +480,23 @@ export function RoyalNightSlide() {
                   <p className="tu-goxta-dashboard-lead">
                     {EVENTOS_POR_MES} eventos por noite · bilheteria + bar · valores conservadores
                   </p>
+                  <p className="tu-goxta-dashboard-selector-hint">
+                    Clique nos dias para incluir ou excluir da projeção
+                  </p>
                 </header>
                 <div className="tu-goxta-dashboard-cards">
-                  {DASHBOARD_NOITES.map((n) => (
-                    <article
-                      key={n.dia}
-                      className={`tu-goxta-dashboard-card ${n.dia === "Sábado" ? "tu-goxta-dashboard-card-destaque" : ""}`}
-                    >
-                      <span className="tu-goxta-dashboard-card-num">{n.num}</span>
+                  {DASHBOARD_NOITES.map((n) => {
+                    const isSelected = selectedDays.has(n.num);
+                    return (
+                      <button
+                        key={n.dia}
+                        type="button"
+                        onClick={() => toggleDay(n.num)}
+                        className={`tu-goxta-dashboard-card tu-goxta-dashboard-card-btn ${n.dia === "Sábado" ? "tu-goxta-dashboard-card-destaque" : ""} ${!isSelected ? "tu-goxta-dashboard-card-excluido" : ""}`}
+                        aria-pressed={isSelected}
+                        aria-label={`${n.dia}: ${n.mood} — ${isSelected ? "incluído" : "excluído"} na projeção`}
+                      >
+                        <span className="tu-goxta-dashboard-card-num">{n.num}</span>
                       <div className="tu-goxta-dashboard-card-body">
                         <h4 className="tu-goxta-dashboard-card-dia">{n.dia}</h4>
                         <span className="tu-goxta-dashboard-card-mood">{n.mood}</span>
@@ -441,14 +508,15 @@ export function RoyalNightSlide() {
                           <span className="tu-goxta-dashboard-card-mensal-label">/mês</span>
                         </div>
                       </div>
-                    </article>
-                  ))}
+                      </button>
+                    );
+                  })}
                 </div>
                 <div className="tu-goxta-dashboard-footer">
                   <div className="tu-goxta-dashboard-total-card">
                     <span className="tu-goxta-dashboard-total-label">TOTAL MENSAL (CASA)</span>
                     <span className="tu-goxta-dashboard-total-val">
-                      {formatBRL(DASHBOARD_NOITES.reduce((s, n) => s + n.faturamento * EVENTOS_POR_MES, 0))}
+                      {formatBRL(totalMensal)}
                     </span>
                   </div>
                   <div className="tu-goxta-dashboard-cta">
@@ -456,13 +524,7 @@ export function RoyalNightSlide() {
                     <div className="tu-goxta-dashboard-cta-body">
                       <span className="tu-goxta-dashboard-cta-desc">Adiantamento do valor que podemos gerar</span>
                       <span className="tu-goxta-dashboard-cta-val">
-                        {formatBRL(
-                          Math.round(
-                            (DASHBOARD_NOITES.reduce((s, n) => s + n.faturamento * EVENTOS_POR_MES, 0) *
-                              PERCENTUAL_ADIANTAMENTO) /
-                              100
-                          )
-                        )}
+                        {formatBRL(adiantamentoVal)}
                       </span>
                     </div>
                   </div>

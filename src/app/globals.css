@@ -4006,6 +4006,68 @@ body.fullscreen .landing-nav-header {
   font-size: 0.84rem;
   color: #c9c9c9;
 }
+.tu-goxta-projecao-block {
+  margin-top: 20px;
+  padding: 20px 20px;
+  border-radius: 12px;
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  background: linear-gradient(165deg, rgba(212, 175, 55, 0.08) 0%, rgba(212, 175, 55, 0.02) 100%);
+}
+.tu-goxta-projecao-title {
+  margin: 0 0 8px;
+  font-family: var(--font-cinzel), Cinzel, serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 0.12em;
+}
+.tu-goxta-projecao-lead {
+  margin: 0 0 16px;
+  font-size: 0.8rem;
+  color: #b8b8b8;
+  letter-spacing: 0.02em;
+}
+.tu-goxta-projecao-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px 18px;
+}
+.tu-goxta-projecao-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  background: rgba(0, 0, 0, 0.3);
+}
+.tu-goxta-projecao-item-destaque {
+  border-color: rgba(212, 175, 55, 0.4);
+  background: linear-gradient(145deg, rgba(212, 175, 55, 0.12) 0%, rgba(212, 175, 55, 0.04) 100%);
+}
+.tu-goxta-projecao-label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: rgba(212, 175, 55, 0.9);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.tu-goxta-projecao-val {
+  font-family: var(--font-cinzel), Cinzel, serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fff;
+}
+.tu-goxta-projecao-sublabel {
+  font-size: 0.7rem;
+  color: #a0a0a0;
+}
+@media (max-width: 600px) {
+  .tu-goxta-projecao-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .tu-goxta-adiantamento {
   display: flex;
   align-items: baseline;
@@ -4085,6 +4147,12 @@ body.fullscreen .landing-nav-header {
   color: rgba(212, 175, 55, 0.9);
   letter-spacing: 0.04em;
 }
+.tu-goxta-dashboard-selector-hint {
+  margin: 8px 0 0;
+  font-size: 0.72rem;
+  color: rgba(212, 175, 55, 0.65);
+  letter-spacing: 0.06em;
+}
 .tu-goxta-dashboard-cards {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -4113,6 +4181,24 @@ body.fullscreen .landing-nav-header {
 }
 .tu-goxta-dashboard-card-destaque:hover {
   box-shadow: 0 6px 28px rgba(0, 0, 0, 0.5), 0 0 24px rgba(212, 175, 55, 0.08);
+}
+.tu-goxta-dashboard-card-btn {
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.tu-goxta-dashboard-card-excluido {
+  opacity: 0.5;
+  border-style: dashed !important;
+  border-color: rgba(212, 175, 55, 0.15) !important;
+}
+.tu-goxta-dashboard-card-excluido:hover {
+  opacity: 0.7;
+  border-color: rgba(212, 175, 55, 0.25) !important;
 }
 .tu-goxta-dashboard-card-body {
   display: flex;

@@ -81,6 +81,7 @@ const SUB_SECTIONS: Array<{ id: string; label: string; parentId: string }> = [
   { id: "lineup-abril", label: "Line-up Abril", parentId: "noite-sabado" },
   { id: "ultimo-evento", label: "Último Evento", parentId: "noite-sabado" },
   { id: "faturamento", label: "Faturamento", parentId: "noite-sabado" },
+  { id: "projecao-tu-goxta", label: "Projeção Tu Goxta", parentId: "noite-sabado" },
   { id: "dashboard-consolidado", label: "Dashboard", parentId: "noite-sabado" },
 ];
 
