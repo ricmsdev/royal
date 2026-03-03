@@ -2,20 +2,22 @@
 
 Pitch deck e site para a casa noturna **ROYAL** — Pinheiros, São Paulo.
 
-Apresentado por **Casa Sarmento**.
 
 ## Ver apresentação
 
+- **Next.js (recomendado):** `cd web && npm run dev` — app em `http://localhost:3000`
+- **HTML estático:** abra `apresentacao_royal.html` no navegador
 - **Repositório público:** [htmlpreview](https://htmlpreview.github.io/?https://raw.githubusercontent.com/ricmsdev/royal/main/apresentacao_royal.html)
-- **Repositório privado:** abra `apresentacao_royal.html` localmente no navegador ou ative [GitHub Pages](https://docs.github.com/pages) (Settings → Pages → Deploy from branch `main`)
 
 ## Estrutura
 
-- `apresentacao_royal.html` — Apresentação principal (scroll-snap, GSAP)
-- `AVENUE/` — Mapa interativo da casa (floor-plan, zoom/pan)
-- `Juridico/` — Framework de equity
-- `AGENTS.md` — Framework de agentes (Planner → Architect → Coder → QA)
+- `web/` — App Next.js 16 (React 19, GSAP, componentizado)
+- `apresentacao_royal.html` — Apresentação HTML estática (legado)
+- `AVENUE/` — Mapa interativo (floor-plan, zoom/pan) — copiado em `web/public/AVENUE/`
+- `planning/` — Planejamento bimestral, concept flyers, tese Fora da Curva
+- `AGENTS.md` — Framework de agentes (5 subagentes)
 
 ## Stack
 
-HTML, CSS, GSAP, ScrollTrigger. Paleta: dourado `#d4af37`, preto `#050505`.
+- **Next.js:** TypeScript, App Router, Tailwind 4, GSAP, ScrollTrigger
+- **Legado:** HTML, CSS, GSAP. Paleta: dourado `#d4af37`, preto `#050505`.

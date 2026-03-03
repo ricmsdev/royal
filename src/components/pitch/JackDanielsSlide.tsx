@@ -6,10 +6,10 @@ import { Slide } from "./Slide";
 import { ActTag } from "../ui/ActTag";
 
 const JD_ARTISTS = [
-  { nome: "Chefin", slug: "chefin", instagram: "chefinoficial", role: "Headliner" },
+  { nome: "Chefin", slug: "chefin", instagram: "chefin23", role: "Headliner" },
   { nome: "MC Tuto", slug: "tutto", instagram: "mctuto", role: "Headliner" },
   { nome: "MC Meno K", slug: "meno-k", instagram: "mcmenok", role: "Guest" },
-  { nome: "MC IG", slug: "ig", instagram: "mcig", role: "Guest" },
+  { nome: "MC IG", slug: "ig", instagram: "mcig4m", role: "Guest" },
 ];
 
 const JD_FORMAT_CARDS = [

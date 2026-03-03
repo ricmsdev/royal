@@ -32,10 +32,10 @@ function formatMetric(n: number): string {
 }
 
 const TU_GOXTA_ARTISTS: ArtistItem[] = [
-  { nome: "MC Tuto", slug: "tutto", status: "contrato", instagram: "mctuto", followers: 320_000, spotifyMonthlyListeners: 1_200_000 },
-  { nome: "Chefin", slug: "chefin", status: "contrato", instagram: "chefinoficial", followers: 890_000, spotifyMonthlyListeners: 2_400_000 },
-  { nome: "MC Meno K", slug: "meno-k", status: "sem contrato", instagram: "mcmenok", followers: 180_000, spotifyMonthlyListeners: 450_000 },
-  { nome: "MC IG", slug: "ig", status: "sem contrato", instagram: "mcig", followers: 210_000, spotifyMonthlyListeners: 680_000 },
+  { nome: "MC Tuto", slug: "tutto", status: "contrato", instagram: "mctuto", followers: 4_700_000, spotifyMonthlyListeners: 12_800_000 },
+  { nome: "Chefin", slug: "chefin", status: "contrato", instagram: "chefin23", followers: 6_700_000, spotifyMonthlyListeners: 28_000_000 },
+  { nome: "MC Meno K", slug: "meno-k", status: "sem contrato", instagram: "mcmenok", followers: 2_700_000, spotifyMonthlyListeners: 23_700_000 },
+  { nome: "MC IG", slug: "ig", status: "sem contrato", instagram: "mcig4m", followers: 5_600_000, spotifyMonthlyListeners: 8_000_000 },
 ];
 
 const InstagramIcon = () => (
@@ -302,7 +302,7 @@ export function RoyalNightSlide() {
               <section id="lineup-abril" className="tu-goxta-artists-section tu-goxta-lineup-modern">
                 <div className="tu-goxta-lineup-header">
                   <h3 className="tu-goxta-section-title">LINE-UP ABRIL</h3>
-                  <p className="tu-goxta-lineup-sub">4 artistas · alcance combinado +1,6M seguidores · +4,7M ouvintes/mês Spotify</p>
+                  <p className="tu-goxta-lineup-sub">4 artistas · alcance combinado +19,7M seguidores · +72,5M ouvintes/mês Spotify</p>
                 </div>
                 <div className="tu-goxta-artists-grid tu-goxta-artists-grid-modern">
                   {TU_GOXTA_ARTISTS.map((a) => (
@@ -333,15 +333,15 @@ export function RoyalNightSlide() {
                   </div>
                   <div className="tu-goxta-ultimo-breakdown">
                     <div className="tu-goxta-ultimo-item">
-                      <span className="tu-goxta-ultimo-item-val">R$ 40k</span>
-                      <span className="tu-goxta-ultimo-item-desc">Camarote</span>
+                      <span className="tu-goxta-ultimo-item-val">R$ 65k</span>
+                      <span className="tu-goxta-ultimo-item-desc">Bilheteria</span>
                     </div>
                     <div className="tu-goxta-ultimo-item">
                       <span className="tu-goxta-ultimo-item-val">R$ 120k</span>
-                      <span className="tu-goxta-ultimo-item-desc">Pista</span>
+                      <span className="tu-goxta-ultimo-item-desc">Bar</span>
                     </div>
                     <div className="tu-goxta-ultimo-item tu-goxta-ultimo-item-pessoas">
-                      <span className="tu-goxta-ultimo-item-val">650</span>
+                      <span className="tu-goxta-ultimo-item-val">605</span>
                       <span className="tu-goxta-ultimo-item-desc">Pessoas na casa</span>
                     </div>
                   </div>
@@ -350,7 +350,7 @@ export function RoyalNightSlide() {
                 <section id="faturamento" className="tu-goxta-section tu-goxta-faturamento-section">
                   <h3 className="tu-goxta-section-title">DETALHAMENTO — ÚLTIMO EVENTO</h3>
                   <p className="tu-goxta-lead">
-                    650 pessoas na casa. Camarote + pista + bar. Valores reais de fevereiro.
+                    605 pessoas na casa. Bilheteria (entrada) separada de consumo bar. Ticket full — bebida por fora.
                   </p>
                   <div className="faturamento-tabela">
                     <div className="faturamento-linha faturamento-header">
@@ -359,29 +359,35 @@ export function RoyalNightSlide() {
                       <span>Ticket/consumo</span>
                       <span className="faturamento-valor">Subtotal</span>
                     </div>
+                    <div className="faturamento-linha faturamento-grupo-label">
+                      <span className="faturamento-grupo-text">BILHETERIA (entrada)</span>
+                    </div>
                     <div className="faturamento-linha">
                       <span>Camarotes (bustos e sofás)</span>
-                      <span>~120</span>
-                      <span>~R$ 333</span>
-                      <span className="faturamento-valor">R$ 40.000</span>
+                      <span>120</span>
+                      <span>R$ 180</span>
+                      <span className="faturamento-valor">R$ 21.600</span>
                     </div>
                     <div className="faturamento-linha">
                       <span>Pista</span>
-                      <span>~530</span>
-                      <span>~R$ 226</span>
-                      <span className="faturamento-valor">R$ 120.000</span>
+                      <span>485</span>
+                      <span>R$ 90</span>
+                      <span className="faturamento-valor">R$ 43.650</span>
                     </div>
                     <div className="faturamento-linha faturamento-subtotal">
                       <span>Bilheteria bruta</span>
-                      <span>650</span>
+                      <span>605</span>
                       <span>—</span>
-                      <span className="faturamento-valor">R$ 160.000</span>
+                      <span className="faturamento-valor">R$ 65.250</span>
+                    </div>
+                    <div className="faturamento-linha faturamento-grupo-label">
+                      <span className="faturamento-grupo-text">BAR (consumo bebidas — custo bebidas por fora)</span>
                     </div>
                     <div className="faturamento-linha">
-                      <span>Bar (consumo médio)</span>
-                      <span>650</span>
-                      <span>~R$ 38</span>
-                      <span className="faturamento-valor">R$ 25.000</span>
+                      <span>Consumo médio bar</span>
+                      <span>605</span>
+                      <span>~R$ 198</span>
+                      <span className="faturamento-valor">R$ 119.750</span>
                     </div>
                     <div className="faturamento-linha faturamento-total">
                       <span>Faturamento total</span>
@@ -397,7 +403,7 @@ export function RoyalNightSlide() {
                     </div>
                   </div>
                   <div className="faturamento-resumo">
-                    <p><strong>Faturamento:</strong> R$ 185k · <strong>Lucro:</strong> R$ 120k · <strong>650 pax</strong></p>
+                    <p><strong>Bilheteria:</strong> R$ 65k · <strong>Bar:</strong> R$ 120k · <strong>Total:</strong> R$ 185k · <strong>Lucro:</strong> R$ 120k · <strong>605 pax</strong></p>
                   </div>
                   <div className="tu-goxta-adiantamento">
                     <span className="adiantamento-valor">35%</span>

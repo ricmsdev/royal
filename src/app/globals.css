@@ -3897,6 +3897,18 @@ body.fullscreen .landing-nav-header {
   background: rgba(0, 0, 0, 0.2);
   border-bottom: 1px dashed rgba(212, 175, 55, 0.3);
 }
+.faturamento-grupo-label {
+  grid-template-columns: 1fr;
+  padding: 10px 16px;
+  background: rgba(212, 175, 55, 0.06);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+}
+.faturamento-grupo-text {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--gold);
+}
 .faturamento-deducao .faturamento-valor {
   color: #e07c7c !important;
 }

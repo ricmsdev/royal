@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROYAL 3.0 — Concept Flyers por Noite</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Manrope:wght@300;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --gold: #d4af37; --black: #050505; --white: #fff; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #0a0a0a; color: var(--white); font-family: 'Manrope', sans-serif; padding: 40px 24px; }
+        h1 { font-family: 'Cinzel', serif; text-align: center; margin-bottom: 12px; color: var(--gold); font-size: 2rem; }
+        .subtitle { text-align: center; margin-bottom: 48px; color: #888; font-size: 0.9rem; }
+        .flyer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 32px; max-width: 1400px; margin: 0 auto; }
+        .flyer-card {
+            background: #111; border: 1px solid #222; border-radius: 12px;
+            overflow: hidden; transition: border-color 0.3s;
+        }
+        .flyer-card:hover { border-color: var(--gold); }
+        .flyer-preview {
+            aspect-ratio: 1; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; padding: 32px;
+            position: relative;
+        }
+        .flyer-preview.seg { background: linear-gradient(180deg, #050505 0%, #1a0a0a 100%); }
+        .flyer-preview.ter { background: linear-gradient(180deg, #0a0505 0%, #1a0a0a 50%, #0d0a15 100%); }
+        .flyer-preview.qua { background: linear-gradient(135deg, #050505 0%, #0a0515 50%, #150510 100%); }
+        .flyer-preview.qui { background: linear-gradient(180deg, #0a0805 0%, #050505 100%); }
+        .flyer-preview.sex { background: linear-gradient(180deg, #050510 0%, #0a0515 50%, #100510 100%); }
+        .flyer-preview.sab { background: linear-gradient(180deg, #150505 0%, #050505 100%); }
+        .flyer-preview.dom { background: linear-gradient(180deg, #0a0d08 0%, #050505 100%); }
+        .flyer-dia { font-family: 'Cinzel', serif; font-size: 0.7rem; letter-spacing: 0.4em; color: var(--gold); margin-bottom: 8px; }
+        .flyer-titulo { font-family: 'Cinzel', serif; font-size: 1.4rem; text-align: center; margin-bottom: 12px; line-height: 1.2; }
+        .flyer-copy { font-size: 0.8rem; text-align: center; color: #aaa; line-height: 1.5; max-width: 240px; }
+        .flyer-specs {
+            padding: 20px; border-top: 1px solid #222;
+            font-size: 0.75rem; color: #666; line-height: 1.8;
+        }
+        .flyer-specs strong { color: var(--gold); }
+        .concept-tag { display: inline-block; background: rgba(212,175,55,0.15); color: var(--gold); padding: 4px 10px; border-radius: 4px; font-size: 0.65rem; letter-spacing: 0.1em; margin-top: 12px; }
+    </style>
+</head>
+<body>
+    <h1>ROYAL 3.0</h1>
+    <p class="subtitle">Concept Flyers — Brief por Noite</p>
+
+    <div class="flyer-grid">
+        <!-- SEGUNDA -->
+        <div class="flyer-card">
+            <div class="flyer-preview seg">
+                <span class="flyer-dia">SEGUNDA</span>
+                <h2 class="flyer-titulo">THE MEATING PLACE</h2>
+                <p class="flyer-copy">Onde o board se reúne.</p>
+                <span class="concept-tag">Corporativo · Steakhouse</span>
+            </div>
+            <div class="flyer-specs">
+                <strong>Visual:</strong> Fundo preto, line-art dourado (talher/costela)<br>
+                <strong>Copy:</strong> "SEGUNDA NA ROYAL. Onde o board se reúne."<br>
+                <strong>Cores:</strong> #050505, #d4af37, #fff
+            </div>
+        </div>
+
+        <!-- TERÇA -->
+        <div class="flyer-card">
+            <div class="flyer-preview ter">
+                <span class="flyer-dia">TERÇA</span>
+                <h2 class="flyer-titulo">SECRET DINING</h2>
+                <p class="flyer-copy">Wine & Jazz. O que acontece na Royal, fica na Royal.</p>
+                <span class="concept-tag">Midnight escapades</span>
+            </div>
+            <div class="flyer-specs">
+                <strong>Visual:</strong> Lua, estrelas, silhueta saxofone, neon âmbar<br>
+                <strong>Copy:</strong> "TERÇA. Wine & Jazz."<br>
+                <strong>Cores:</strong> Preto, âmbar, vinho
+            </div>
+        </div>
+
+        <!-- QUARTA -->
+        <div class="flyer-card">
+            <div class="flyer-preview qua">
+                <span class="flyer-dia">QUARTA</span>
+                <h2 class="flyer-titulo">MAKE IT ICONIC</h2>
+                <p class="flyer-copy">O preview da sexta. Quem vem na quarta, garante na sexta.</p>
+                <span class="concept-tag">Preview · Transição</span>
+            </div>
+            <div class="flyer-specs">
+                <strong>Visual:</strong> Transição dia→noite, talheres neon<br>
+                <strong>Copy:</strong> "QUARTA. O preview da sexta."<br>
+                <strong>Cores:</strong> Neon rosa/azul, preto
+            </div>
+        </div>
+
+        <!-- QUINTA -->
+        <div class="flyer-card">
+            <div class="flyer-preview qui">
+                <span class="flyer-dia">QUINTA</span>
+                <h2 class="flyer-titulo">THE DINNER CLUB</h2>
+                <p class="flyer-copy">O jantar que vira festa. 20h coquetel · 22h gastronomia · 23h30 pista.</p>
+                <span class="concept-tag">Script · Martini</span>
+            </div>
+            <div class="flyer-specs">
+                <strong>Visual:</strong> Martini line-art dourado, tipografia script<br>
+                <strong>Copy:</strong> "QUINTA. O jantar que vira festa."<br>
+                <strong>Cores:</strong> Dourado, preto, branco
+            </div>
+        </div>
+
+        <!-- SEXTA -->
+        <div class="flyer-card">
+            <div class="flyer-preview sex">
+                <span class="flyer-dia">SEXTA</span>
+                <h2 class="flyer-titulo">NEON NIGHT</h2>
+                <p class="flyer-copy">High Energy. A casa que respira.</p>
+                <span class="concept-tag">#morethanaclub</span>
+            </div>
+            <div class="flyer-specs">
+                <strong>Visual:</strong> Neon forte, selva urbana, OTTURA vibes<br>
+                <strong>Copy:</strong> "SEXTA. High Energy."<br>
+                <strong>Cores:</strong> Neon verde/rosa/azul, preto
+            </div>
+        </div>
+
+        <!-- SÁBADO -->
+        <div class="flyer-card">
+            <div class="flyer-preview sab">
+                <span class="flyer-dia">SÁBADO</span>
+                <h2 class="flyer-titulo">MAKE IT ICONIC</h2>
+                <p class="flyer-copy">Camarote ou fila. Você escolhe.</p>
+                <span class="concept-tag">Escassez · Poder</span>
+            </div>
+            <div class="flyer-specs">
+                <strong>Visual:</strong> Neon em tijolo, camarote em destaque<br>
+                <strong>Copy:</strong> "SÁBADO. Camarote ou fila."<br>
+                <strong>Cores:</strong> Neon vermelho, dourado, preto
+            </div>
+        </div>
+
+        <!-- DOMINGO -->
+        <div class="flyer-card">
+            <div class="flyer-preview dom">
+                <span class="flyer-dia">DOMINGO</span>
+                <h2 class="flyer-titulo">ROOFTOP & LOUNGE</h2>
+                <p class="flyer-copy">Brunch & Lounge. O respiro antes da semana.</p>
+                <span class="concept-tag">Apply now — membership</span>
+            </div>
+            <div class="flyer-specs">
+                <strong>Visual:</strong> Luz natural, disco balls, geometria<br>
+                <strong>Copy:</strong> "DOMINGO. Brunch & Lounge."<br>
+                <strong>Cores:</strong> Luz natural, dourado, verde
+            </div>
+        </div>
+    </div>
+</body>
+</html>

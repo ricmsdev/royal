@@ -17,7 +17,7 @@ const manrope = Manrope({
 export const metadata: Metadata = {
   title: "ROYAL 3.0 | Mudança de Era",
   description:
-    "ROYAL 3.0 — Casa noturna em Pinheiros, São Paulo. Apresentado por Casa Sarmento.",
+    "ROYAL 3.0 — Casa noturna em Pinheiros, São Paulo.",
 };
 
 export const viewport: Viewport = {
