@@ -494,6 +494,43 @@ export function PitchContainer() {
     }
   };
 
+  // Hash-based navigation: /#lineup-abril, /#noite-sabado, etc.
+  useEffect(() => {
+    const TU_GOXTA_HASHES = ["lineup-abril", "ultimo-evento", "faturamento", "dashboard-consolidado"];
+
+    const scrollToHash = (retry?: boolean) => {
+      const hash = typeof window !== "undefined" ? window.location.hash.slice(1) : "";
+      if (!hash) return;
+
+      const container = containerRef.current;
+      if (!container) return;
+
+      const target = document.getElementById(hash);
+      if (target) {
+        requestAnimationFrame(() => {
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+        return;
+      }
+
+      // Sub-seções Tu Goxta: primeiro vai ao slide, depois retry (tab precisa renderizar)
+      if (retry !== true && TU_GOXTA_HASHES.includes(hash)) {
+        const idx = SLIDE_IDS.indexOf("noite-sabado");
+        if (idx >= 0) scrollToSlide(idx);
+        setTimeout(() => scrollToHash(true), 250);
+        return;
+      }
+
+      const idx = SLIDE_IDS.indexOf(hash);
+      if (idx >= 0) scrollToSlide(idx);
+    };
+
+    scrollToHash();
+    const onHashChange = () => scrollToHash();
+    window.addEventListener("hashchange", onHashChange);
+    return () => window.removeEventListener("hashchange", onHashChange);
+  }, []);
+
   // Progress dots / scroll position
   useEffect(() => {
     const container = document.querySelector(".pitch-container");

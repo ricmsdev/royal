@@ -5,7 +5,7 @@ const MAPS_URL =
 
 export function Footer() {
   return (
-    <footer className="footer">
+    <footer id="footer" className="footer">
       <div className="address">
         <h3>ROYAL</h3>
         <p>
@@ -16,8 +16,6 @@ export function Footer() {
         </Link>
       </div>
       <div className="branding">
-        <p className="footer-presented">APRESENTADO POR CASA SARMENTO</p>
-        STRATEGY & DESIGN BY RICARDO SARMENTO
         <p style={{ marginTop: "12px" }}>
           <Link
             href="https://github.com/ricmsdev/royal"
