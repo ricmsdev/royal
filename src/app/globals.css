@@ -2295,11 +2295,15 @@ body.fullscreen .landing-nav-header {
   justify-content: center;
   min-height: 64px;
   margin-bottom: 18px;
+  overflow: visible;
+  padding: 4px 0;
 }
 .jack-daniels-logo {
   max-width: 100%;
+  width: auto;
   height: auto;
   object-fit: contain;
+  object-position: center;
 }
 .jack-daniels-logo-fallback {
   display: none;
@@ -2880,6 +2884,13 @@ body.fullscreen .landing-nav-header {
   height: auto;
   object-fit: contain;
   filter: brightness(1.1);
+}
+.marca-tile--jack-daniels .marca-tile-logo {
+  min-height: 72px;
+}
+.marca-tile--jack-daniels .marca-tile-img {
+  width: 180px;
+  max-width: 100%;
 }
 .marca-tile-fallback {
   font-size: 1rem;

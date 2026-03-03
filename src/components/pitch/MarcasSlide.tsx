@@ -35,14 +35,14 @@ export function MarcasSlide() {
           const src = `/AVENUE/marcas/${slug}.svg`;
           const hasError = errors[slug];
           return (
-            <article key={slug} className="marca-tile">
+            <article key={slug} className={`marca-tile ${slug === "jack-daniels" ? "marca-tile--jack-daniels" : ""}`}>
               <div className="marca-tile-logo">
                 {!hasError ? (
                   <Image
                     src={src}
                     alt={name}
-                    width={100}
-                    height={50}
+                    width={slug === "jack-daniels" ? 180 : 100}
+                    height={slug === "jack-daniels" ? 60 : 50}
                     className="marca-tile-img"
                     onError={() => setErrors((p) => ({ ...p, [slug]: true }))}
                   />
