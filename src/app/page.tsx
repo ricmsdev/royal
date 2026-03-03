@@ -1,5 +1,10 @@
+import { PasswordGate } from "@/components/PasswordGate";
 import { PitchContainer } from "@/components/pitch/PitchContainer";
 
 export default function Home() {
-  return <PitchContainer />;
+  return (
+    <PasswordGate>
+      <PitchContainer />
+    </PasswordGate>
+  );
 }

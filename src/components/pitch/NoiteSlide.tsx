@@ -17,7 +17,7 @@ export const NOITES_DATA: NoiteItem[] = [
   { id: "noite-quarta", num: "03", nome: "QUARTA", mood: "PREVIEW", evento: "Corporate + Preview. Jantar + after.", ambientes: "Restaurante · Camarotes · Pista" },
   { id: "noite-quinta", num: "04", nome: "QUINTA", mood: "ESTÚDIO", evento: "Stand-up Royal. Palco intimista e Instagramável. Gastro Club + comédia premium ao vivo. Show especial.", ambientes: "Restaurante · Lounge · Pista · Camarotes", destaque: "ESTÚDIO" },
   { id: "noite-sexta", num: "05", nome: "SEXTA", mood: "HIGH ENERGY", evento: "Casa cheia. Pista em ebulição. Sold out.", ambientes: "Pista · Camarotes · Front Stage · Externas" },
-  { id: "noite-sabado", num: "06", nome: "SÁBADO", mood: "PICO", evento: "Reserva de camarote obrigatória. Todos os ambientes.", ambientes: "Todos os ambientes" },
+  { id: "noite-sabado", num: "06", nome: "SABADO", mood: "ROYAL MAINSTREET", evento: "Chefin Night com Mainstreet Records. Noite assinatura ROYAL em formato so camarotes, servico premium e line-up da label.", ambientes: "So Camarotes · Lounge Royal · Front VIP", destaque: "CHEFIN NIGHT" },
   { id: "noite-domingo", num: "07", nome: "DOMINGO", mood: "RESPIRO", evento: "Brunch & Lounge. Respiro premium.", ambientes: "Restaurante · Externas" },
 ];
 

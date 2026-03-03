@@ -1,42 +1,56 @@
-"use client";
+﻿"use client";
 
 import Image from "next/image";
 import { Slide } from "./Slide";
 import { ActTag } from "../ui/ActTag";
 
-const IDOLS = [
-  { id: 1, name: "Ronaldo", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&q=85" },
-  { id: 2, name: "Neymar", img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&q=85" },
-  { id: 3, name: "Ídolo 3", img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&q=85" },
-  { id: 4, name: "Ídolo 4", img: "https://images.unsplash.com/photo-1552058544-f2b08422138a?w=300&q=85" },
-  { id: 5, name: "Ídolo 5", img: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=300&q=85" },
-  { id: 6, name: "Ídolo 6", img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=300&q=85" },
+const LINEUP = [
+  { seat: "01", name: "Ronaldo", role: "captain seat", stack: "R$ 500k" },
+  { seat: "02", name: "Neymar", role: "pressure spot", stack: "R$ 500k" },
+  { seat: "03", name: "Convidado 3", role: "aggressor", stack: "R$ 400k" },
+  { seat: "04", name: "Convidado 4", role: "wild card", stack: "R$ 400k" },
+  { seat: "05", name: "Convidado 5", role: "closer", stack: "R$ 300k" },
+  { seat: "06", name: "Convidado 6", role: "closer", stack: "R$ 300k" },
 ];
 
-const SHARK_FORMAT = [
-  "Shot clock 30s — ritmo de TV, zero enrolação",
-  "Shark Cage no palco — quem blefa e perde, vai pra gaiola",
-  "Câmeras na mesa — projeção ao vivo no telão",
-  "Leaderboard em tempo real — o público acompanha cada mão",
-  "Buy-in exclusivo — acesso só por indicação",
+const OPS = [
+  { k: "CLOCK", v: "30s", sub: "decisao rapida" },
+  { k: "TIME BANK", v: "x4", sub: "extensao por jogador" },
+  { k: "BLUFF", v: "BUTTON", sub: "chamada publica" },
+  { k: "PENALTY", v: "1 ORBIT", sub: "entra na cage" },
+];
+
+const SHARK_RULES = [
+  "Pre-flop em 15s, pos-flop em 30s com cronometro de tela.",
+  "Bluff button: blefou e perdeu, entra na cage por uma orbita.",
+  "Cameras na mesa + telao com hand feed em tempo real.",
+  "Leaderboard de maos e stacks para audiencia acompanhar.",
+  "Acesso premium por lista e buy-in por indicacao.",
 ];
 
 export function PokerNightSlide() {
   return (
     <Slide
       id="noite-terca"
+      variant="scrollable"
       bg="/ronaldosharkpoker.jpg"
       cinematic
       overlayStyle={{
         background:
-          "linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(5,3,15,0.65) 50%, rgba(0,0,0,0.75) 100%)",
+          "linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(5,3,15,0.65) 52%, rgba(0,0,0,0.8) 100%)",
       }}
-      contentStyle={{ maxWidth: "820px" }}
+      contentStyle={{ maxWidth: "1280px" }}
     >
-      <ActTag>PROGRAMAÇÃO — TERÇA</ActTag>
+      <ActTag>PROGRAMACAO - TERCA</ActTag>
 
       <div className="allin">
-        <span className="allin-badge">SHARK CAGE</span>
+        <div className="allin-topbar">
+          <span className="allin-badge">SHARK CAGE</span>
+          <span className="allin-live-pill">
+            LIVE BROADCAST
+            <span className="allin-live-dot" aria-hidden />
+          </span>
+        </div>
 
         <header className="allin-header">
           <span className="allin-num">02</span>
@@ -45,55 +59,58 @@ export function PokerNightSlide() {
         </header>
 
         <blockquote className="allin-hook">
-          Ronaldo. Neymar. Na mesa. Ao vivo. O palco vira arena. Ídolos jogando
-          entre si — transmissão ao vivo, drama em tempo real.
+          Ronaldo e convidados na mesa com dinamica de TV: clock correndo,
+          bluff chamado no palco e transmissao ao vivo para o club inteiro.
         </blockquote>
 
+        <div className="allin-ops">
+          {OPS.map((op) => (
+            <article key={op.k} className="allin-op-card">
+              <span className="allin-op-k">{op.k}</span>
+              <span className="allin-op-v">{op.v}</span>
+              <span className="allin-op-sub">{op.sub}</span>
+            </article>
+          ))}
+        </div>
+
         <div className="allin-grid">
-          <section className="allin-mesa">
-            <h2 className="allin-section-title">MESA — 6 ÍDOLOS</h2>
-            <div className="allin-avatars">
-              {IDOLS.map((idol) => (
-                <div key={idol.id} className="allin-avatar">
-                  <div className="allin-avatar-ring">
-                    <Image
-                      src={idol.img}
-                      alt={idol.name}
-                      width={64}
-                      height={64}
-                    />
-                  </div>
-                  <span className="allin-avatar-num">{String(idol.id).padStart(2, "0")}</span>
-                  <span className="allin-avatar-name">{idol.name}</span>
-                </div>
+          <section className="allin-lineup">
+            <h2 className="allin-section-title">MESA - 6 IDOLOS</h2>
+            <div className="allin-seats">
+              {LINEUP.map((p) => (
+                <article key={p.seat} className="allin-seat-card">
+                  <span className="allin-seat-num">{p.seat}</span>
+                  <h3>{p.name}</h3>
+                  <p>{p.role}</p>
+                  <span className="allin-seat-stack">{p.stack}</span>
+                </article>
               ))}
             </div>
           </section>
 
-          <section className="allin-cage">
-            <div className="allin-cage-frame">
-              <div className="allin-cage-grid" aria-hidden />
-              <div className="allin-cage-img">
-                <Image
-                  src="/money.jpg"
-                  alt="Shark Cage Champion"
-                  width={280}
-                  height={160}
-                />
-              </div>
-              <div className="allin-cage-body">
-                <h2 className="allin-section-title">FORMATO SHARK CAGE</h2>
-                <ul className="allin-cage-list">
-                  {SHARK_FORMAT.map((item, i) => (
-                    <li key={i}>{item}</li>
-                  ))}
-                </ul>
-              </div>
+          <section className="allin-broadcast">
+            <div className="allin-cage-img">
+              <Image
+                src="/money.jpg"
+                alt="Shark Cage setup"
+                width={560}
+                height={315}
+              />
+            </div>
+            <div className="allin-broadcast-body">
+              <h2 className="allin-section-title">FORMATO SHARK CAGE</h2>
+              <ul className="allin-cage-list">
+                {SHARK_RULES.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
             </div>
           </section>
         </div>
 
-        <p className="allin-footer">Lounge · Camarotes · Mesa VIP · Transmissão</p>
+        <p className="allin-footer">
+          Lounge privado - Camarotes - Mesa VIP - Streaming feed
+        </p>
       </div>
     </Slide>
   );

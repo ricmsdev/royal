@@ -20,6 +20,7 @@ import { MapSlide } from "./MapSlide";
 import { LaunchConceptSlide } from "./LaunchConceptSlide";
 import { NoiteSlide, NOITES_DATA } from "./NoiteSlide";
 import { PokerNightSlide } from "./PokerNightSlide";
+import { RoyalNightSlide } from "./RoyalNightSlide";
 import { CTASlide } from "./CTASlide";
 import { Footer } from "./Footer";
 
@@ -650,6 +651,8 @@ export function PitchContainer() {
         {NOITES_DATA.map((n) =>
           n.id === "noite-terca" ? (
             <PokerNightSlide key={n.id} />
+          ) : n.id === "noite-sabado" ? (
+            <RoyalNightSlide key={n.id} />
           ) : (
             <NoiteSlide
               key={n.id}
