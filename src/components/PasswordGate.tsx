@@ -5,7 +5,7 @@ import { useState, useEffect, useCallback } from "react";
 const STORAGE_KEY = "royal_authenticated";
 
 /** Mock: validação client-side, sem backend. Senhas aceitas no Vercel. */
-const MOCK_PASSWORDS = ["royal", "casa1234"];
+const MOCK_PASSWORDS = ["casa1234"];
 
 function isPasswordValid(input: string): boolean {
   if (typeof window === "undefined") return false;
