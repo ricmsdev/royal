@@ -4,9 +4,14 @@ import { useState, useEffect, useCallback } from "react";
 
 const STORAGE_KEY = "royal_authenticated";
 
-function getPassword(): string {
-  if (typeof window === "undefined") return "";
-  return process.env.NEXT_PUBLIC_SITE_PASSWORD ?? "royal";
+/** Mock: validação client-side, sem backend. Senhas aceitas no Vercel. */
+const MOCK_PASSWORDS = ["royal", "casa1234"];
+
+function isPasswordValid(input: string): boolean {
+  if (typeof window === "undefined") return false;
+  const envPass = process.env.NEXT_PUBLIC_SITE_PASSWORD;
+  if (envPass && input === envPass) return true;
+  return MOCK_PASSWORDS.includes(input);
 }
 
 export function PasswordGate({ children }: { children: React.ReactNode }) {
@@ -37,8 +42,7 @@ export function PasswordGate({ children }: { children: React.ReactNode }) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    const correct = getPassword();
-    if (password === correct) {
+    if (isPasswordValid(password)) {
       try {
         sessionStorage.setItem(STORAGE_KEY, "1");
       } catch {
