@@ -1653,6 +1653,26 @@ h2 {
     height: 14px;
   }
 }
+body.fullscreen .btn-fullscreen {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-50%) translateY(100%);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+body.fullscreen .btn-fullscreen.fs-btn-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+/* Invisible hover zone at bottom to reveal fullscreen btn */
+.fullscreen-hover-zone {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 48px;
+  z-index: 199;
+}
 body.fullscreen .progress-dots {
   opacity: 0;
   pointer-events: none;
@@ -1671,7 +1691,25 @@ body.fullscreen .progress-dots {
   align-items: center;
   justify-content: space-between;
   padding: 20px 32px;
-  transition: background 0.4s, padding 0.3s;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-100%);
+  transition: opacity 0.35s ease, transform 0.35s ease, background 0.4s, padding 0.3s;
+}
+.landing-nav-header.nav-visible,
+.landing-nav-header.open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+/* Invisible hover zone at top of screen to trigger nav */
+.nav-hover-zone {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 32px;
+  z-index: 199;
 }
 .landing-nav-header.scrolled {
   background: rgba(5, 5, 5, 0.92);
@@ -1896,12 +1934,7 @@ body.fullscreen .progress-dots {
   }
 }
 
-body.fullscreen .landing-nav-header {
-  opacity: 0;
-  pointer-events: none;
-  visibility: hidden;
-  transition: opacity 0.3s;
-}
+/* fullscreen nav now handled by nav-visible hover logic */
 
 /* CONCEITO VISUAL */
 .conceito-grid {
@@ -2282,293 +2315,594 @@ body.fullscreen .landing-nav-header {
 }
 
 /* JACK DANIEL'S — Royal Black Box · Boiler Room · Estilo Royal */
+/* ═══════════════════════════════════════════════════
+   JACK DANIEL'S × ROYAL STUDIO — Redesign agressivo
+   ═══════════════════════════════════════════════════ */
 #jack-daniels .slide-bg-video .slide-video {
-  filter: brightness(0.55);
+  filter: brightness(0.4) contrast(1.1);
 }
-.jack-daniels-header {
-  display: grid;
-  grid-template-columns: minmax(260px, 0.4fr) 1fr;
-  gap: 28px;
+
+/* Slide content override */
+#jack-daniels .slide-content {
+  max-width: 1200px;
+  width: 100%;
+  text-align: left;
+}
+
+/* Hero */
+#jack-daniels .jd-hero {
+  display: flex !important;
+  flex-direction: row !important;
   align-items: center;
-  margin-bottom: 28px;
-}
-.jack-daniels-black-box {
-  padding: 32px 28px;
-  border-radius: 16px;
-  border: 2px solid rgba(212, 175, 55, 0.45);
-  background: linear-gradient(165deg, rgba(10, 8, 6, 0.98) 0%, rgba(4, 3, 2, 0.98) 100%);
+  gap: 32px;
+  margin-bottom: 36px;
+  padding: 40px 36px;
+  border-radius: 20px;
+  border: 2px solid rgba(212, 175, 55, 0.35);
+  background: linear-gradient(135deg, rgba(6, 4, 2, 0.98) 0%, rgba(14, 10, 6, 0.96) 50%, rgba(4, 2, 0, 0.98) 100%);
   box-shadow:
-    0 20px 56px rgba(0, 0, 0, 0.65),
-    inset 0 1px 0 rgba(212, 175, 55, 0.12);
-}
-.jack-daniels-logo-wrap {
+    0 24px 64px rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(212, 175, 55, 0.15),
+    inset 0 -1px 0 rgba(212, 175, 55, 0.05);
   position: relative;
+  overflow: hidden;
+}
+.jd-hero::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(ellipse at 30% 50%, rgba(212, 175, 55, 0.06) 0%, transparent 60%);
+  pointer-events: none;
+}
+.jd-hero-logo-box {
+  flex-shrink: 0;
+  width: 160px;
+  height: 120px;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 64px;
-  margin-bottom: 18px;
-  overflow: visible;
-  padding: 4px 0;
 }
-.jack-daniels-logo {
-  max-width: 100%;
+.jd-hero-logo {
+  max-width: 160px;
+  max-height: 110px;
   width: auto;
   height: auto;
   object-fit: contain;
-  object-position: center;
+  filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.15));
 }
-.jack-daniels-logo-fallback {
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
+.jd-hero-divider {
+  width: 2px;
+  height: 80px;
+  background: linear-gradient(180deg, transparent, rgba(212, 175, 55, 0.5), transparent);
+  flex-shrink: 0;
 }
-.jack-daniels-logo-text {
-  font-family: Georgia, serif;
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--gold);
-  letter-spacing: 0.08em;
-}
-.jack-daniels-logo-old {
-  font-family: Georgia, serif;
-  font-size: 0.65rem;
-  font-style: italic;
-  color: rgba(212, 175, 55, 0.8);
-  letter-spacing: 0.2em;
-}
-.jack-daniels-tagline {
-  margin: 0 0 6px;
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.26em;
-  color: var(--gold);
-  text-align: center;
-}
-.jack-daniels-sub {
-  margin: 0;
-  font-size: 0.68rem;
-  color: rgba(212, 175, 55, 0.75);
-  letter-spacing: 0.1em;
-  text-align: center;
-}
-.jack-daniels-header-text {
+.jd-hero-text {
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
-.jack-daniels-title {
+.jd-hero-title {
   margin: 0;
   font-family: var(--font-cinzel), Cinzel, serif;
-  font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+  font-size: clamp(1.6rem, 4vw, 2.6rem);
+  font-weight: 800;
   color: #fff;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
+  line-height: 1.15;
 }
-.jack-daniels-lead {
+.jd-hero-x {
+  color: var(--gold);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 0.85em;
+}
+.jd-hero-sub {
   margin: 0;
-  font-size: 0.98rem;
-  line-height: 1.6;
-  color: #c9c9c9;
+  font-size: 0.88rem;
+  color: rgba(212, 175, 55, 0.8);
+  letter-spacing: 0.1em;
+  font-weight: 500;
 }
 
-/* Defesa — Por que Jack Daniel's × Royal */
-.jack-daniels-defesa {
-  margin-bottom: 28px;
-  padding: 28px 32px;
+/* Defesa */
+#jack-daniels .jd-defesa {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 0;
+  margin-bottom: 32px;
   border-radius: 16px;
-  border-left: 4px solid var(--gold);
-  background: linear-gradient(90deg, rgba(212, 175, 55, 0.12) 0%, rgba(212, 175, 55, 0.02) 100%);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  background: linear-gradient(90deg, rgba(212, 175, 55, 0.08) 0%, rgba(10, 8, 6, 0.95) 100%);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
-.jack-daniels-defesa-text {
+.jd-defesa-accent {
+  width: 5px;
+  flex-shrink: 0;
+  background: linear-gradient(180deg, var(--gold) 0%, rgba(212, 175, 55, 0.3) 100%);
+}
+.jd-defesa-content {
+  padding: 28px 32px;
+}
+.jd-defesa-title {
+  margin: 0 0 14px;
+  font-family: var(--font-cinzel), Cinzel, serif;
+  font-size: 0.82rem;
+  color: var(--gold);
+  letter-spacing: 0.16em;
+}
+.jd-defesa-text {
   margin: 0;
   font-size: 1rem;
-  line-height: 1.7;
-  color: #d0d0d0;
+  line-height: 1.75;
+  color: #ccc;
+}
+.jd-defesa-text strong {
+  color: var(--gold);
 }
 
-/* Cards artistas — estilo Royal */
-.jack-daniels-artists {
-  margin-bottom: 28px;
-  padding: 32px 30px;
-  border-radius: 16px;
-  border: 1px solid rgba(212, 175, 55, 0.28);
-  background: linear-gradient(165deg, rgba(14, 12, 10, 0.95) 0%, rgba(8, 6, 4, 0.92) 100%);
-  box-shadow:
-    0 12px 40px rgba(0, 0, 0, 0.5),
-    inset 0 1px 0 rgba(212, 175, 55, 0.06);
-}
-.jack-daniels-section-title {
-  margin: 0 0 24px;
+/* Section labels */
+.jd-section-label {
+  margin: 0 0 22px;
   font-family: var(--font-cinzel), Cinzel, serif;
-  font-size: 0.9rem;
+  font-size: 0.82rem;
   color: var(--gold);
-  letter-spacing: 0.14em;
-}
-.jack-daniels-artists-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 24px 28px;
-}
-.jack-daniels-artist-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 28px 22px;
-  border-radius: 16px;
-  border: 1px solid rgba(212, 175, 55, 0.22);
-  background: linear-gradient(180deg, rgba(22, 20, 18, 0.95) 0%, rgba(12, 10, 8, 0.98) 100%);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-  transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
-}
-.jack-daniels-artist-card:hover {
-  border-color: rgba(212, 175, 55, 0.5);
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.55), 0 0 24px rgba(212, 175, 55, 0.12);
-  transform: translateY(-4px);
-}
-.jack-daniels-artist-card:hover .jack-daniels-artist-photo {
-  border-color: var(--gold);
-  box-shadow: 0 0 20px rgba(212, 175, 55, 0.25);
-}
-.jack-daniels-artist-photo {
+  letter-spacing: 0.18em;
   position: relative;
-  width: 130px;
-  height: 130px;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 2px solid rgba(212, 175, 55, 0.4);
-  margin-bottom: 18px;
-  flex-shrink: 0;
-  transition: border-color 0.3s, box-shadow 0.3s;
+  padding-left: 20px;
 }
-.jack-daniels-artist-img {
+.jd-section-label::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 10px;
+  height: 2px;
+  background: var(--gold);
+}
+
+/* Lineup — artist cards agressivos */
+.jd-lineup {
+  margin-bottom: 32px;
+}
+#jack-daniels .jd-lineup-grid {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 20px;
+}
+#jack-daniels .jd-artist {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  background: rgba(8, 6, 4, 0.95);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.jd-artist:hover {
+  border-color: var(--gold);
+  transform: translateY(-6px) scale(1.02);
+  box-shadow:
+    0 20px 48px rgba(0, 0, 0, 0.6),
+    0 0 40px rgba(212, 175, 55, 0.15);
+}
+.jd-artist-img-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+}
+.jd-artist-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.5s;
 }
-.jack-daniels-artist-role {
+.jd-artist:hover .jd-artist-img {
+  transform: scale(1.08);
+  filter: brightness(1.1) contrast(1.05);
+}
+.jd-artist-overlay {
   position: absolute;
-  bottom: 4px;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 2px 8px;
-  border-radius: 999px;
-  font-size: 0.58rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  background: rgba(212, 175, 55, 0.9);
-  color: #0a0a0a;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 30%, rgba(0, 0, 0, 0.85) 100%);
+  pointer-events: none;
 }
-.jack-daniels-artist-nome {
-  margin: 0 0 8px;
-  font-size: 1.05rem;
-  font-weight: 600;
+.jd-artist-role {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: var(--gold);
+  color: #0a0a0a;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+.jd-artist-info {
+  padding: 16px 18px 20px;
+}
+.jd-artist-name {
+  margin: 0 0 6px;
+  font-size: 1.15rem;
+  font-weight: 700;
   color: #fff;
   letter-spacing: 0.02em;
 }
-.jack-daniels-artist-ig {
-  font-size: 0.8rem;
+.jd-artist-ig {
+  font-size: 0.78rem;
   color: var(--gold);
   text-decoration: none;
   letter-spacing: 0.04em;
   transition: opacity 0.2s;
+  opacity: 0.8;
 }
-.jack-daniels-artist-ig:hover {
-  opacity: 0.85;
+.jd-artist-ig:hover {
+  opacity: 1;
 }
 
-/* Format cards */
-.jack-daniels-formats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 22px 24px;
-  margin-bottom: 28px;
+/* Format cards — cinematic interactive */
+.jd-formats {
+  margin-bottom: 32px;
 }
-.jack-daniels-format-card {
-  padding: 32px 26px;
+#jack-daniels .jd-formats-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 20px;
+}
+.jd-format {
+  position: relative;
+  padding: 32px 26px 28px;
   border-radius: 16px;
-  border: 1px solid rgba(212, 175, 55, 0.25);
-  background: linear-gradient(180deg, rgba(18, 16, 14, 0.95) 0%, rgba(10, 8, 6, 0.98) 100%);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-  transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+  border: 1px solid rgba(212, 175, 55, 0.15);
+  background: linear-gradient(180deg, rgba(18, 14, 10, 0.95) 0%, rgba(8, 6, 4, 0.98) 100%);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.45);
+  transition: all 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  font-family: inherit;
+  color: inherit;
 }
-.jack-daniels-format-card:hover {
-  border-color: rgba(212, 175, 55, 0.45);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 20px rgba(212, 175, 55, 0.08);
-  transform: translateY(-2px);
+.jd-format::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0;
+  transition: opacity 0.45s;
 }
-.jack-daniels-format-tag {
+.jd-format::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 120%, rgba(212, 175, 55, 0.06), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.45s;
+  pointer-events: none;
+}
+.jd-format:hover {
+  border-color: rgba(212, 175, 55, 0.35);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55), 0 0 24px rgba(212, 175, 55, 0.08);
+  transform: translateY(-4px);
+}
+.jd-format:hover::before,
+.jd-format:hover::after {
+  opacity: 1;
+}
+.jd-format.active {
+  border-color: var(--gold);
+  box-shadow: 0 0 32px rgba(212, 175, 55, 0.15), 0 16px 48px rgba(0, 0, 0, 0.6);
+  transform: translateY(-4px) scale(1.02);
+}
+.jd-format.active::before {
+  opacity: 1;
+  height: 4px;
+}
+.jd-format.active::after {
+  opacity: 1;
+}
+.jd-format-number {
+  display: block;
+  margin-bottom: 10px;
+  font-family: var(--font-cinzel), Cinzel, serif;
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: rgba(212, 175, 55, 0.12);
+  line-height: 1;
+  transition: color 0.4s;
+}
+.jd-format.active .jd-format-number {
+  color: rgba(212, 175, 55, 0.3);
+}
+.jd-format-tag {
   display: inline-block;
   margin-bottom: 10px;
-  font-size: 0.62rem;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: var(--gold);
+  padding: 3px 10px;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 4px;
+  transition: all 0.3s;
+}
+.jd-format.active .jd-format-tag {
+  background: rgba(212, 175, 55, 0.12);
+  border-color: var(--gold);
+}
+.jd-format-title {
+  margin: 0 0 8px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.03em;
+}
+.jd-format-teaser {
+  margin: 0 0 16px;
+  font-size: 0.85rem;
+  color: #999;
+  line-height: 1.5;
+}
+.jd-format-expand {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: 0.2em;
   color: var(--gold);
+  opacity: 0.6;
+  transition: opacity 0.3s;
 }
-.jack-daniels-format-card h4 {
-  margin: 0 0 10px;
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: #fff;
-  letter-spacing: 0.04em;
-}
-.jack-daniels-format-card p {
-  margin: 0;
-  font-size: 0.9rem;
-  color: #b8b8b8;
-  line-height: 1.5;
+.jd-format:hover .jd-format-expand,
+.jd-format.active .jd-format-expand {
+  opacity: 1;
 }
 
-.jack-daniels-footer {
+/* Cinematic expand panel */
+.jd-format-panel {
+  margin-top: 28px;
+  border-radius: 20px;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  background: linear-gradient(135deg, rgba(12, 10, 6, 0.98) 0%, rgba(18, 14, 8, 0.95) 50%, rgba(8, 6, 4, 0.99) 100%);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.7), 0 0 48px rgba(212, 175, 55, 0.05);
+  overflow: hidden;
+  animation: jdPanelIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+@keyframes jdPanelIn {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.97);
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    clip-path: inset(0 0 0 0);
+  }
+}
+#jack-daniels .jd-format-panel-inner {
+  display: grid !important;
+  grid-template-columns: 380px 1fr !important;
+  min-height: 360px;
+}
+.jd-format-panel-visual {
+  position: relative;
+  overflow: hidden;
+  min-height: 360px;
+}
+.jd-format-panel-img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
+  position: absolute !important;
+  inset: 0;
+}
+.jd-format-panel-img-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 40%, rgba(12, 10, 6, 0.98) 100%),
+    linear-gradient(0deg, rgba(12, 10, 6, 0.6) 0%, transparent 40%);
+}
+.jd-format-panel-number {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  font-family: var(--font-cinzel), Cinzel, serif;
+  font-size: 5rem;
+  font-weight: 900;
+  color: rgba(212, 175, 55, 0.08);
+  line-height: 1;
+  pointer-events: none;
+}
+.jd-format-panel-content {
+  padding: 40px 40px 36px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.jd-format-panel-tag {
+  display: inline-block;
+  margin-bottom: 12px;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  color: var(--gold);
+  padding: 4px 14px;
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  border-radius: 4px;
+  background: rgba(212, 175, 55, 0.08);
+  width: fit-content;
+  animation: jdFadeUp 0.5s 0.15s both;
+}
+.jd-format-panel-title {
+  margin: 0 0 20px;
+  font-family: var(--font-cinzel), Cinzel, serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+  animation: jdFadeUp 0.5s 0.2s both;
+}
+.jd-format-panel-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px;
+}
+.jd-format-panel-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 0.9rem;
+  color: #ccc;
+  line-height: 1.55;
+  padding: 6px 0;
+  animation: jdFadeUp 0.45s both;
+}
+.jd-format-panel-item:nth-child(1) { animation-delay: 0.25s; }
+.jd-format-panel-item:nth-child(2) { animation-delay: 0.32s; }
+.jd-format-panel-item:nth-child(3) { animation-delay: 0.39s; }
+.jd-format-panel-item:nth-child(4) { animation-delay: 0.46s; }
+.jd-format-panel-bullet {
+  flex-shrink: 0;
+  width: 6px;
+  height: 6px;
+  margin-top: 7px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
+}
+.jd-format-panel-highlight {
+  margin: 0 0 16px;
+  padding: 16px 20px;
+  border-left: 3px solid var(--gold);
+  background: rgba(212, 175, 55, 0.04);
+  border-radius: 0 8px 8px 0;
+  font-size: 0.95rem;
+  color: #fff;
+  font-style: italic;
+  line-height: 1.55;
+  animation: jdFadeUp 0.5s 0.55s both;
+}
+.jd-format-panel-cta-text {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--gold);
+  text-transform: uppercase;
+  animation: jdFadeUp 0.5s 0.65s both;
+}
+@keyframes jdFadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive panel */
+@media (max-width: 900px) {
+  #jack-daniels .jd-format-panel-inner {
+    grid-template-columns: 1fr !important;
+  }
+  .jd-format-panel-visual {
+    height: 220px;
+  }
+  .jd-format-panel-img-overlay {
+    background: linear-gradient(0deg, rgba(12, 10, 6, 0.98) 10%, transparent 60%);
+  }
+  .jd-format-panel-content {
+    padding: 24px;
+  }
+  .jd-format-panel-title {
+    font-size: 1.4rem;
+  }
+}
+
+/* CTA */
+.jd-cta-wrap {
   display: flex;
   justify-content: center;
 }
-.jack-daniels-cta {
+.jd-cta {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 6px;
-  padding: 22px 44px;
+  padding: 24px 52px;
   border-radius: 14px;
-  border: 2px solid rgba(212, 175, 55, 0.45);
-  background: linear-gradient(145deg, rgba(212, 175, 55, 0.12) 0%, rgba(212, 175, 55, 0.05) 100%);
+  border: 2px solid rgba(212, 175, 55, 0.5);
+  background: linear-gradient(145deg, rgba(212, 175, 55, 0.12) 0%, rgba(212, 175, 55, 0.04) 100%);
   text-decoration: none;
   transition: all 0.35s;
   cursor: pointer;
+  position: relative;
+  overflow: hidden;
 }
-.jack-daniels-cta:hover {
+.jd-cta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(145deg, rgba(212, 175, 55, 0.08), transparent);
+  opacity: 0;
+  transition: opacity 0.35s;
+}
+.jd-cta:hover {
   border-color: var(--gold);
-  background: linear-gradient(145deg, rgba(212, 175, 55, 0.18) 0%, rgba(212, 175, 55, 0.08) 100%);
-  box-shadow: 0 0 32px rgba(212, 175, 55, 0.2);
-  transform: translateY(-2px);
+  box-shadow: 0 0 40px rgba(212, 175, 55, 0.2), 0 12px 36px rgba(0, 0, 0, 0.4);
+  transform: translateY(-3px);
 }
-.jack-daniels-cta-label {
+.jd-cta:hover::before {
+  opacity: 1;
+}
+.jd-cta-label {
   font-size: 0.68rem;
   color: var(--gold);
-  letter-spacing: 0.22em;
-}
-.jack-daniels-cta-val {
-  font-family: var(--font-cinzel), Cinzel, serif;
-  font-size: 1.2rem;
-  color: #fff;
+  letter-spacing: 0.24em;
   font-weight: 600;
 }
+.jd-cta-val {
+  font-family: var(--font-cinzel), Cinzel, serif;
+  font-size: 1.3rem;
+  color: #fff;
+  font-weight: 700;
+}
 
+/* Responsive */
 @media (max-width: 900px) {
-  .jack-daniels-header {
-    grid-template-columns: 1fr;
+  #jack-daniels .jd-hero {
+    flex-direction: column !important;
+    text-align: center;
+    padding: 32px 24px;
   }
-  .jack-daniels-artists-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .jd-hero-divider {
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.5), transparent);
   }
-  .jack-daniels-formats {
-    grid-template-columns: 1fr;
+  #jack-daniels .jd-lineup-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  #jack-daniels .jd-formats-grid {
+    grid-template-columns: 1fr !important;
   }
 }
 @media (max-width: 500px) {
-  .jack-daniels-artists-grid {
-    grid-template-columns: 1fr;
+  #jack-daniels .jd-lineup-grid {
+    grid-template-columns: 1fr !important;
   }
 }
 
@@ -2873,7 +3207,7 @@ body.fullscreen .landing-nav-header {
   margin-top: 24px;
 }
 .marca-tile {
-  padding: 24px 20px;
+  padding: 32px 28px;
   border-radius: 14px;
   border: 1px solid rgba(212, 175, 55, 0.28);
   background: linear-gradient(180deg, rgba(18, 16, 14, 0.95) 0%, rgba(10, 8, 6, 0.98) 100%);
@@ -2889,21 +3223,19 @@ body.fullscreen .landing-nav-header {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 48px;
-  margin-bottom: 12px;
+  height: 80px;
+  margin-bottom: 16px;
 }
 .marca-tile-img {
-  max-width: 100%;
+  max-width: 180px;
+  max-height: 64px;
+  width: auto;
   height: auto;
   object-fit: contain;
   filter: brightness(1.1);
 }
-.marca-tile--jack-daniels .marca-tile-logo {
-  min-height: 72px;
-}
-.marca-tile--jack-daniels .marca-tile-img {
-  width: 180px;
-  max-width: 100%;
+.marca-tile-img--invert {
+  filter: invert(1) brightness(1.1);
 }
 .marca-tile-fallback {
   font-size: 1rem;
@@ -5652,10 +5984,22 @@ body.fullscreen .landing-nav-header {
 }
 
 /* Locação — proposta Brand Day */
+.locacao-content {
+  margin-bottom: 24px;
+  text-align: center;
+}
+.locacao-intro {
+  margin: 0 auto 24px;
+  color: #c0c0c0;
+  max-width: 720px;
+  line-height: 1.5;
+  text-align: center;
+}
 .locacao-base {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
+  justify-content: center;
   gap: 10px 16px;
   margin-bottom: 28px;
   padding: 20px 24px;
@@ -5692,8 +6036,8 @@ body.fullscreen .landing-nav-header {
 }
 .locacao-tabela-header {
   display: grid;
-  grid-template-columns: 1fr 0.8fr 1.2fr 2fr;
-  gap: 16px;
+  grid-template-columns: minmax(90px, 1fr) minmax(80px, 0.9fr) minmax(100px, 1.1fr) minmax(180px, 2fr);
+  gap: 12px 20px;
   padding: 14px 20px;
   font-size: 0.7rem;
   font-weight: 600;
@@ -5702,15 +6046,25 @@ body.fullscreen .landing-nav-header {
   text-transform: uppercase;
   background: rgba(212, 175, 55, 0.08);
   border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+  align-items: center;
+}
+.locacao-tabela-header span:nth-child(2),
+.locacao-tabela-header span:nth-child(3) {
+  text-align: right;
 }
 .locacao-tabela-linha {
   display: grid;
-  grid-template-columns: 1fr 0.8fr 1.2fr 2fr;
-  gap: 16px;
+  grid-template-columns: minmax(90px, 1fr) minmax(80px, 0.9fr) minmax(100px, 1.1fr) minmax(180px, 2fr);
+  gap: 12px 20px;
   padding: 14px 20px;
   font-size: 0.88rem;
   color: #d0d0d0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  align-items: center;
+}
+.locacao-tabela-linha span:nth-child(2),
+.locacao-tabela-linha span:nth-child(3) {
+  text-align: right;
 }
 .locacao-tabela-linha:last-child {
   border-bottom: none;
@@ -5774,27 +6128,99 @@ body.fullscreen .landing-nav-header {
   font-size: 0.82rem;
   color: #a0a0a0;
   line-height: 1.5;
+  text-align: center;
+}
+.locacao-pagamento {
+  margin: 24px 0 28px;
+  padding: 18px 22px;
+  border-radius: 10px;
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  background: rgba(212, 175, 55, 0.06);
+}
+.locacao-pagamento-title {
+  margin: 0 0 10px;
+  font-family: var(--font-cinzel), Cinzel, serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 0.06em;
+}
+.locacao-pagamento-desc {
+  margin: 0;
+  font-size: 0.84rem;
+  color: #c8c8c8;
+  line-height: 1.5;
+}
+.locacao-pagamento-desc strong {
+  color: var(--gold);
+}
+.locacao-disclaimers {
+  margin-top: 32px;
+  padding: 24px 28px;
+  border-radius: 12px;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  background: rgba(0, 0, 0, 0.35);
+}
+.locacao-disclaimers-title {
+  margin: 0 0 16px;
+  font-family: var(--font-cinzel), Cinzel, serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 0.08em;
+}
+.locacao-disclaimers-list {
+  margin: 0;
+  padding-left: 20px;
+  font-size: 0.82rem;
+  color: #b8b8b8;
+  line-height: 1.65;
+}
+.locacao-disclaimers-list li {
+  margin-bottom: 10px;
+}
+.locacao-disclaimers-list li:last-child {
+  margin-bottom: 0;
+}
+.locacao-disclaimers-list strong {
+  color: var(--gold);
 }
 @media (max-width: 600px) {
   .locacao-tabela-header,
   .locacao-tabela-linha {
-    grid-template-columns: 1fr 0.6fr 1fr 1.5fr;
-    gap: 10px;
+    grid-template-columns: minmax(70px, 1fr) minmax(60px, 0.7fr) minmax(80px, 1fr) minmax(120px, 1.5fr);
+    gap: 8px 12px;
     padding: 12px 14px;
     font-size: 0.8rem;
   }
   .locacao-obs {
     font-size: 0.72rem;
   }
+  .locacao-pagamento {
+    padding: 14px 16px;
+    margin: 20px 0 24px;
+  }
+  .locacao-pagamento-desc {
+    font-size: 0.8rem;
+  }
+  .locacao-disclaimers {
+    padding: 18px 16px;
+    margin-top: 24px;
+  }
+  .locacao-disclaimers-list {
+    font-size: 0.78rem;
+    padding-left: 18px;
+  }
 }
 
 /* Governança — documentação para investidores */
 .governance-intro {
-  margin: 0 0 28px;
+  margin: 0 auto 28px;
   font-size: 0.9rem;
   color: #b8b8b8;
   line-height: 1.55;
   max-width: 720px;
+  text-align: center;
 }
 .governance-grid {
   display: grid;
@@ -5847,6 +6273,7 @@ body.fullscreen .landing-nav-header {
   font-size: 0.82rem;
   color: #888;
   font-style: italic;
+  text-align: center;
 }
 @media (max-width: 640px) {
   .governance-grid {

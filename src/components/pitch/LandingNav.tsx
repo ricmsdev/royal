@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 export type NavItem = {
   id: string;
@@ -26,12 +26,12 @@ const SLIDE_IDS = [
   "gastro-club",
   "casa-artistica",
   "eventos-corporativos",
-  "locacao",
   "programacao-semana",
   "pillar2",
   "acesso-localizacao",
   "pillar3",
   "governance",
+  "locacao",
   "marcas",
   "broadcast",
   "jack-daniels",
@@ -149,7 +149,7 @@ function getGroupForId(id: string): string {
   if (["localizacao", "conceito-visual", "referencias"].includes(id)) return "espaco";
   if (["pillar1", "gastro-club", "casa-artistica", "eventos-corporativos", "programacao-semana"].includes(id)) return "pilares";
   if (["pillar2", "acesso-localizacao", "pillar3"].includes(id)) return "localizacao";
-  if (id === "governance") return "governance";
+  if (["governance", "locacao"].includes(id)) return "governance";
   if (["marcas", "broadcast", "jack-daniels"].includes(id)) return "parcerias";
   if (["fora-da-curva", "ato3"].includes(id)) return "atos";
   if (id === "launch-concept") return "launch";
@@ -168,6 +168,8 @@ interface LandingNavProps {
 export function LandingNav({ activeIndex, onNavigate }: LandingNavProps) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [navVisible, setNavVisible] = useState(false);
+  const hideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     const container = document.querySelector(".pitch-container");
@@ -177,23 +179,45 @@ export function LandingNav({ activeIndex, onNavigate }: LandingNavProps) {
     return () => container.removeEventListener("scroll", onScroll);
   }, []);
 
+  const closeMenu = () => {
+    setOpen(false);
+    setNavVisible(false);
+  };
+
   const handleNavClick = (item: NavItem) => {
     onNavigate(item.index);
-    setOpen(false);
+    closeMenu();
   };
 
   const handleSubClick = (parentIndex: number, hash: string) => {
     onNavigate(parentIndex, hash);
-    setOpen(false);
+    closeMenu();
   };
 
   const parentIndexMap = new Map<string, number>();
   SLIDE_IDS.forEach((id, i) => parentIndexMap.set(id, i));
 
+  const showNav = () => {
+    if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+    setNavVisible(true);
+  };
+
+  const hideNav = () => {
+    if (open) return; // keep visible while drawer is open
+    hideTimerRef.current = setTimeout(() => setNavVisible(false), 400);
+  };
+
   return (
     <>
+      {/* Invisible zone at top triggers nav on hover */}
+      <div
+        className="nav-hover-zone"
+        onMouseEnter={showNav}
+      />
       <header
-        className={`landing-nav-header ${open ? "open" : ""} ${scrolled ? "scrolled" : ""}`}
+        className={`landing-nav-header ${navVisible ? "nav-visible" : ""} ${open ? "open" : ""} ${scrolled ? "scrolled" : ""}`}
+        onMouseEnter={showNav}
+        onMouseLeave={hideNav}
       >
         <a href="#hero" className="landing-nav-logo" onClick={(e) => { e.preventDefault(); onNavigate(0); }}>
           ROYAL
@@ -201,7 +225,7 @@ export function LandingNav({ activeIndex, onNavigate }: LandingNavProps) {
         <button
           type="button"
           className={`landing-nav-trigger ${open ? "open" : ""}`}
-          onClick={() => setOpen(!open)}
+          onClick={() => { if (open) closeMenu(); else { setOpen(true); setNavVisible(true); } }}
           aria-expanded={open}
           aria-label={open ? "Fechar menu" : "Abrir menu"}
         >
@@ -217,7 +241,7 @@ export function LandingNav({ activeIndex, onNavigate }: LandingNavProps) {
       <div
         className={`landing-nav-overlay ${open ? "open" : ""}`}
         aria-hidden={!open}
-        onClick={() => setOpen(false)}
+        onClick={closeMenu}
       />
 
       <aside className={`landing-nav-drawer ${open ? "open" : ""}`}>
@@ -226,7 +250,7 @@ export function LandingNav({ activeIndex, onNavigate }: LandingNavProps) {
           <Link
             href="/comercial"
             className="landing-nav-comercial"
-            onClick={() => setOpen(false)}
+            onClick={closeMenu}
           >
             Área Comercial
           </Link>

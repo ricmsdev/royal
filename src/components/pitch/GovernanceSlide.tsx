@@ -61,8 +61,8 @@ export function GovernanceSlide() {
       <ActTag>GOVERNANÇA</ActTag>
       <h2 className="impact-title">Documentação para Investidores</h2>
       <p className="governance-intro">
-        Toda documentação necessária para análise de investimento — GEAM e demais.
-        Sem isso, estamos no escuro para qualquer aporte, de R$ 5.000 a R$ 30.000.
+        Documentação obrigatória para qualquer aporte — independente do valor.
+        Sem essa análise, nenhum investimento será aprovado.
       </p>
 
       <div className="governance-grid">

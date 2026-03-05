@@ -32,18 +32,21 @@ export function MarcasSlide() {
 
       <div className="marcas-grid">
         {MARCAS_DATA.map(({ name, slug, desc }) => {
-          const src = `/AVENUE/marcas/${slug}.svg`;
+          const src = slug === "jack-daniels"
+            ? `/AVENUE/logoparceiros/jackdaniels.svg`
+            : `/AVENUE/marcas/${slug}.svg`;
           const hasError = errors[slug];
           return (
-            <article key={slug} className={`marca-tile ${slug === "jack-daniels" ? "marca-tile--jack-daniels" : ""}`}>
+            <article key={slug} className="marca-tile">
               <div className="marca-tile-logo">
                 {!hasError ? (
                   <Image
                     src={src}
                     alt={name}
-                    width={slug === "jack-daniels" ? 180 : 100}
-                    height={slug === "jack-daniels" ? 60 : 50}
+                    width={160}
+                    height={56}
                     className="marca-tile-img"
+                    unoptimized
                     onError={() => setErrors((p) => ({ ...p, [slug]: true }))}
                   />
                 ) : (

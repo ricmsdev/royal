@@ -40,12 +40,12 @@ const SLIDE_IDS = [
   "gastro-club",
   "casa-artistica",
   "eventos-corporativos",
-  "locacao",
   "programacao-semana",
   "pillar2",
   "acesso-localizacao",
   "pillar3",
   "governance",
+  "locacao",
   "marcas",
   "broadcast",
   "jack-daniels",
@@ -655,10 +655,24 @@ export function PitchContainer() {
     };
   }, []);
 
-  // Fullscreen button
+  // Fullscreen: auto-enter on first user interaction
   useEffect(() => {
+    const enterFullscreen = () => {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen?.().catch(() => {});
+        document.body.classList.add("fullscreen");
+      }
+    };
+    // Browsers require a user gesture to enter fullscreen, so listen for first click/key
+    const onInteraction = () => {
+      enterFullscreen();
+      window.removeEventListener("click", onInteraction);
+      window.removeEventListener("keydown", onInteraction);
+    };
+    window.addEventListener("click", onInteraction);
+    window.addEventListener("keydown", onInteraction);
+
     const btn = document.getElementById("btnFullscreen");
-    if (!btn) return;
     const toggle = () => {
       if (!document.fullscreenElement) {
         document.documentElement.requestFullscreen?.();
@@ -668,8 +682,33 @@ export function PitchContainer() {
         document.body.classList.remove("fullscreen");
       }
     };
-    btn.addEventListener("click", toggle);
-    return () => btn.removeEventListener("click", toggle);
+    btn?.addEventListener("click", toggle);
+
+    // Show/hide fullscreen btn on bottom hover zone
+    const hoverZone = document.querySelector(".fullscreen-hover-zone");
+    let hideTimer: ReturnType<typeof setTimeout> | null = null;
+    const showBtn = () => {
+      if (hideTimer) clearTimeout(hideTimer);
+      btn?.classList.add("fs-btn-visible");
+    };
+    const hideBtn = () => {
+      hideTimer = setTimeout(() => btn?.classList.remove("fs-btn-visible"), 400);
+    };
+    hoverZone?.addEventListener("mouseenter", showBtn);
+    hoverZone?.addEventListener("mouseleave", hideBtn);
+    btn?.addEventListener("mouseenter", showBtn);
+    btn?.addEventListener("mouseleave", hideBtn);
+
+    return () => {
+      window.removeEventListener("click", onInteraction);
+      window.removeEventListener("keydown", onInteraction);
+      btn?.removeEventListener("click", toggle);
+      btn?.removeEventListener("mouseenter", showBtn);
+      btn?.removeEventListener("mouseleave", hideBtn);
+      hoverZone?.removeEventListener("mouseenter", showBtn);
+      hoverZone?.removeEventListener("mouseleave", hideBtn);
+      if (hideTimer) clearTimeout(hideTimer);
+    };
   }, []);
 
   // VP card hovers (GSAP)
@@ -713,6 +752,7 @@ export function PitchContainer() {
       <div className="cursor-ring" />
 
       <LandingNav activeIndex={activeIndex} onNavigate={handleNavNavigate} />
+      <div className="fullscreen-hover-zone" />
 
       <div className="progress-dots">
         {SLIDE_IDS.map((_, i) => (
@@ -738,12 +778,12 @@ export function PitchContainer() {
         <GastroClubSlide />
         <CasaArtisticaSlide />
         <EventosCorporativosSlide />
-        <LocacaoSlide />
         <ProgramacaoSemanaSlide />
         <Pillar2Slide />
         <AcessoLocalizacaoSlide />
         <Pillar3Slide />
         <GovernanceSlide />
+        <LocacaoSlide />
         <MarcasSlide />
         <BroadcastSlide />
         <JackDanielsSlide />
