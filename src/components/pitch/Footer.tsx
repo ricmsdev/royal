@@ -16,7 +16,17 @@ export function Footer() {
         </Link>
       </div>
       <div className="branding">
-        <p style={{ marginTop: "12px" }}>
+        <p style={{ marginTop: "12px", display: "flex", gap: "16px", flexWrap: "wrap" }}>
+          <Link
+            href="/comercial"
+            style={{
+              color: "var(--gold)",
+              textDecoration: "none",
+              fontSize: "0.75rem",
+            }}
+          >
+            Área Comercial
+          </Link>
           <Link
             href="https://github.com/ricmsdev/royal"
             target="_blank"

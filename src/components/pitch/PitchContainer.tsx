@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { HeroSlide } from "./HeroSlide";
 import { ActSlide } from "./ActSlide";
+import { GovernanceSlide } from "./GovernanceSlide";
 import { LocalizacaoSlide } from "./LocalizacaoSlide";
 import { ConceitoVisualSlide } from "./ConceitoVisualSlide";
 import { ReferenciasSlide } from "./ReferenciasSlide";
@@ -11,6 +12,7 @@ import { Pillar1Slide } from "./Pillar1Slide";
 import { GastroClubSlide } from "./GastroClubSlide";
 import { CasaArtisticaSlide } from "./CasaArtisticaSlide";
 import { EventosCorporativosSlide } from "./EventosCorporativosSlide";
+import { LocacaoSlide } from "./LocacaoSlide";
 import { ProgramacaoSemanaSlide } from "./ProgramacaoSemanaSlide";
 import { Pillar2Slide } from "./Pillar2Slide";
 import { AcessoLocalizacaoSlide } from "./AcessoLocalizacaoSlide";
@@ -38,10 +40,12 @@ const SLIDE_IDS = [
   "gastro-club",
   "casa-artistica",
   "eventos-corporativos",
+  "locacao",
   "programacao-semana",
   "pillar2",
   "acesso-localizacao",
   "pillar3",
+  "governance",
   "marcas",
   "broadcast",
   "jack-daniels",
@@ -138,6 +142,7 @@ export function PitchContainer() {
         "#pillar2",
         "#acesso-localizacao",
         "#pillar3",
+        "#governance",
         "#marcas",
         "#broadcast",
         "#ato3",
@@ -550,7 +555,7 @@ export function PitchContainer() {
 
   // Hash-based navigation: /#lineup-abril, /#noite-sabado, etc.
   useEffect(() => {
-    const TU_GOXTA_HASHES = ["lineup-abril", "ultimo-evento", "faturamento", "dashboard-consolidado"];
+    const TU_GOXTA_HASHES = ["lineup-abril", "ultimo-evento", "faturamento", "projecao-tu-goxta", "proposta-q2", "dashboard-consolidado"];
 
     const scrollToHash = (retry?: boolean) => {
       const hash = typeof window !== "undefined" ? window.location.hash.slice(1) : "";
@@ -733,10 +738,12 @@ export function PitchContainer() {
         <GastroClubSlide />
         <CasaArtisticaSlide />
         <EventosCorporativosSlide />
+        <LocacaoSlide />
         <ProgramacaoSemanaSlide />
         <Pillar2Slide />
         <AcessoLocalizacaoSlide />
         <Pillar3Slide />
+        <GovernanceSlide />
         <MarcasSlide />
         <BroadcastSlide />
         <JackDanielsSlide />

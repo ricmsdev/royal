@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 export type NavItem = {
   id: string;
   label: string;
@@ -25,10 +26,13 @@ const SLIDE_IDS = [
   "gastro-club",
   "casa-artistica",
   "eventos-corporativos",
+  "locacao",
   "programacao-semana",
   "pillar2",
   "acesso-localizacao",
   "pillar3",
+  "governance",
+  "marcas",
   "broadcast",
   "jack-daniels",
   "fora-da-curva",
@@ -55,10 +59,13 @@ const LABELS: Record<string, string> = {
   "gastro-club": "Gastro Club",
   "casa-artistica": "Casa Artística",
   "eventos-corporativos": "Eventos Corporativos",
+  locacao: "Locação",
   "programacao-semana": "Programação da Semana",
   pillar2: "Pilar 2 — Luz",
   "acesso-localizacao": "Acesso e Localização",
   pillar3: "Pilar 3 — Protocolo",
+  governance: "Governança",
+  marcas: "Marcas",
   broadcast: "Broadcast",
   "jack-daniels": "Jack Daniel's",
   "fora-da-curva": "Fora da Curva",
@@ -82,6 +89,7 @@ const SUB_SECTIONS: Array<{ id: string; label: string; parentId: string }> = [
   { id: "ultimo-evento", label: "Último Evento", parentId: "noite-sabado" },
   { id: "faturamento", label: "Faturamento", parentId: "noite-sabado" },
   { id: "projecao-tu-goxta", label: "Projeção Tu Goxta", parentId: "noite-sabado" },
+  { id: "proposta-q2", label: "Proposta Q2 — Ingressos", parentId: "noite-sabado" },
   { id: "dashboard-consolidado", label: "Dashboard", parentId: "noite-sabado" },
 ];
 
@@ -102,6 +110,7 @@ function buildNavGroups(): NavGroup[] {
     "pilares",
     "localizacao",
     "parcerias",
+    "governance",
     "atos",
     "launch",
     "programacao",
@@ -114,6 +123,7 @@ function buildNavGroups(): NavGroup[] {
     pilares: "Pilares",
     localizacao: "Localização",
     parcerias: "Parcerias",
+    governance: "Governança",
     atos: "Atos",
     launch: "Launch",
     programacao: "Programação",
@@ -139,7 +149,8 @@ function getGroupForId(id: string): string {
   if (["localizacao", "conceito-visual", "referencias"].includes(id)) return "espaco";
   if (["pillar1", "gastro-club", "casa-artistica", "eventos-corporativos", "programacao-semana"].includes(id)) return "pilares";
   if (["pillar2", "acesso-localizacao", "pillar3"].includes(id)) return "localizacao";
-  if (["broadcast", "jack-daniels"].includes(id)) return "parcerias";
+  if (id === "governance") return "governance";
+  if (["marcas", "broadcast", "jack-daniels"].includes(id)) return "parcerias";
   if (["fora-da-curva", "ato3"].includes(id)) return "atos";
   if (id === "launch-concept") return "launch";
   if (id.startsWith("noite-")) return "programacao";
@@ -212,6 +223,13 @@ export function LandingNav({ activeIndex, onNavigate }: LandingNavProps) {
       <aside className={`landing-nav-drawer ${open ? "open" : ""}`}>
         <nav className="landing-nav-drawer-inner">
           <p className="landing-nav-drawer-title">Navegação</p>
+          <Link
+            href="/comercial"
+            className="landing-nav-comercial"
+            onClick={() => setOpen(false)}
+          >
+            Área Comercial
+          </Link>
           {NAV_GROUPS.map((group) => (
             <div key={group.key} className="landing-nav-group">
               <span className="landing-nav-group-label">{group.label}</span>

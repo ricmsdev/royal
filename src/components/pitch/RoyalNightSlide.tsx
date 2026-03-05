@@ -144,7 +144,7 @@ function ArtistCard({ nome, slug, status, instagram, followers, spotifyMonthlyLi
   );
 }
 
-const TU_GOXTA_HASH_IDS = ["lineup-abril", "ultimo-evento", "faturamento", "projecao-tu-goxta", "dashboard-consolidado"];
+const TU_GOXTA_HASH_IDS = ["lineup-abril", "ultimo-evento", "faturamento", "projecao-tu-goxta", "proposta-q2", "dashboard-consolidado"];
 
 /** Dashboard consolidado — faturamento estimado por noite (valor por evento) */
 const DASHBOARD_NOITES = [
@@ -185,6 +185,26 @@ const TU_GOXTA_ULTIMO_EVENTO = {
   pax: FATURAMENTO_PAX,
 } as const;
 
+/** Cenário 70% capacidade — 4 eventos Tu Goxta */
+const CAPACIDADE_70_PCT = 0.7;
+const TU_GOXTA_70_PAX_PISTA = Math.round(FATURAMENTO_PISTA_PAX * CAPACIDADE_70_PCT);
+const TU_GOXTA_70_PAX_CAMAROTES = Math.round(FATURAMENTO_CAMAROTES_PAX * CAPACIDADE_70_PCT);
+const TU_GOXTA_70_PAX = TU_GOXTA_70_PAX_PISTA + TU_GOXTA_70_PAX_CAMAROTES;
+const TU_GOXTA_70_BILHETERIA =
+  TU_GOXTA_70_PAX_PISTA * FATURAMENTO_PISTA_TICKET + TU_GOXTA_70_PAX_CAMAROTES * FATURAMENTO_CAMAROTES_TICKET;
+const TU_GOXTA_70_BAR =
+  TU_GOXTA_70_PAX_PISTA * FATURAMENTO_BAR_PISTA_MEDIA + TU_GOXTA_70_PAX_CAMAROTES * FATURAMENTO_BAR_CAMAROTE_MEDIA;
+const TU_GOXTA_70_TOTAL_EVENTO = TU_GOXTA_70_BILHETERIA + TU_GOXTA_70_BAR;
+const TU_GOXTA_70_TOTAL_MENSAL = TU_GOXTA_70_TOTAL_EVENTO * EVENTOS_POR_MES;
+const TU_GOXTA_70_BILHETERIA_MENSAL = TU_GOXTA_70_BILHETERIA * EVENTOS_POR_MES;
+/** Q2: 8% taxa sobre bilheteria; 65% dessa taxa = Casa; 35% = Royal; 7% bonificação sobre faturamento de cada noite */
+const Q2_TAXA_CONVENIENCIA = Math.round(TU_GOXTA_70_BILHETERIA_MENSAL * 0.08);
+const Q2_CASHBACK_ROYAL = Math.round(Q2_TAXA_CONVENIENCIA * 0.35);
+const Q2_TAXA_CASA = Math.round(Q2_TAXA_CONVENIENCIA * 0.65);
+const Q2_BONIFICACAO_7 = Math.round(TU_GOXTA_70_TOTAL_MENSAL * 0.07);
+/** Retorno total Q2 para Casa: 65% da taxa de conveniência + 7% sobre faturamento de cada noite */
+const Q2_RETORNO_TOTAL = Q2_TAXA_CASA + Q2_BONIFICACAO_7;
+
 function formatBRL(n: number): string {
   return new Intl.NumberFormat("pt-BR", {
     style: "currency",
@@ -195,8 +215,11 @@ function formatBRL(n: number): string {
 
 const DASHBOARD_NUM_KEYS = DASHBOARD_NOITES.map((n) => n.num);
 
+type ProjecaoTab = "ultimo-evento" | "projecao";
+
 export function RoyalNightSlide() {
   const [activeTab, setActiveTab] = useState<"royal" | "tu-goxta">("royal");
+  const [projecaoTab, setProjecaoTab] = useState<ProjecaoTab>("ultimo-evento");
   const [selectedDays, setSelectedDays] = useState<Set<string>>(() => new Set(DASHBOARD_NUM_KEYS));
 
   const toggleDay = (num: string) => {
@@ -220,6 +243,8 @@ export function RoyalNightSlide() {
     const hash = window.location.hash.slice(1);
     if (TU_GOXTA_HASH_IDS.includes(hash)) {
       requestAnimationFrame(() => setActiveTab("tu-goxta"));
+      if (hash === "ultimo-evento") setProjecaoTab("ultimo-evento");
+      else if (hash === "projecao-tu-goxta") setProjecaoTab("projecao");
     }
   }, []);
 
@@ -233,7 +258,7 @@ export function RoyalNightSlide() {
         background:
           "linear-gradient(135deg, rgba(5,5,8,0.88) 0%, rgba(13,10,12,0.82) 35%, rgba(26,22,18,0.85) 60%, rgba(8,6,5,0.9) 100%), radial-gradient(ellipse 80% 50% at 70% 40%, rgba(212,175,55,0.06) 0%, transparent 50%)",
       }}
-      contentStyle={{ maxWidth: "1160px" }}
+      contentStyle={{ maxWidth: "1240px", width: "100%", paddingLeft: "24px", paddingRight: "24px" }}
     >
       <ActTag>PROGRAMACAO - SABADO</ActTag>
 
@@ -354,38 +379,7 @@ export function RoyalNightSlide() {
                 </div>
               </section>
 
-              <div className="tu-goxta-dados-row">
-                <section id="ultimo-evento" className="tu-goxta-section tu-goxta-ultimo-evento">
-                  <div className="tu-goxta-ultimo-header">
-                    <h3 className="tu-goxta-section-title">ÚLTIMO EVENTO</h3>
-                    <span className="tu-goxta-ultimo-badge">FEV 2025 · Dados reais</span>
-                  </div>
-                  <p className="tu-goxta-contexto">
-                    Casa em obras e ajustes operacionais. Abertura em fevereiro.
-                  </p>
-                  <div className="tu-goxta-ultimo-hero tu-goxta-ultimo-hero-verde">
-                    <div className="tu-goxta-ultimo-hero-main">
-                      <span className="tu-goxta-ultimo-val">{formatBRL(FATURAMENTO_TOTAL)}</span>
-                      <span className="tu-goxta-ultimo-label">Faturamento total</span>
-                    </div>
-                  </div>
-                  <div className="tu-goxta-ultimo-breakdown">
-                    <div className="tu-goxta-ultimo-item">
-                      <span className="tu-goxta-ultimo-item-val">{formatBRL(FATURAMENTO_BILHETERIA)}</span>
-                      <span className="tu-goxta-ultimo-item-desc">Bilheteria</span>
-                    </div>
-                    <div className="tu-goxta-ultimo-item">
-                      <span className="tu-goxta-ultimo-item-val">{formatBRL(FATURAMENTO_BAR)}</span>
-                      <span className="tu-goxta-ultimo-item-desc">Bar</span>
-                    </div>
-                    <div className="tu-goxta-ultimo-item tu-goxta-ultimo-item-pessoas">
-                      <span className="tu-goxta-ultimo-item-val">{FATURAMENTO_PAX}</span>
-                      <span className="tu-goxta-ultimo-item-desc">Pessoas na casa</span>
-                    </div>
-                  </div>
-                </section>
-
-                <section id="faturamento" className="tu-goxta-section tu-goxta-faturamento-section">
+              <section id="faturamento" className="tu-goxta-section tu-goxta-faturamento-section tu-goxta-faturamento-full">
                   <h3 className="tu-goxta-section-title">PROJEÇÃO DO FATURAMENTO DA TU GOXTA</h3>
                   <p className="tu-goxta-lead">
                     {FATURAMENTO_PAX} pessoas na casa. Bilheteria + bar. Cenário conservador — casa não vendeu todos os ingressos.
@@ -448,33 +442,193 @@ export function RoyalNightSlide() {
                     <p className="tu-goxta-projecao-lead">
                       Com base no último evento e valores conservadores para o dashboard.
                     </p>
-                    <div className="tu-goxta-projecao-grid">
-                      <div className="tu-goxta-projecao-item">
-                        <span className="tu-goxta-projecao-label">Último evento (real)</span>
-                        <span className="tu-goxta-projecao-val">{formatBRL(TU_GOXTA_ULTIMO_EVENTO.faturamentoTotal)}</span>
-                        <span className="tu-goxta-projecao-sublabel">{FATURAMENTO_PAX} pax · bilheteria + bar · FEV 2025</span>
-                      </div>
-                      <div className="tu-goxta-projecao-item">
-                        <span className="tu-goxta-projecao-label">Projeção conservadora</span>
-                        <span className="tu-goxta-projecao-val">{formatBRL(TU_GOXTA_NOITE.faturamento)}</span>
-                        <span className="tu-goxta-projecao-sublabel">por evento · usado no dashboard</span>
-                      </div>
-                      <div className="tu-goxta-projecao-item tu-goxta-projecao-item-destaque">
-                        <span className="tu-goxta-projecao-label">Mensal Tu Goxta (4 sábados)</span>
-                        <span className="tu-goxta-projecao-val">{formatBRL(TU_GOXTA_NOITE.faturamento * EVENTOS_POR_MES)}</span>
-                        <span className="tu-goxta-projecao-sublabel">conservador · bilheteria + bar</span>
-                      </div>
+                    <div className="tu-goxta-projecao-tabs" role="tablist">
+                      <button
+                        type="button"
+                        role="tab"
+                        className={`tu-goxta-projecao-tab ${projecaoTab === "ultimo-evento" ? "active" : ""}`}
+                        onClick={() => setProjecaoTab("ultimo-evento")}
+                        aria-selected={projecaoTab === "ultimo-evento"}
+                        aria-controls="panel-ultimo-evento"
+                        id="tab-ultimo-evento"
+                      >
+                        Último evento
+                      </button>
+                      <button
+                        type="button"
+                        role="tab"
+                        className={`tu-goxta-projecao-tab ${projecaoTab === "projecao" ? "active" : ""}`}
+                        onClick={() => setProjecaoTab("projecao")}
+                        aria-selected={projecaoTab === "projecao"}
+                        aria-controls="panel-projecao"
+                        id="tab-projecao"
+                      >
+                        Projeção
+                      </button>
                     </div>
+                    {projecaoTab === "ultimo-evento" && (
+                      <div id="ultimo-evento" role="tabpanel" aria-labelledby="tab-ultimo-evento" className="tu-goxta-projecao-panel">
+                        <div className="tu-goxta-ultimo-header">
+                          <span className="tu-goxta-ultimo-badge">FEV 2025</span>
+                        </div>
+                        <p className="tu-goxta-contexto">
+                          Casa em obras e ajustes operacionais. Abertura em fevereiro.
+                        </p>
+                        <div className="tu-goxta-ultimo-hero tu-goxta-ultimo-hero-verde">
+                          <div className="tu-goxta-ultimo-hero-main">
+                            <span className="tu-goxta-ultimo-val">{formatBRL(FATURAMENTO_TOTAL)}</span>
+                            <span className="tu-goxta-ultimo-label">Faturamento total</span>
+                          </div>
+                        </div>
+                        <div className="tu-goxta-ultimo-breakdown">
+                          <div className="tu-goxta-ultimo-item">
+                            <span className="tu-goxta-ultimo-item-val">{formatBRL(FATURAMENTO_BILHETERIA)}</span>
+                            <span className="tu-goxta-ultimo-item-desc">Bilheteria</span>
+                          </div>
+                          <div className="tu-goxta-ultimo-item">
+                            <span className="tu-goxta-ultimo-item-val">{formatBRL(FATURAMENTO_BAR)}</span>
+                            <span className="tu-goxta-ultimo-item-desc">Bar</span>
+                          </div>
+                          <div className="tu-goxta-ultimo-item tu-goxta-ultimo-item-pessoas">
+                            <span className="tu-goxta-ultimo-item-val">{FATURAMENTO_PAX}</span>
+                            <span className="tu-goxta-ultimo-item-desc">Pessoas</span>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                    {projecaoTab === "projecao" && (
+                      <div role="tabpanel" aria-labelledby="tab-projecao" className="tu-goxta-projecao-panel">
+                        <div className="tu-goxta-projecao-row">
+                          <div className="tu-goxta-projecao-grid">
+                            <div className="tu-goxta-projecao-item">
+                              <span className="tu-goxta-projecao-label">Projeção conservadora</span>
+                              <span className="tu-goxta-projecao-val">{formatBRL(TU_GOXTA_NOITE.faturamento)}</span>
+                              <span className="tu-goxta-projecao-sublabel">por evento · usado no dashboard</span>
+                            </div>
+                            <div className="tu-goxta-projecao-item tu-goxta-projecao-item-destaque">
+                              <span className="tu-goxta-projecao-label">Mensal Tu Goxta (4 sábados)</span>
+                              <span className="tu-goxta-projecao-val">{formatBRL(TU_GOXTA_NOITE.faturamento * EVENTOS_POR_MES)}</span>
+                              <span className="tu-goxta-projecao-sublabel">conservador · bilheteria + bar</span>
+                            </div>
+                            <div className="tu-goxta-projecao-item">
+                              <span className="tu-goxta-projecao-label">Evento 1–4 · 70% capacidade</span>
+                              <span className="tu-goxta-projecao-val">{formatBRL(TU_GOXTA_70_TOTAL_EVENTO)}</span>
+                              <span className="tu-goxta-projecao-sublabel">{TU_GOXTA_70_PAX} pax · por evento</span>
+                            </div>
+                            <div className="tu-goxta-projecao-item tu-goxta-projecao-item-destaque">
+                              <span className="tu-goxta-projecao-label">Mensal 4 eventos · 70% cap.</span>
+                              <span className="tu-goxta-projecao-val">{formatBRL(TU_GOXTA_70_TOTAL_MENSAL)}</span>
+                              <span className="tu-goxta-projecao-sublabel">bilheteria + bar · distribuição Q2</span>
+                            </div>
+                          </div>
+                          <div className="tu-goxta-projecao-q2-breakdown">
+                            <div className="tu-goxta-projecao-q2-retorno tu-goxta-projecao-q2-retorno-verde">
+                              <span>Cenário de retorno Q2 — 65% da taxa + 7% sobre faturamento de cada noite</span>
+                              <span className="tu-goxta-projecao-q2-val">{formatBRL(Q2_RETORNO_TOTAL)}</span>
+                            </div>
+                            <h5 className="tu-goxta-projecao-q2-title">Cenário 70% — Distribuição Q2 (4 eventos)</h5>
+                            <div className="tu-goxta-projecao-q2-linhas">
+                              <div className="tu-goxta-projecao-q2-linha">
+                                <span>Taxa conveniência 8% (bilheteria)</span>
+                                <span className="tu-goxta-projecao-q2-val">{formatBRL(Q2_TAXA_CONVENIENCIA)}</span>
+                              </div>
+                              <div className="tu-goxta-projecao-q2-linha">
+                                <span>Cashback Royal 35% dessa taxa</span>
+                                <span className="tu-goxta-projecao-q2-val">{formatBRL(Q2_CASHBACK_ROYAL)}</span>
+                              </div>
+                              <div className="tu-goxta-projecao-q2-linha">
+                                <span>Casa 65% dessa taxa</span>
+                                <span className="tu-goxta-projecao-q2-val">{formatBRL(Q2_TAXA_CASA)}</span>
+                              </div>
+                              <div className="tu-goxta-projecao-q2-linha">
+                                <span>Bonificação Q2 +7% (vendas totais)</span>
+                                <span className="tu-goxta-projecao-q2-val">{formatBRL(Q2_BONIFICACAO_7)}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
                   <div className="tu-goxta-adiantamento">
                     <span className="adiantamento-valor">35%</span>
                     <span className="adiantamento-desc">em adiantamento do valor gerado (ver dashboard)</span>
                   </div>
-                  <div className="royal-night-stamp tu-goxta-stamp">
-                    MARKETING & VENDAS — Frente de defesa
-                  </div>
                 </section>
-              </div>
+
+              <section id="proposta-q2" className="tu-goxta-proposta-q2">
+                    <div className="royal-night-stamp tu-goxta-stamp tu-goxta-proposta-stamp">
+                      PROTEÇÃO TOTAL — Nenhum ingresso entra sem controle
+                    </div>
+                    <h4 className="tu-goxta-proposta-q2-title">Q2 — Cada ingresso gera receita. Em qualquer canal.</h4>
+                    <p className="tu-goxta-proposta-q2-lead">
+                      Zero furo de caixa. Zero transação sem rastreio. <strong>8%</strong> taxa de conveniência Q2 em todos os pontos de venda — site, promotor ou porta. O restante é da casa e/ou promotores (cada promotor até 20%). Mesmo quem compra na hora entra no mapa.
+                    </p>
+                    <div className="tu-goxta-proposta-q2-canais">
+                      <div className="tu-goxta-proposta-q2-canal">
+                        <span className="tu-goxta-proposta-q2-canal-num">01</span>
+                        <div className="tu-goxta-proposta-q2-canal-body">
+                          <h5>Site Q2 (antecipado)</h5>
+                          <p>Venda online · QR code · controle em tempo real · <strong>8% taxa de conveniência</strong></p>
+                          <span className="tu-goxta-proposta-q2-benefit">Previsibilidade e caixa antecipado</span>
+                          <div className="tu-goxta-proposta-q2-tags">
+                            <span className="tu-goxta-proposta-q2-conveniencia">8% taxa</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="tu-goxta-proposta-q2-canal">
+                        <span className="tu-goxta-proposta-q2-canal-num">02</span>
+                        <div className="tu-goxta-proposta-q2-canal-body">
+                          <h5>Promotor</h5>
+                          <p>Lista fechada · comissão por ingresso · relatório diário</p>
+                          <span className="tu-goxta-proposta-q2-benefit">Incentiva venda sem perder o controle</span>
+                          <div className="tu-goxta-proposta-q2-tags">
+                            <span className="tu-goxta-proposta-q2-conveniencia">até 20%</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="tu-goxta-proposta-q2-canal">
+                        <span className="tu-goxta-proposta-q2-canal-num">03</span>
+                        <div className="tu-goxta-proposta-q2-canal-body">
+                          <h5>Porta</h5>
+                          <p>Bilheteria física · caixa controlado · fechamento por evento</p>
+                          <span className="tu-goxta-proposta-q2-benefit">Captura walk-ins com segurança</span>
+                          <div className="tu-goxta-proposta-q2-tags">
+                            <span className="tu-goxta-proposta-q2-conveniencia">100%</span>
+                            <span className="tu-goxta-proposta-q2-agente">Casa</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="tu-goxta-proposta-q2-resumo">
+                      <div className="tu-goxta-proposta-q2-resumo-item">
+                        <span className="tu-goxta-proposta-q2-resumo-label">Taxa de conveniência Q2</span>
+                        <span className="tu-goxta-proposta-q2-resumo-val">8% · todos os canais</span>
+                      </div>
+                      <div className="tu-goxta-proposta-q2-resumo-item">
+                        <span className="tu-goxta-proposta-q2-resumo-label">Dessa taxa, 35% cashback Casa Royal</span>
+                        <span className="tu-goxta-proposta-q2-resumo-val">—</span>
+                      </div>
+                      <div className="tu-goxta-proposta-q2-resumo-item">
+                        <span className="tu-goxta-proposta-q2-resumo-label">Casa 65% dessa taxa</span>
+                        <span className="tu-goxta-proposta-q2-resumo-val">—</span>
+                      </div>
+                      <div className="tu-goxta-proposta-q2-resumo-item">
+                        <span className="tu-goxta-proposta-q2-resumo-label">Bonificação Q2 (adiantamento)</span>
+                        <span className="tu-goxta-proposta-q2-resumo-val">+7% sobre vendas · capital R$ 70.000 adiantado</span>
+                      </div>
+                      <div className="tu-goxta-proposta-q2-resumo-item">
+                        <span className="tu-goxta-proposta-q2-resumo-label">Restante</span>
+                        <span className="tu-goxta-proposta-q2-resumo-val">Casa e/ou promotores</span>
+                      </div>
+                      <p className="tu-goxta-proposta-q2-garantia">
+                        100% rastreável. 100% transparente.
+                      </p>
+                      <p className="tu-goxta-proposta-q2-nota">
+                        Casa fechada sem controle = dinheiro perdido. Aqui, todo ingresso entra no mapa.
+                      </p>
+                    </div>
+              </section>
 
               <section id="dashboard-consolidado" className="tu-goxta-dashboard-consolidado">
                 <header className="tu-goxta-dashboard-header">
