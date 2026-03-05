@@ -3498,11 +3498,11 @@ body.fullscreen .landing-nav-header {
 .tu-goxta-artists-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 16px 20px;
-  align-items: start;
+  gap: 20px 24px;
+  align-items: stretch;
 }
 .tu-goxta-artists-grid-modern {
-  gap: 20px 24px;
+  gap: 24px 28px;
 }
 
 /* Cards antigos (fallback) */
@@ -3572,58 +3572,90 @@ body.fullscreen .landing-nav-header {
   text-decoration: underline;
 }
 
-/* Cards modernos — métricas persuasivas + estética Royal */
+/* Cards modernos — cinematográficos, foto em background, hover persuasivo */
 .artist-card-modern {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 300px;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(0, 0, 0, 0.4);
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease, border-color 0.3s ease;
+}
+.artist-card-modern:hover {
+  transform: translateY(-6px) scale(1.02);
+  border-color: rgba(212, 175, 55, 0.45);
+  box-shadow:
+    0 20px 48px rgba(0, 0, 0, 0.6),
+    0 0 40px rgba(212, 175, 55, 0.12),
+    0 0 0 1px rgba(212, 175, 55, 0.25);
+}
+.artist-card-modern:hover .artist-card-modern-img {
+  transform: scale(1.08);
+}
+.artist-card-modern:hover .artist-card-modern-overlay {
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.3) 40%,
+    rgba(0, 0, 0, 0.85) 75%,
+    rgba(5, 5, 8, 0.95) 100%
+  );
+}
+.artist-card-modern-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.artist-card-modern-img {
+  object-fit: cover;
+  object-position: center top;
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.artist-card-modern-img--tutto {
+  object-position: center center;
+}
+.artist-card-modern-img-fallback {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.artist-card-modern-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.4) 35%,
+    rgba(0, 0, 0, 0.88) 70%,
+    rgba(5, 5, 8, 0.96) 100%
+  );
+  transition: background 0.4s ease;
+}
+.artist-card-modern-body {
+  position: relative;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px 18px;
-  border-radius: 16px;
-  border: 1px solid rgba(212, 175, 55, 0.18);
-  background: linear-gradient(
-    165deg,
-    rgba(22, 20, 18, 0.98) 0%,
-    rgba(14, 12, 10, 0.95) 50%,
-    rgba(10, 8, 6, 0.98) 100%
-  );
-  box-shadow:
-    0 4px 20px rgba(0, 0, 0, 0.5),
-    inset 0 1px 0 rgba(212, 175, 55, 0.08),
-    0 0 0 1px rgba(0, 0, 0, 0.3);
-  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
-}
-.artist-card-modern:hover {
-  border-color: rgba(212, 175, 55, 0.35);
-  box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.45),
-    inset 0 1px 0 rgba(212, 175, 55, 0.12),
-    0 0 24px rgba(212, 175, 55, 0.08);
-}
-.artist-card-modern-photo {
-  position: relative;
-  width: 110px;
-  height: 110px;
-  border-radius: 50%;
-  overflow: hidden;
-  flex-shrink: 0;
-  border: 3px solid rgba(212, 175, 55, 0.4);
-  box-shadow:
-    0 0 0 1px rgba(0, 0, 0, 0.5),
-    inset 0 0 20px rgba(212, 175, 55, 0.06),
-    0 4px 16px rgba(0, 0, 0, 0.4);
-  margin-bottom: 14px;
-}
-.artist-card-modern-img {
+  gap: 10px;
+  text-align: center;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  padding: 20px 18px 18px;
 }
 .artist-card-modern-badge {
   position: absolute;
-  bottom: 4px;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 3px 10px;
+  top: 14px;
+  right: 14px;
+  z-index: 3;
+  padding: 4px 12px;
   border-radius: 999px;
   font-size: 0.62rem;
   font-weight: 600;
@@ -3634,15 +3666,7 @@ body.fullscreen .landing-nav-header {
   background: linear-gradient(135deg, rgba(13, 74, 61, 0.95) 0%, rgba(6, 52, 42, 0.95) 100%);
   color: #7dd3b8;
   border: 1px solid rgba(125, 211, 184, 0.35);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-}
-.artist-card-modern-body {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  text-align: center;
-  width: 100%;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
 }
 .artist-card-modern-nome {
   margin: 0;
@@ -4704,33 +4728,27 @@ body.fullscreen .landing-nav-header {
     align-items: flex-start;
   }
   .artist-card-modern {
-    flex-direction: row;
-    text-align: left;
-    align-items: center;
-    gap: 16px;
-    padding: 14px 16px;
+    min-height: 220px;
+    flex-direction: column;
   }
-  .artist-card-modern-photo {
-    width: 72px;
-    height: 72px;
-    margin-bottom: 0;
-    flex-shrink: 0;
+  .artist-card-modern:hover {
+    transform: translateY(-4px) scale(1.01);
   }
   .artist-card-modern-body {
-    align-items: flex-start;
-    text-align: left;
+    align-items: center;
+    text-align: center;
     flex: 1;
     min-width: 0;
   }
   .artist-card-modern-metrics {
-    justify-content: flex-start;
+    justify-content: center;
     gap: 12px 16px;
   }
   .artist-card-modern-metric {
-    align-items: flex-start;
+    align-items: center;
   }
   .artist-card-modern-links {
-    justify-content: flex-start;
+    justify-content: center;
   }
   .tu-goxta-receita {
     grid-template-columns: 1fr;

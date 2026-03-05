@@ -68,29 +68,28 @@ function ArtistCard({ nome, slug, status, instagram, followers, spotifyMonthlyLi
 
   return (
     <article className="artist-card-modern">
-      <div className="artist-card-modern-photo">
+      <div className="artist-card-modern-bg">
         {!imgError ? (
           <Image
             src={src}
             alt={nome}
-            width={140}
-            height={140}
-            className="artist-card-modern-img"
+            fill
+            sizes="(max-width: 640px) 100vw, 320px"
+            className={`artist-card-modern-img ${slug === "tutto" ? "artist-card-modern-img--tutto" : ""}`}
             onError={handleImgError}
           />
         ) : (
           <img
             src={avatarUrl}
             alt={nome}
-            className="artist-card-modern-img"
-            width={140}
-            height={140}
+            className={`artist-card-modern-img artist-card-modern-img-fallback ${slug === "tutto" ? "artist-card-modern-img--tutto" : ""}`}
           />
         )}
-        {status === "contrato" && (
-          <span className="artist-card-modern-badge badge-contrato">Contratado</span>
-        )}
       </div>
+      <div className="artist-card-modern-overlay" />
+      {status === "contrato" && (
+        <span className="artist-card-modern-badge badge-contrato">Contratado</span>
+      )}
       <div className="artist-card-modern-body">
         <h4 className="artist-card-modern-nome">{nome}</h4>
         {(followers !== undefined || spotifyMonthlyListeners !== undefined) && (
